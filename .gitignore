@@ -1,0 +1,9 @@
+*.class
+target
+*.db
+*.iml
+*.jar
+*.war
+*.ear
+.*
+context.xml
