@@ -1,30 +1,24 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import axios from 'axios';
+import { Provider} from 'react-redux';
 
-class HelloWorld extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {message: ""};
-    }
+import configureStore from './configureStore';
+import HelloWorld from './helloWorld'
 
-    componentDidMount() {
-        axios.get('/rest/hello/world?id=1')
-            .then(res => {
-                this.setState({ message:  res.data});
-        });
-    }
+const store = configureStore();
+
+class App extends React.Component {
 
     render() {
-       return (
-            <div>
-                <h2>{this.state.message}</h2>
-            </div>
-        );
+        return (
+          <Provider store={store}>
+            <HelloWorld />
+          </Provider>
+        )
     }
 }
 
 ReactDOM.render(
-    <HelloWorld />,
+    <App />,
     document.getElementById('react')
 );
