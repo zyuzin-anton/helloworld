@@ -7,3 +7,7 @@ target
 *.ear
 .*
 context.xml
+webjars
+node
+node_modules
+package-lock.json
