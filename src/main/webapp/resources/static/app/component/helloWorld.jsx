@@ -1,9 +1,8 @@
 import React from "react";
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import {loadHelloWoldMessage} from "./actions";
+import {loadHelloWoldMessage} from "../action/actions";
 
 class HelloWorld extends React.Component {
 
@@ -37,10 +36,11 @@ HelloWorld.propTypes = {
 };
 
 function mapStateToProps(state) {
+  const { loading, message, errors } = state.processHelloWorldMessage;
   return {
-    loading: state.processHelloWorldMessage.loading,
-    message: state.processHelloWorldMessage.message,
-    errors: state.processHelloWorldMessage.errors,
+    loading,
+    message,
+    errors
   };
 }
 

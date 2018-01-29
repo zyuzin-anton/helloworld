@@ -10,10 +10,10 @@ function helloWorldMessageRequested() {
     }
 }
 
-function helloWorldMessageOk(message) {
+function helloWorldMessageOk({description}) {
     return {
         type: 'HELLO_WORLD_MESSAGE_OK',
-        message: message
+        message: description
     }
 }
 

@@ -9,15 +9,13 @@ import ru.example.hello.world.dto.HelloWorldDto;
 import ru.example.hello.world.service.HelloWorldService;
 
 @RestController
-public class HelloWorldRestController {
+public class HelloWorldRestController extends BaseController {
 
     @Autowired
     private HelloWorldService helloWorldService;
 
     @RequestMapping(path = "rest/hello/world",method = RequestMethod.GET)
-    public String helloWorld(@RequestParam(name = "id", required = true) Long id) {
-        HelloWorldDto helloWorldDto = helloWorldService.find(id);
-
-        return helloWorldDto.getDescription();
+    public HelloWorldDto helloWorld(@RequestParam(name = "id") Long id) {
+        return helloWorldService.find(id);
     }
 }

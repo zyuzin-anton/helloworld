@@ -3,7 +3,7 @@ import {
   HELLO_WORLD_MESSAGE_REQUESTED,
   HELLO_WORLD_MESSAGE_OK,
   HELLO_WORLD_MESSAGE_FAIL
-} from './actions'
+} from '../action/actions'
 
 const defaultState = {
     loading: false,
