@@ -4,8 +4,10 @@ import ma.glasnost.orika.CustomMapper;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.MappingContext;
 import ma.glasnost.orika.impl.ConfigurableMapper;
+import ma.glasnost.orika.metadata.ClassMapBuilder;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.List;
 
 public abstract class BaseMapper<A, B> extends ConfigurableMapper{
 
@@ -33,9 +35,17 @@ public abstract class BaseMapper<A, B> extends ConfigurableMapper{
 
     protected abstract void mapBtoA(B b, A a, MappingContext context);
 
+    protected abstract List<String> exclusionFields();
+
     @Override
     protected void configure(MapperFactory factory) {
-        factory.classMap(classA, classB)
+        ClassMapBuilder<A, B> classMapBuilder = factory.classMap(classA, classB);
+
+        for (String fieldName : exclusionFields()) {
+            classMapBuilder.exclude(fieldName);
+        }
+
+        classMapBuilder
             .byDefault()
             .customize(new CustomMapper<A, B>() {
                 @Override

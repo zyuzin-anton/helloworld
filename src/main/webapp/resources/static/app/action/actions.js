@@ -1,39 +1,29 @@
 import axios from 'axios';
 
-export const HELLO_WORLD_MESSAGE_REQUESTED = 'HELLO_WORLD_MESSAGE_REQUESTED'
-export const HELLO_WORLD_MESSAGE_OK = 'HELLO_WORLD_MESSAGE_OK'
-export const HELLO_WORLD_MESSAGE_FAIL = 'HELLO_WORLD_MESSAGE_FAIL'
+export const GANTT_STARTED = 'GANTT_STARTED'
+export const GANTT_FAILED = 'GANTT_FAILED'
 
-function helloWorldMessageRequested() {
+function ganttStarted(data) {
     return {
-        type: 'HELLO_WORLD_MESSAGE_REQUESTED'
+        type: GANTT_STARTED,
+        tasks: data
     }
 }
 
-function helloWorldMessageOk({description}) {
+function ganttFailed() {
     return {
-        type: 'HELLO_WORLD_MESSAGE_OK',
-        message: description
+        type: GANTT_FAILED
     }
 }
 
-function helloWorldMessageFail(errors) {
-    return {
-        type: 'HELLO_WORLD_MESSAGE_FAIL',
-        errors: errors
-    }
-}
-
-export function loadHelloWoldMessage() {
+export function initGantt() {
     return dispatch => {
-        dispatch(helloWorldMessageRequested());
-
         axios.get(
-            '/rest/hello/world?id=1'
+            'rest/diagram/data'
         ).then(result => {
-            dispatch(helloWorldMessageOk(result.data))
+            dispatch(ganttStarted(result.data));
         }).catch(result => {
-            dispatch(helloWorldMessageFail(result.statusText))
-        })
+            dispatch(ganttFailed());
+        });
     }
 }

@@ -1,0 +1,41 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="2" author="ru.example">
+        <createTable tableName="diagram_task" >
+            <column name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="duration" type="float">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <loadData tableName="diagram_task" file="liquibase/diagram_task.csv" separator=";"/>
+
+        <createTable tableName="diagram_link">
+            <column name="id" type="int">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="source" type="int">
+                <constraints nullable="false" foreignKeyName="fk_source_task" references="diagram_task(id)"/>
+            </column>
+            <column name="target" type="int">
+                <constraints nullable="false" foreignKeyName="fk_target_task" references="diagram_task(id)"/>
+            </column>
+            <column name="type" type="varchar(16)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <loadData tableName="diagram_link" file="liquibase/diagram_link.csv" separator=";"/>
+    </changeSet>
+</databaseChangeLog>

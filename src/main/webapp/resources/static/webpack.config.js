@@ -29,7 +29,17 @@ module.exports = {
                 query : {
                     presets: ["env", "react", "es2015"]
                 }
-	       }
+	       }, {
+                test: /\.css$/,
+                use: [
+                  {
+                    loader: 'style-loader',
+                  },
+                  {
+                    loader: 'css-loader',
+                  },
+                ]
+           }
         ]
     },
     devServer: {

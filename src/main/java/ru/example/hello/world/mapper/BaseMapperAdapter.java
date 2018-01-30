@@ -2,6 +2,9 @@ package ru.example.hello.world.mapper;
 
 import ma.glasnost.orika.MappingContext;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BaseMapperAdapter<A, B> extends BaseMapper<A, B> {
 
     public BaseMapperAdapter() {
@@ -17,5 +20,10 @@ public class BaseMapperAdapter<A, B> extends BaseMapper<A, B> {
 
     @Override
     protected void mapBtoA(B b, A a, MappingContext context) {
+    }
+
+    @Override
+    protected List<String> exclusionFields() {
+        return new ArrayList<>();
     }
 }

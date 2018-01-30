@@ -18,22 +18,13 @@
 
     <context:component-scan base-package="ru.example.hello.world" />
 
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix">
-            <value>/WEB-INF/views/</value>
-        </property>
-        <property name="suffix">
-            <value>.jsp</value>
-        </property>
-    </bean>
-
     <mvc:resources mapping="/webjars/**" location="/resources/static/webjars/" cache-period="31556926"/>
 
     <mvc:annotation-driven />
     <tx:annotation-driven/>
 
     <jee:jndi-lookup id="dataSource"
-                     jndi-name="jdbc/HelloWorldDataBase"
+                     jndi-name="jdbc/GanttDataBase"
                      expected-type="javax.sql.DataSource" />
 
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">

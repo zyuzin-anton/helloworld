@@ -17,15 +17,18 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "webpack": "^2.2.1",
-    "webpack-dev-server": "^2.3.0"
+    "webpack-dev-server": "^2.3.0",
+    "css-loader": "^0.23.1"
   },
   "dependencies": {
+    "axios": "^0.17.1",
+    "dhtmlx-gantt": "^5.0.5",
     "react": "^16.1.1",
     "react-dom": "^16.1.1",
-    "redux": "^3.7.2",
     "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "requirejs": "^2.3.5",
-    "axios": "^0.17.1"
+    "style-loader": "^0.20.1"
   }
 }

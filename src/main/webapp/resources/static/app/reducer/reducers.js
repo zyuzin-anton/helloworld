@@ -1,46 +1,28 @@
 import { combineReducers } from 'redux'
 import {
-  HELLO_WORLD_MESSAGE_REQUESTED,
-  HELLO_WORLD_MESSAGE_OK,
-  HELLO_WORLD_MESSAGE_FAIL
+  GANTT_STARTED,
+  GANTT_FAILED
 } from '../action/actions'
 
-const defaultState = {
-    loading: false,
-    message: null,
-    errors: null
-};
+function processGantt(state = { tasks: null }, action) {
+    switch(action.type) {
+        case GANTT_STARTED:
+            return {
+                tasks: action.tasks,
+                errors: false
+            };
+         case GANTT_FAILED:
+            return {
+                errors: true
+            }
 
-function processHelloWorldMessage(state = defaultState, action) {
-  switch (action.type) {
-    case HELLO_WORLD_MESSAGE_REQUESTED:
-      return {
-        loading: true,
-        message: null,
-        errors: null
-      };
-
-    case HELLO_WORLD_MESSAGE_OK:
-      return {
-        loading: false,
-        message: action.message,
-        errors: null
-      };
-
-    case HELLO_WORLD_MESSAGE_FAIL:
-      return {
-        loading: false,
-        message: null,
-        errors: action.errors
-      };
-
-    default:
-      return state;
-  }
+        default:
+            return state;
+    }
 }
 
 const rootReducer = combineReducers({
-  processHelloWorldMessage
+  processGantt
 })
 
 export default rootReducer

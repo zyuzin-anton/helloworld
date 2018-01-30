@@ -3,7 +3,8 @@ import ReactDOM from "react-dom";
 import { Provider} from 'react-redux';
 
 import configureStore from './configureStore';
-import HelloWorld from './component/helloWorld'
+import Gantt from './component/gantt';
+import './App.css';
 
 const store = configureStore();
 
@@ -11,14 +12,16 @@ class App extends React.Component {
 
     render() {
         return (
-          <Provider store={store}>
-            <HelloWorld />
-          </Provider>
+            <div>
+                <Gantt />
+            </div>
         )
     }
 }
 
 ReactDOM.render(
-    <App />,
+    <Provider store={store}>
+        <App />
+    </Provider>,
     document.getElementById('react')
 );
