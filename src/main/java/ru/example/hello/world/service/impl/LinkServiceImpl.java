@@ -13,6 +13,8 @@ import ru.example.hello.world.service.LinkService;
 
 import java.util.List;
 
+import static ru.example.hello.world.entity.Link_.*;
+
 @Service
 public class LinkServiceImpl extends BaseServiceImpl<Link, Long> implements LinkService {
 
@@ -28,7 +30,7 @@ public class LinkServiceImpl extends BaseServiceImpl<Link, Long> implements Link
         BaseDao<Link, Long> baseDao = daoFactory.getDaoForClass(Link.class);
 
         Search search = new Search();
-        search.addFetches("source", "target");
+        search.addFetches(source.getName(), target.getName());
 
         List<Link> linkList = baseDao.search(search);
 

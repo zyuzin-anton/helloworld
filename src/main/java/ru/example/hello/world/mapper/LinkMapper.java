@@ -8,6 +8,8 @@ import ru.example.hello.world.entity.Link;
 import java.util.Arrays;
 import java.util.List;
 
+import static ru.example.hello.world.entity.Link_.*;
+
 @Component
 public class LinkMapper extends BaseMapperAdapter<Link, LinkDto> {
 
@@ -26,6 +28,6 @@ public class LinkMapper extends BaseMapperAdapter<Link, LinkDto> {
 
     @Override
     protected List<String> exclusionFields() {
-        return Arrays.asList("source", "target");
+        return Arrays.asList(source.getName(), target.getName());
     }
 }
