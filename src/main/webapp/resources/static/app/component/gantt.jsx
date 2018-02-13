@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import {initGantt} from "../action/actions";
 
 class Gantt extends Component {
+
   componentDidMount() {
     gantt.init(this.ganttContainer);
     const {dispatch} = this.props;

@@ -1,19 +1,19 @@
 import axios from 'axios';
 
-export const GANTT_STARTED = 'GANTT_STARTED'
-export const GANTT_FAILED = 'GANTT_FAILED'
+export const GANTT_STARTED = 'GANTT_STARTED';
+export const GANTT_FAILED = 'GANTT_FAILED';
 
 function ganttStarted(data) {
     return {
         type: GANTT_STARTED,
         tasks: data
-    }
+    };
 }
 
 function ganttFailed() {
     return {
         type: GANTT_FAILED
-    }
+    };
 }
 
 export function initGantt() {
@@ -25,5 +25,5 @@ export function initGantt() {
         }).catch(result => {
             dispatch(ganttFailed());
         });
-    }
+    };
 }

@@ -1,8 +1,8 @@
-import { combineReducers } from 'redux'
+import { combineReducers } from 'redux';
 import {
   GANTT_STARTED,
   GANTT_FAILED
-} from '../action/actions'
+} from '../action/actions';
 
 function processGantt(state = { tasks: null }, action) {
     switch(action.type) {
@@ -11,10 +11,10 @@ function processGantt(state = { tasks: null }, action) {
                 tasks: action.tasks,
                 errors: false
             };
-         case GANTT_FAILED:
+        case GANTT_FAILED:
             return {
                 errors: true
-            }
+            };
 
         default:
             return state;
@@ -23,6 +23,6 @@ function processGantt(state = { tasks: null }, action) {
 
 const rootReducer = combineReducers({
   processGantt
-})
+});
 
-export default rootReducer
+export default rootReducer;
