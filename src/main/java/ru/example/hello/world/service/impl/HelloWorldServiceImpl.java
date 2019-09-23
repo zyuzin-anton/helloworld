@@ -1,30 +1,29 @@
 package ru.example.hello.world.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.example.hello.world.dao.BaseDao;
-import ru.example.hello.world.dao.DaoFactory;
+import org.springframework.web.client.HttpServerErrorException;
 import ru.example.hello.world.dto.HelloWorldDto;
 import ru.example.hello.world.entity.Hello;
 import ru.example.hello.world.mapper.HelloWorldMapper;
+import ru.example.hello.world.repository.HelloWorldRepository;
 import ru.example.hello.world.service.HelloWorldService;
 
 @Service
 public class HelloWorldServiceImpl extends BaseServiceImpl<Hello, Long> implements HelloWorldService {
 
     @Autowired
-    private DaoFactory daoFactory;
+    private HelloWorldRepository helloWorldRepository;
 
     @Autowired
     private HelloWorldMapper helloWorldMapper;
 
     @Transactional(readOnly = true)
     public HelloWorldDto find(Long id) {
-        BaseDao<Hello, Long> helloWorldDao = daoFactory.getDaoForClass(Hello.class);
+        Hello hello = helloWorldRepository.findById(id).orElseThrow(() -> new HttpServerErrorException(HttpStatus.NOT_FOUND));
 
-        Hello hello = helloWorldDao.find(id);
-
-        return helloWorldMapper.map(hello, HelloWorldDto.class);
+        return helloWorldMapper.toDto(hello);
     }
 }
