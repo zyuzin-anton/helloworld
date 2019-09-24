@@ -7,7 +7,7 @@ import {
     HELLO_WORLD_MESSAGE_REQUESTED
 } from './actions'
 
-export function *processHelloWorldSagas() {
+function *processHelloWorldSagas() {
     yield [
         takeLatest(HELLO_WORLD_MESSAGE_REQUESTED, handleFetchHelloWorld)
     ]
