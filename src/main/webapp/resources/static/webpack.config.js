@@ -3,7 +3,12 @@ var path = require('path');
 var webpack = require('webpack');
 module.exports = {
     devtool: 'source-map',
-    entry: './index.js',
+    entry: {
+        app: [
+            'babel-polyfill',
+            './index.js'
+        ]
+    },
     output: {
         path: path.join(__dirname, 'webjars'),
         filename: 'app-bundle.js'

@@ -3,12 +3,12 @@ import {bindActionCreators} from 'redux'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import {loadHelloWoldMessage} from "./actions"
+import {helloWorldMessageRequested} from "./actions"
 
 class HelloWorld extends React.Component {
 
     componentDidMount() {
-        this.props.loadHelloWoldMessage();
+        this.props.helloWorldMessageRequested();
     }
 
     render() {
@@ -42,6 +42,6 @@ export default connect(
         errors: state.processHelloWorldMessage.errors
     }),
     (dispatch) => ({
-        loadHelloWoldMessage: bindActionCreators(loadHelloWoldMessage, dispatch)
+        helloWorldMessageRequested: bindActionCreators(helloWorldMessageRequested, dispatch)
     })
 )(HelloWorld);

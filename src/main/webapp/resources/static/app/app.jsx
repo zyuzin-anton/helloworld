@@ -5,13 +5,11 @@ import { Provider} from 'react-redux';
 import configureStore from './configureStore';
 import HelloWorld from './helloWorld'
 
-const store = configureStore();
-
 class App extends React.Component {
 
     render() {
         return (
-          <Provider store={store}>
+          <Provider store={configureStore}>
             <HelloWorld />
           </Provider>
         )
