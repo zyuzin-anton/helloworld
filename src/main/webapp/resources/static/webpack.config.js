@@ -1,4 +1,3 @@
-var packageJSON = require('./package.json');
 var path = require('path');
 var webpack = require('webpack');
 module.exports = {
@@ -45,4 +44,4 @@ module.exports = {
             poll: true
        }
     }
-}
+};
