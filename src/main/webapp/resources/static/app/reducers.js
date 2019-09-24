@@ -14,8 +14,7 @@ function processHelloWorldMessage(state = defaultState, action) {
   switch (action.type) {
     case HELLO_WORLD_MESSAGE_OK: return helloWorldMessageOk(action.message);
     case HELLO_WORLD_MESSAGE_FAIL: return helloWorldMessageFail(action.errors);
-    default:
-      return state;
+    default: return state;
   }
 }
 

@@ -1,4 +1,4 @@
-import {call, put, takeLatest, takeEvery} from 'redux-saga/effects'
+import {takeLatest} from 'redux-saga/effects'
 import {getOrProcessError} from "./utils";
 import {getHelloWorld} from "./datasource";
 import {helloWorldMessageFail, helloWorldMessageOk} from "./actions";
