@@ -1,31 +1,30 @@
-import React from "react";
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import React from "react"
+import {bindActionCreators} from 'redux'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
-import {loadHelloWoldMessage} from "./actions";
+import {loadHelloWoldMessage} from "./actions"
 
 class HelloWorld extends React.Component {
 
     componentDidMount() {
-        const {dispatch} = this.props;
-        dispatch(loadHelloWoldMessage());
+        this.props.loadHelloWoldMessage();
     }
 
     render() {
         const { loading, message, errors } = this.props;
         if (loading) {
-            return (<div>Loading</div>);
+            return (<div>Loading</div>)
         }
         if (errors != null) {
-            return (<div>Error!</div>);
+            return (<div>Error!</div>)
         }
 
        return (
             <div>
-                <h3>{message}</h3>
+                <h4>{message}</h4>
             </div>
-        );
+        )
     }
 }
 
@@ -33,15 +32,16 @@ HelloWorld.propTypes = {
   loading: PropTypes.bool,
   message : PropTypes.string,
   errors : PropTypes.array,
-  dispatch: PropTypes.func
+  loadHelloWoldMessage: PropTypes.func
 };
 
-function mapStateToProps(state) {
-  return {
-    loading: state.processHelloWorldMessage.loading,
-    message: state.processHelloWorldMessage.message,
-    errors: state.processHelloWorldMessage.errors,
-  };
-}
-
-export default connect(mapStateToProps)(HelloWorld);
+export default connect(
+    (state) => ({
+        loading: state.processHelloWorldMessage.loading,
+        message: state.processHelloWorldMessage.message,
+        errors: state.processHelloWorldMessage.errors
+    }),
+    (dispatch) => ({
+        loadHelloWoldMessage: bindActionCreators(loadHelloWoldMessage, dispatch)
+    })
+)(HelloWorld);

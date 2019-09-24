@@ -41,6 +41,6 @@ function processHelloWorldMessage(state = defaultState, action) {
 
 const rootReducer = combineReducers({
   processHelloWorldMessage
-})
+});
 
 export default rootReducer
