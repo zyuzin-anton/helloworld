@@ -8,10 +8,10 @@ export function helloWorldMessageRequested() {
     }
 }
 
-export function helloWorldMessageOk(message) {
+export function helloWorldMessageOk({description}) {
     return {
         type: 'HELLO_WORLD_MESSAGE_OK',
-        message: message
+        message: description
     }
 }
 

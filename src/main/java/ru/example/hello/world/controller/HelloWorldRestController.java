@@ -14,9 +14,9 @@ public class HelloWorldRestController {
     private HelloWorldService helloWorldService;
 
     @GetMapping(path = "rest/hello/world")
-    public String helloWorld(@RequestParam(name = "id") Long id) {
+    public HelloWorldDto helloWorld(@RequestParam(name = "id") Long id) {
         HelloWorldDto helloWorldDto = helloWorldService.find(id);
 
-        return helloWorldDto.getDescription();
+        return helloWorldDto;
     }
 }
