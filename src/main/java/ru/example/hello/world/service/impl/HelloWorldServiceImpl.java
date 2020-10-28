@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Scheduler;
 import ru.example.hello.world.dto.HelloWorldDto;
@@ -30,7 +31,7 @@ public class HelloWorldServiceImpl extends BaseServiceImpl<Hello, Long> implemen
     @Transactional(readOnly = true)
     public Mono<HelloWorldDto> find(Long id) {
         return Mono.defer(() -> Mono.just(helloWorldRepository.findById(id)
-                .orElseThrow(() -> new HttpServerErrorException(HttpStatus.NOT_FOUND))))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND))))
                 .subscribeOn(jdbcScheduler)
                 .map(entity -> helloWorldMapper.toDto(entity));
     }
