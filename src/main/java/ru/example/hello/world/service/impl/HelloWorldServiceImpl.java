@@ -1,10 +1,13 @@
 package ru.example.hello.world.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpServerErrorException;
+import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Scheduler;
 import ru.example.hello.world.dto.HelloWorldDto;
 import ru.example.hello.world.entity.Hello;
 import ru.example.hello.world.mapper.HelloWorldMapper;
@@ -20,10 +23,15 @@ public class HelloWorldServiceImpl extends BaseServiceImpl<Hello, Long> implemen
     @Autowired
     private HelloWorldMapper helloWorldMapper;
 
-    @Transactional(readOnly = true)
-    public HelloWorldDto find(Long id) {
-        Hello hello = helloWorldRepository.findById(id).orElseThrow(() -> new HttpServerErrorException(HttpStatus.NOT_FOUND));
+    @Autowired
+    @Qualifier("jdbcScheduler")
+    private Scheduler jdbcScheduler;
 
-        return helloWorldMapper.toDto(hello);
+    @Transactional(readOnly = true)
+    public Mono<HelloWorldDto> find(Long id) {
+        return Mono.defer(() -> Mono.just(helloWorldRepository.findById(id)
+                .orElseThrow(() -> new HttpServerErrorException(HttpStatus.NOT_FOUND))))
+                .subscribeOn(jdbcScheduler)
+                .map(entity -> helloWorldMapper.toDto(entity));
     }
 }

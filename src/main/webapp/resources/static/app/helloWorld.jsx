@@ -1,9 +1,9 @@
-import React from "react"
-import {bindActionCreators} from 'redux'
+import React from 'react'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import {helloWorldMessageRequested} from "./actions"
+import { helloWorldMessageRequested } from './actions'
 
 class HelloWorld extends React.Component {
 
@@ -12,11 +12,11 @@ class HelloWorld extends React.Component {
     }
 
     render() {
-        const { loading, message, errors } = this.props;
+        const { loading, message, error } = this.props;
         if (loading) {
             return (<div>Loading</div>)
         }
-        if (errors != null) {
+        if (error != null) {
             return (<div>Error!</div>)
         }
 
@@ -31,7 +31,7 @@ class HelloWorld extends React.Component {
 HelloWorld.propTypes = {
   loading: PropTypes.bool,
   message : PropTypes.string,
-  errors : PropTypes.array,
+  error : PropTypes.string,
   loadHelloWoldMessage: PropTypes.func
 };
 
@@ -39,9 +39,9 @@ export default connect(
     (state) => ({
         loading: state.processHelloWorldMessage.loading,
         message: state.processHelloWorldMessage.message,
-        errors: state.processHelloWorldMessage.errors
+        error: state.processHelloWorldMessage.error
     }),
     (dispatch) => ({
         helloWorldMessageRequested: bindActionCreators(helloWorldMessageRequested, dispatch)
     })
-)(HelloWorld);
+)(HelloWorld)

@@ -1,5 +1,5 @@
-import axios from "axios";
-import {call, put} from 'redux-saga/effects'
+import axios from 'axios'
+import { call, put } from 'redux-saga/effects'
 
 const get = (url) => {
     return axios.get(url)

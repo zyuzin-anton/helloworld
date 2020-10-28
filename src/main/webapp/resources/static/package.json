@@ -18,16 +18,20 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "webpack": "^2.2.1",
-    "webpack-dev-server": "^2.3.0"
+    "webpack-dev-server": "^2.3.0",
+    "chai-immutable": "^1.6.0"
   },
   "dependencies": {
+    "axios": "^0.17.1",
     "react": "^16.1.1",
     "react-dom": "^16.1.1",
-    "redux": "^3.7.2",
     "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
+    "redux-saga": "^0.16.0",
     "redux-thunk": "^2.2.0",
     "requirejs": "^2.3.5",
-    "axios": "^0.17.1",
-    "redux-saga": "^0.16.0"
+    "immutable": "^3.8.1",
+    "react-immutable-proptypes": "^1.1.0",
+    "redux-immutable": "^3.0.8"
   }
 }

@@ -1,4 +1,3 @@
-import { combineReducers } from 'redux'
 import {
   HELLO_WORLD_MESSAGE_OK,
   HELLO_WORLD_MESSAGE_FAIL
@@ -10,10 +9,10 @@ const defaultState = {
     errors: null
 };
 
-function processHelloWorldMessage(state = defaultState, action) {
+export function processHelloWorldMessage(state = defaultState, action) {
   switch (action.type) {
     case HELLO_WORLD_MESSAGE_OK: return helloWorldMessageOk(action.message);
-    case HELLO_WORLD_MESSAGE_FAIL: return helloWorldMessageFail(action.errors);
+    case HELLO_WORLD_MESSAGE_FAIL: return helloWorldMessageFail(action.error);
     default: return state;
   }
 }
@@ -26,16 +25,10 @@ function helloWorldMessageOk(message) {
   };
 }
 
-function helloWorldMessageFail(errors) {
+function helloWorldMessageFail(error) {
   return {
     loading: false,
     message: null,
-    errors: errors
+    error: error
   };
 }
-
-const rootReducer = combineReducers({
-  processHelloWorldMessage
-});
-
-export default rootReducer

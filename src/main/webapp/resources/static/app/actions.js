@@ -15,9 +15,9 @@ export function helloWorldMessageOk({description}) {
     }
 }
 
-export function helloWorldMessageFail(errors) {
+export function helloWorldMessageFail({error}) {
     return {
         type: 'HELLO_WORLD_MESSAGE_FAIL',
-        errors: errors
+        error: error
     }
 }
