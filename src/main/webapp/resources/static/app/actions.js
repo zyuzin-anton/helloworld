@@ -26,7 +26,6 @@ export function helloWorldMessageFail({error}) {
 }
 
 export function fetchHelloWorld() {
-    console.log("qwe!")
     return {
         type: FETCH_HELLO_WORLD,
         request: {
