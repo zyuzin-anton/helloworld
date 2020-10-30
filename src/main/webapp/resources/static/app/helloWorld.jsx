@@ -32,7 +32,7 @@ HelloWorld.propTypes = {
   loading: PropTypes.bool,
   message : PropTypes.string,
   error : PropTypes.string,
-  loadHelloWoldMessage: PropTypes.func
+  helloWorldMessageRequested: PropTypes.func
 };
 
 export default connect(

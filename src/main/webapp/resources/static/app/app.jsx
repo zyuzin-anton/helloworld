@@ -4,6 +4,7 @@ import { Provider} from 'react-redux'
 
 import configureStore from './configureStore'
 import HelloWorld from './helloWorld'
+import HelloWorldGql from "./helloWorldGql";
 
 class App extends React.Component {
 
@@ -11,6 +12,7 @@ class App extends React.Component {
         return (
           <Provider store={configureStore}>
             <HelloWorld />
+            <HelloWorldGql />
           </Provider>
         )
     }
