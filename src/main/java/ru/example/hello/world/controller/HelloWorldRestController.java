@@ -10,7 +10,7 @@ import ru.example.hello.world.service.HelloWorldService;
 
 @RestController
 @AllArgsConstructor
-public class HelloWorldRestController {
+public class HelloWorldRestController extends BaseController {
 
     private final HelloWorldService helloWorldService;
 
