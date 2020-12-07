@@ -1,6 +1,6 @@
 HelloWorld project that prints "Hello, World!" message using modern technologies and tools(such as Spring-boot, FlyWay, Reactor, Actuator, Swagger, GraphQL, React-Redux, etc) just for fun.
 
-###Prerequisites
+### Prerequisites
 * JDK8 and higher
 * Maven
 
