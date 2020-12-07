@@ -17,8 +17,8 @@
     "babel-preset-env": "^1.5.2",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
-    "webpack": "^2.2.1",
-    "webpack-dev-server": "^2.3.0",
+    "webpack": "^2.7.0",
+    "webpack-dev-server": "^3.11.0",
     "chai-immutable": "^1.6.0"
   },
   "dependencies": {
