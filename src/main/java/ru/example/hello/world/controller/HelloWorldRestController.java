@@ -1,6 +1,6 @@
 package ru.example.hello.world.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -9,9 +9,9 @@ import ru.example.hello.world.dto.HelloWorldDto;
 import ru.example.hello.world.service.HelloWorldService;
 
 @RestController
+@AllArgsConstructor
 public class HelloWorldRestController {
 
-    @Autowired
     private HelloWorldService helloWorldService;
 
     @GetMapping(path = "rest/hello/world")

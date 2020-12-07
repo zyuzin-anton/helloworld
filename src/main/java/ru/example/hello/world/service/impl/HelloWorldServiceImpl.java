@@ -1,6 +1,6 @@
 package ru.example.hello.world.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,19 +13,18 @@ import ru.example.hello.world.repository.HelloWorldRepository;
 import ru.example.hello.world.service.HelloWorldService;
 
 @Service
+@AllArgsConstructor
 public class HelloWorldServiceImpl extends BaseServiceImpl<Hello, Long> implements HelloWorldService {
 
-    @Autowired
-    private HelloWorldRepository helloWorldRepository;
+    private final HelloWorldRepository helloWorldRepository;
 
-    @Autowired
-    private HelloWorldMapper helloWorldMapper;
+    private final HelloWorldMapper helloWorldMapper;
 
     @Transactional(readOnly = true)
     public Mono<HelloWorldDto> find(Long id) {
         return helloWorldRepository
                 .findById(id)
-                .map(entity -> helloWorldMapper.toDto(entity))
+                .map(helloWorldMapper::toDto)
                 .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND)));
     }
 }
