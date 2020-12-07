@@ -12,7 +12,7 @@ import java.util.concurrent.Future;
 @AllArgsConstructor
 public class HelloWorldQuery implements GraphQLQueryResolver {
 
-    private HelloWorldService helloWorldService;
+    private final HelloWorldService helloWorldService;
 
     public Future<HelloWorldDto> getHelloWorld(Long id) {
         return helloWorldService.find(id).toFuture();

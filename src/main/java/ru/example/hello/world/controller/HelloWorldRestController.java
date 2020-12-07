@@ -12,7 +12,7 @@ import ru.example.hello.world.service.HelloWorldService;
 @AllArgsConstructor
 public class HelloWorldRestController {
 
-    private HelloWorldService helloWorldService;
+    private final HelloWorldService helloWorldService;
 
     @GetMapping(path = "rest/hello/world")
     public Mono<HelloWorldDto> helloWorld(@RequestParam(name = "id") Long id) {
