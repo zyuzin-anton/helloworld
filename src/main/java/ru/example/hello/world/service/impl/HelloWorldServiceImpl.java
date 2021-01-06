@@ -7,19 +7,19 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 import ru.example.hello.world.dto.HelloWorldDto;
-import ru.example.hello.world.entity.Hello;
 import ru.example.hello.world.mapper.HelloWorldMapper;
 import ru.example.hello.world.repository.HelloWorldRepository;
 import ru.example.hello.world.service.HelloWorldService;
 
 @Service
 @AllArgsConstructor
-public class HelloWorldServiceImpl extends BaseServiceImpl<Hello, Long> implements HelloWorldService {
+public class HelloWorldServiceImpl implements HelloWorldService {
 
     private final HelloWorldRepository helloWorldRepository;
 
     private final HelloWorldMapper helloWorldMapper;
 
+    @Override
     @Transactional(readOnly = true)
     public Mono<HelloWorldDto> find(Long id) {
         return helloWorldRepository
