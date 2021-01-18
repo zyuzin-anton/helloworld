@@ -1,0 +1,25 @@
+server:
+  port: 8080
+
+spring:
+  thymeleaf:
+    cache: false
+  jpa:
+    database: H2
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+  r2dbc:
+    url: r2dbc:h2:file://././hello_world_db
+    username: sa
+    password: ""
+  flyway:
+    url: jdbc:h2:file:./hello_world_db
+    user: sa
+    password: ""
+    baseline-on-migrate: true

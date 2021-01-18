@@ -1,18 +1,18 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { Provider} from 'react-redux';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { Provider} from 'react-redux'
 
-import configureStore from './configureStore';
+import configureStore from './configureStore'
 import HelloWorld from './helloWorld'
-
-const store = configureStore();
+import HelloWorldGql from "./helloWorldGql";
 
 class App extends React.Component {
 
     render() {
         return (
-          <Provider store={store}>
+          <Provider store={configureStore}>
             <HelloWorld />
+            <HelloWorldGql />
           </Provider>
         )
     }

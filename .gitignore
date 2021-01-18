@@ -5,7 +5,7 @@ target
 *.jar
 *.war
 *.ear
-.*
+.gitignore
 context.xml
 webjars
 node

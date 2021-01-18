@@ -1,19 +1,18 @@
 package ru.example.hello.world.entity;
 
-import javax.persistence.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "hello")
 public class Hello extends BaseEntity {
 
     @Column(name = "description")
     private String description;
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }

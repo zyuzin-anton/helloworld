@@ -1,39 +1,41 @@
-import axios from 'axios';
+import {gql} from "@redux-requests/graphql";
 
-export const HELLO_WORLD_MESSAGE_REQUESTED = 'HELLO_WORLD_MESSAGE_REQUESTED'
-export const HELLO_WORLD_MESSAGE_OK = 'HELLO_WORLD_MESSAGE_OK'
-export const HELLO_WORLD_MESSAGE_FAIL = 'HELLO_WORLD_MESSAGE_FAIL'
+export const HELLO_WORLD_MESSAGE_REQUESTED = 'HELLO_WORLD_MESSAGE_REQUESTED';
+export const HELLO_WORLD_MESSAGE_OK = 'HELLO_WORLD_MESSAGE_OK';
+export const HELLO_WORLD_MESSAGE_FAIL = 'HELLO_WORLD_MESSAGE_FAIL';
+export const FETCH_HELLO_WORLD = 'FETCH_HELLO_WORLD';
 
-function helloWorldMessageRequested() {
+export function helloWorldMessageRequested() {
     return {
-        type: 'HELLO_WORLD_MESSAGE_REQUESTED'
+        type: HELLO_WORLD_MESSAGE_REQUESTED
     }
 }
 
-function helloWorldMessageOk(message) {
+export function helloWorldMessageOk({description}) {
     return {
-        type: 'HELLO_WORLD_MESSAGE_OK',
-        message: message
+        type: HELLO_WORLD_MESSAGE_OK,
+        message: description
     }
 }
 
-function helloWorldMessageFail(errors) {
+export function helloWorldMessageFail({error}) {
     return {
-        type: 'HELLO_WORLD_MESSAGE_FAIL',
-        errors: errors
+        type: HELLO_WORLD_MESSAGE_FAIL,
+        error: error
     }
 }
 
-export function loadHelloWoldMessage() {
-    return dispatch => {
-        dispatch(helloWorldMessageRequested());
-
-        axios.get(
-            '/rest/hello/world?id=1'
-        ).then(result => {
-            dispatch(helloWorldMessageOk(result.data))
-        }).catch(result => {
-            dispatch(helloWorldMessageFail(result.statusText))
-        })
+export function fetchHelloWorld() {
+    return {
+        type: FETCH_HELLO_WORLD,
+        request: {
+            query: gql`
+                {
+                    helloWorld(id: 1) {
+                        description
+                    }
+                }
+            `
+        }
     }
 }

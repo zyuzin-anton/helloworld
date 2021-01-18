@@ -1,9 +1,13 @@
-var packageJSON = require('./package.json');
 var path = require('path');
 var webpack = require('webpack');
 module.exports = {
     devtool: 'source-map',
-    entry: './index.js',
+    entry: {
+        app: [
+            'babel-polyfill',
+            './index.js'
+        ]
+    },
     output: {
         path: path.join(__dirname, 'webjars'),
         filename: 'app-bundle.js'
@@ -16,7 +20,8 @@ module.exports = {
             debug: true}),
         new webpack.DefinePlugin({
             "process.env": {
-                NODE_ENV: JSON.stringify("development")
+                NODE_ENV: JSON.stringify("development"),
+                IS_BROWSER: JSON.stringify( 'true')
             }
         })
     ],
@@ -40,4 +45,4 @@ module.exports = {
             poll: true
        }
     }
-}
+};

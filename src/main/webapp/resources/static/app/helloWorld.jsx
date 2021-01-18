@@ -1,47 +1,47 @@
-import React from "react";
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import React from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
-import {loadHelloWoldMessage} from "./actions";
+import { helloWorldMessageRequested } from './actions'
 
 class HelloWorld extends React.Component {
 
     componentDidMount() {
-        const {dispatch} = this.props;
-        dispatch(loadHelloWoldMessage());
+        this.props.helloWorldMessageRequested();
     }
 
     render() {
-        const { loading, message, errors } = this.props;
+        const { loading, message, error } = this.props;
         if (loading) {
-            return (<div>Loading</div>);
+            return (<div>Loading</div>)
         }
-        if (errors != null) {
-            return (<div>Error!</div>);
+        if (error != null) {
+            return (<div>Error!</div>)
         }
 
        return (
             <div>
-                <h3>{message}</h3>
+                <h4>{message}</h4>
             </div>
-        );
+        )
     }
 }
 
 HelloWorld.propTypes = {
   loading: PropTypes.bool,
   message : PropTypes.string,
-  errors : PropTypes.array,
-  dispatch: PropTypes.func
+  error : PropTypes.string,
+  helloWorldMessageRequested: PropTypes.func
 };
 
-function mapStateToProps(state) {
-  return {
-    loading: state.processHelloWorldMessage.loading,
-    message: state.processHelloWorldMessage.message,
-    errors: state.processHelloWorldMessage.errors,
-  };
-}
-
-export default connect(mapStateToProps)(HelloWorld);
+export default connect(
+    (state) => ({
+        loading: state.processHelloWorldMessage.loading,
+        message: state.processHelloWorldMessage.message,
+        error: state.processHelloWorldMessage.error
+    }),
+    (dispatch) => ({
+        helloWorldMessageRequested: bindActionCreators(helloWorldMessageRequested, dispatch)
+    })
+)(HelloWorld)

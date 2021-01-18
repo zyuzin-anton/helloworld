@@ -1,23 +1,21 @@
 package ru.example.hello.world.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
+import reactor.core.publisher.Mono;
 import ru.example.hello.world.dto.HelloWorldDto;
 import ru.example.hello.world.service.HelloWorldService;
 
 @RestController
-public class HelloWorldRestController {
+@AllArgsConstructor
+public class HelloWorldRestController extends BaseController {
 
-    @Autowired
-    private HelloWorldService helloWorldService;
+    private final HelloWorldService helloWorldService;
 
-    @RequestMapping(path = "rest/hello/world",method = RequestMethod.GET)
-    public String helloWorld(@RequestParam(name = "id", required = true) Long id) {
-        HelloWorldDto helloWorldDto = helloWorldService.find(id);
-
-        return helloWorldDto.getDescription();
+    @GetMapping(path = "rest/hello/world")
+    public Mono<HelloWorldDto> helloWorld(@RequestParam(name = "id") Long id) {
+        return helloWorldService.find(id);
     }
 }
