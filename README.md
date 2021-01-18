@@ -1,3 +1,5 @@
+[![Actions Status](https://github.com/zyuzin-anton/helloworld/workflows/Java%20CI/badge.svg)](https://github.com/zyuzin-anton/helloworld/actions)
+
 HelloWorld project that prints "Hello, World!" message using modern technologies and tools(such as Spring-boot, FlyWay, Reactor, Actuator, Swagger, GraphQL, React-Redux, etc) just for fun.
 
 ### Prerequisites
