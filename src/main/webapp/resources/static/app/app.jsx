@@ -11,7 +11,9 @@ class App extends React.Component {
     render() {
         return (
           <Provider store={configureStore}>
+            <p>REST</p>
             <HelloWorld />
+            <p>GraphQL</p>
             <HelloWorldGql />
           </Provider>
         )
