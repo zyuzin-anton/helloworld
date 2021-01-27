@@ -47,10 +47,10 @@ jobs:
     - name: Login to heroku
       run: echo ${{ secrets.HEROKU_API_KEY }} | docker login --username=_ registry.heroku.com --password-stdin
     - name: Tag Image
-      run: docker tag registry.hub.docker.com/$LOGIN/$NAME:latest registry.heroku.com/$APP/latest
+      run: docker tag registry.hub.docker.com/$LOGIN/$NAME:latest registry.heroku.com/$APP/release
     - name: Push Image
-      run: docker push registry.heroku.com/$APP/latest
+      run: docker push registry.heroku.com/$APP/release
     - name: Set Image Id to env
       run: echo "IMAGE_ID=$(docker inspect registry.hub.docker.com/shabrack/helloworld:latest --format={{.Id}})" >> $GITHUB_ENV
     - name: Release Image
-      run: "curl -X PATCH https://api.heroku.com/apps/$APP/formation -d '{ \"updates\": [ { \"type\": \"web\", \"docker_image\": \"${{ env.IMAGE_ID}}\" }, { \"type\": \"worker\", \"docker_image\": \"${{ env.IMAGE_ID}}\" }]}' -H 'Content-Type: application/json' -H 'Accept: application/vnd.heroku+json; version=3.docker-releases' -H 'Authorization: Bearer ${{ secrets.HEROKU_API_KEY }}'"
+      run: "curl -X PATCH https://api.heroku.com/apps/$APP/formation -d '{ \"updates\": [ { \"type\": \"${{ env.APP }}\", \"docker_image\": \"${{ env.IMAGE_ID}}\" }]}' -H 'Content-Type: application/json' -H 'Accept: application/vnd.heroku+json; version=3.docker-releases' -H 'Authorization: Bearer ${{ secrets.HEROKU_API_KEY }}'"
