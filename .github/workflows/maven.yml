@@ -42,12 +42,12 @@ jobs:
       APP: ${{ secrets.HEROKU_APP }}
 
     steps:
-    - name:
+    - name: Pull Image from docker.io
       run: docker pull registry.hub.docker.com/$LOGIN/$NAME:latest
     - name: Login to heroku
       run: echo ${{ secrets.HEROKU_API_KEY }} | docker login --username=_ registry.heroku.com --password-stdin
     - name: Tag Image
-      run: docker tag $LOGIN/$NAME:latest registry.heroku.com/$APP/latest
+      run: docker tag registry.hub.docker.com/$LOGIN/$NAME:latest registry.heroku.com/$APP/latest
     - name: Push Image
       run: docker push registry.heroku.com/$APP/latest
     - name: Set Image Id to env
