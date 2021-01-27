@@ -1,7 +1,8 @@
-# Docker multi-stage build
-
-# 1. Building the App with Maven
-FROM maven:3-jdk-11
+# build
+FROM maven
+WORKDIR /usr/src/app
+COPY . .
+RUN mvn clean install
 
 # package without maven
 FROM openjdk
