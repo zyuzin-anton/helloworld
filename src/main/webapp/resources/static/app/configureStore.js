@@ -10,7 +10,7 @@ import { handleRequests } from '@redux-requests/core';
 import { createDriver } from '@redux-requests/graphql';
 
 const { requestsReducer, requestsMiddleware } = handleRequests({
-    driver: createDriver({ url: 'http://localhost:8080/graphql' }),
+    driver: createDriver({ url: '/graphql' }),
 });
 
 const rootReducer = combineReducers({
