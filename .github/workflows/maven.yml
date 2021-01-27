@@ -53,4 +53,4 @@ jobs:
     - name: Set Image Id to env
       run: echo "IMAGE_ID=$(docker inspect registry.hub.docker.com/shabrack/helloworld:latest --format={{.Id}})" >> $GITHUB_ENV
     - name: Release Image
-      run: "curl -X PATCH https://api.heroku.com/apps/$APP/formation -d '{ \"updates\": [ { \"type\": \"release\", \"docker_image\": \"${{ env.IMAGE_ID}}\" }]}' -H 'Content-Type: application/json' -H 'Accept: application/vnd.heroku+json; version=3.docker-releases' -H 'Authorization: Bearer ${{ secrets.HEROKU_API_KEY }}'"
+      run: "curl -X PATCH --show-error --fail https://api.heroku.com/apps/$APP/formation -d '{ \"updates\": [ { \"type\": \"release\", \"docker_image\": \"${{ env.IMAGE_ID}}\" }]}' -H 'Content-Type: application/json' -H 'Accept: application/vnd.heroku+json; version=3.docker-releases' -H 'Authorization: Bearer ${{ secrets.HEROKU_API_KEY }}'"
