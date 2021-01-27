@@ -51,6 +51,6 @@ jobs:
     - name: Push Image
       run: docker push registry.heroku.com/$APP/latest
     - name: Set Image Id to env
-      run: echo ::set-env name=IMAGE_ID::$(docker inspect shabrack/helloworld:latest --format={{.Id}})
+      run: echo ::set-env name=IMAGE_ID::$(docker inspect registry.hub.docker.com/shabrack/helloworld:latest --format={{.Id}})
     - name: Release Image
       run: "curl -X PATCH https://api.heroku.com/apps/$APP/formation -d '{ \"updates\": [ { \"type\": \"web\", \"docker_image\": \"${{ env.IMAGE_ID }}\" }, { \"type\": \"worker\", \"docker_image\": \"${{ env.IMAGE_ID }}\" }]}' -H 'Content-Type: application/json' -H 'Accept: application/vnd.heroku+json; version=3.docker-releases' -H 'Authorization: Bearer ${{ secrets.HEROKU_API_KEY }}'"
