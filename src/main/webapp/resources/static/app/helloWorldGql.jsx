@@ -26,18 +26,16 @@ class HelloWorldGql extends React.Component {
     render() {
         return (
             <div>
-                <h4>
-                    <Query
-                        type={FETCH_HELLO_WORLD}
-                        errorComponent={RequestError}
-                        loadingComponent={RequestLoading}
-                        noDataMessage={<p>There is no entity currently.</p>}
-                    >
-                        {({ data }) => (
-                            <Chip size="small" label={data.helloWorld.description} color="secondary" />
-                        )}
-                    </Query>
-                </h4>
+                <Query
+                    type={FETCH_HELLO_WORLD}
+                    errorComponent={RequestError}
+                    loadingComponent={RequestLoading}
+                    noDataMessage={<p>There is no entity currently.</p>}
+                >
+                    {({ data }) => (
+                        <Chip size="small" label={data.helloWorld.description} color="secondary" />
+                    )}
+                </Query>
             </div>
         )
     }
