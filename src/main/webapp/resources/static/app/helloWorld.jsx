@@ -2,6 +2,7 @@ import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import Chip from '@material-ui/core/Chip';
 
 import { helloWorldMessageRequested } from './actions'
 
@@ -14,17 +15,13 @@ class HelloWorld extends React.Component {
     render() {
         const { loading, message, error } = this.props;
         if (loading) {
-            return (<div>Loading</div>)
+            return <Chip size="small" label="Loading" />;
         }
         if (error != null) {
-            return (<div>Error!</div>)
+            return <Chip size="small" label="Error!" />;
         }
 
-       return (
-            <div>
-                <h4>{message}</h4>
-            </div>
-        )
+       return <Chip size="small" label={message} color="primary" />;
     }
 }
 

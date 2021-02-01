@@ -1,26 +1,32 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import { Provider} from 'react-redux'
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import { withRouter } from 'react-router';
 
-import configureStore from './configureStore'
 import HelloWorld from './helloWorld'
 import HelloWorldGql from "./helloWorldGql";
 
 class App extends React.Component {
 
     render() {
+        const router = this.props.router;
         return (
-          <Provider store={configureStore}>
-            <p>REST</p>
-            <HelloWorld />
-            <p>GraphQL</p>
-            <HelloWorldGql />
-          </Provider>
+            <Grid container spacing={3}>
+              <Grid item xs={2}>
+                <Paper>
+                  <p onClick={() => router.push("/swagger-ui.html")}>REST</p>
+                  <HelloWorld />
+                </Paper>
+              </Grid>
+              <Grid item xs={2}>
+                <Paper>
+                  <p onClick={() => router.push("/graphiql")}>GraphQL</p>
+                  <HelloWorldGql />
+                </Paper>
+              </Grid>
+            </Grid>
         )
     }
 }
 
-ReactDOM.render(
-    <App />,
-    document.getElementById('react')
-);
+export default withRouter(App);

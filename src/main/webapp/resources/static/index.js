@@ -1,1 +1,1 @@
-import App from './app/app.jsx';
+import Root from './app/root.jsx';

@@ -4,16 +4,17 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {fetchHelloWorld} from "./actions";
 import { Query } from '@redux-requests/react';
+import Chip from '@material-ui/core/Chip';
 import {
     FETCH_HELLO_WORLD
 } from './actions'
 
 const RequestError = () => (
-    <p>Error!</p>
+    <Chip size="small" label="Error!" />
 );
 
 const RequestLoading = () => (
-    <p>Loading</p>
+    <Chip size="small" label="Loading" />
 );
 
 class HelloWorldGql extends React.Component {
@@ -33,7 +34,7 @@ class HelloWorldGql extends React.Component {
                         noDataMessage={<p>There is no entity currently.</p>}
                     >
                         {({ data }) => (
-                            data.helloWorld.description
+                            <Chip size="small" label={data.helloWorld.description} color="secondary" />
                         )}
                     </Query>
                 </h4>
