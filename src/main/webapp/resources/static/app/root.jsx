@@ -12,12 +12,6 @@ class Root extends React.Component {
             <Provider store={configureStore}>
                 <Router history={browserHistory}>
                     <Route path='/' component={App} />
-                    <Route exact path='/swagger-ui.html' component={() => {
-                        window.location.href += '';
-                    }} />
-                    <Route exact path='/graphiql' component={() => {
-                        window.location.href += '';
-                    }} />
                 </Router>
             </Provider>
         )

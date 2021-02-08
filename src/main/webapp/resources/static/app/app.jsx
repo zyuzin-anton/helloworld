@@ -9,18 +9,17 @@ import HelloWorldGql from "./helloWorldGql";
 class App extends React.Component {
 
     render() {
-        const router = this.props.router;
         return (
             <Grid container spacing={3}>
               <Grid item xs={2}>
                 <Paper>
-                  <p onClick={() => router.push("/swagger-ui.html")}>REST</p>
+                  <p onClick={() => window.open(window.location.href + "/swagger-ui.html")}>REST</p>
                   <HelloWorld />
                 </Paper>
               </Grid>
               <Grid item xs={2}>
                 <Paper>
-                  <p onClick={() => router.push("/graphiql")}>GraphQL</p>
+                  <p onClick={() => window.open(window.location.href + "/graphiql")}>GraphQL</p>
                   <HelloWorldGql />
                 </Paper>
               </Grid>
