@@ -13,14 +13,18 @@ class App extends React.Component {
             <Grid container spacing={3}>
               <Grid item xs={2}>
                 <Paper>
-                  <p onClick={() => window.open(window.location.href + "/swagger-ui.html")}>REST</p>
-                  <HelloWorld />
+                  <div onClick={() => window.open(window.location.href + "/swagger-ui.html")}>
+                      <p>REST</p>
+                      <HelloWorld />
+                  </div>
                 </Paper>
               </Grid>
               <Grid item xs={2}>
                 <Paper>
-                  <p onClick={() => window.open(window.location.href + "/graphiql")}>GraphQL</p>
-                  <HelloWorldGql />
+                  <div onClick={() => window.open(window.location.href + "/graphiql")}>
+                      <p>GraphQL</p>
+                      <HelloWorldGql />
+                  </div>
                 </Paper>
               </Grid>
             </Grid>
