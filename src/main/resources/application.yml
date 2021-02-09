@@ -16,10 +16,10 @@ spring:
             non_contextual_creation: true
   r2dbc:
     url: r2dbc:h2:file://././hello_world_db
-    username: sa
+    username: ${DB_USER}
     password: ""
   flyway:
     url: jdbc:h2:file:./hello_world_db
-    user: sa
+    user: ${DB_USER}
     password: ""
     baseline-on-migrate: true
