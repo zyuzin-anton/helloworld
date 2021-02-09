@@ -2,7 +2,11 @@ spring:
   jpa:
     database: POSTGRESQL
   r2dbc:
-    url: r2dbc:${DATABASE_URL}
+    url: r2dbc:postgres://${DB_URL}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
   flyway:
-    url: jdbc:${DATABASE_URL}
+    url: jdbc:postgres://${DB_URL}:${DB_PORT}/${DB_NAME}
+    user: ${DB_USER}
+    password: ${DB_PASSWORD}
     baseline-on-migrate: true
