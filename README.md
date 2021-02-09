@@ -10,9 +10,21 @@ Run next command to start application:
 ```
 mvn install spring-boot:run
 ```
+or:
+```
+mvn install
+java -jar ./target/ru.exmaple.hello.world-1.0-SNAPSHOT.jar 
+```
+or if you use docker:
+```
+docker build -t helloworld . 
+docker run --rm -it -p 127.0.0.1:8080:8080 helloworld
+```
 
 Here we have:
 * Main page(http://localhost:8080)
 * Health check(http://localhost:8080/actuator/health)
 * Swagger UI(http://localhost:8080/swagger-ui.html)
 * GraphQl UI(http://localhost:8080/graphiql)
+
+Also you could visit website to check the app in work: https://shabrack-helloworld.herokuapp.com.
