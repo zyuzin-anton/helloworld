@@ -74,14 +74,6 @@
             <version>1.18.0</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.r2dbc</groupId>
-            <artifactId>r2dbc-h2</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>commons-lang</groupId>
@@ -135,6 +127,7 @@
             </resource>
             <resource>
                 <directory>src/main/resources/</directory>
+                <filtering>true</filtering>
                 <includes>
                     <include>**/*</include>
                 </includes>
@@ -146,6 +139,9 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <addResources>true</addResources>
+                    <profiles>
+                        <profile>${spring.profiles.active}</profile>
+                    </profiles>
                 </configuration>
             </plugin>
 
@@ -203,4 +199,42 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>local</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <spring.profiles.active>local</spring.profiles.active>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>com.h2database</groupId>
+                    <artifactId>h2</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>io.r2dbc</groupId>
+                    <artifactId>r2dbc-h2</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>heroku</id>
+            <properties>
+                <spring.profiles.active>heroku</spring.profiles.active>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>io.r2dbc</groupId>
+                    <artifactId>r2dbc-postgresql</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.postgresql</groupId>
+                    <artifactId>postgresql</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 </project>

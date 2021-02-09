@@ -1,0 +1,8 @@
+spring:
+  jpa:
+    database: POSTGRESQL
+  r2dbc:
+    url: r2dbc:${DATABASE_URL}
+  flyway:
+    url: jdbc:${DATABASE_URL}
+    baseline-on-migrate: true

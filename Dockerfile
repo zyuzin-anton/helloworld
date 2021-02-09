@@ -2,7 +2,8 @@
 FROM maven
 WORKDIR /usr/src/app
 COPY . .
-RUN mvn clean install
+ARG PROFILE=local
+RUN mvn clean install -P ${PROFILE}
 
 # package without maven
 FROM openjdk

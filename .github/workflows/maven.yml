@@ -28,7 +28,7 @@ jobs:
       run:  echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_LOGIN }} --password-stdin
     - uses: actions/checkout@master
     - name: Build image
-      run: docker build -t $LOGIN/$NAME:latest -f Dockerfile .
+      run: docker build -t $LOGIN/$NAME:latest --build-arg PROFILE=heroku -f Dockerfile .
     - name: Push image to docker.io
       run: docker push $LOGIN/$NAME:latest
 
