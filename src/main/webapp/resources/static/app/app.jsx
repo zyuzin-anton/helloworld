@@ -13,7 +13,7 @@ class App extends React.Component {
             <Grid container spacing={3}>
               <Grid item xs={2}>
                 <Paper>
-                  <div onClick={() => window.open(window.location.href + "/swagger-ui.html")}>
+                  <div onClick={() => window.open(window.location.href + "swagger-ui.html")}>
                       <p>REST</p>
                       <HelloWorld />
                   </div>
@@ -21,7 +21,7 @@ class App extends React.Component {
               </Grid>
               <Grid item xs={2}>
                 <Paper>
-                  <div onClick={() => window.open(window.location.href + "/graphiql")}>
+                  <div onClick={() => window.open(window.location.href + "graphiql")}>
                       <p>GraphQL</p>
                       <HelloWorldGql />
                   </div>
