@@ -14,7 +14,7 @@ public class HelloWorldRestController extends BaseController {
 
     private final HelloWorldService helloWorldService;
 
-    @GetMapping(path = "rest/hello/world")
+    @GetMapping(path = "/rest/hello/world")
     public Mono<HelloWorldDto> helloWorld(@RequestParam(name = "id") Long id) {
         return helloWorldService.find(id);
     }

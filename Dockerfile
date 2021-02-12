@@ -3,7 +3,7 @@ FROM maven
 WORKDIR /usr/src/app
 COPY . .
 ARG PROFILE=local
-RUN mvn clean install -P ${PROFILE}
+RUN mvn clean install -P ${PROFILE} -DskipTests
 
 # package without maven
 FROM openjdk
