@@ -1,20 +1,20 @@
 import {createStore, applyMiddleware, combineReducers} from 'redux'
 import thunkMiddleware from 'redux-thunk'
 
-import {processHelloWorldMessage} from './reducers'
+import { helloWorldReducer } from './reducers'
 
 import createSagaMiddleware from 'redux-saga'
-import {rootSaga} from "./sagas"
+import { helloWorldSaga } from "./sagas"
 
-import { handleRequests } from '@redux-requests/core';
-import { createDriver } from '@redux-requests/graphql';
+import { handleRequests } from '@redux-requests/core'
+import { createDriver } from '@redux-requests/graphql'
 
 const { requestsReducer, requestsMiddleware } = handleRequests({
     driver: createDriver({ url: '/graphql' }),
 });
 
 const rootReducer = combineReducers({
-    processHelloWorldMessage, requests: requestsReducer
+    processHelloWorldMessage: helloWorldReducer, requests: requestsReducer
 });
 
 const sagaMiddleware = createSagaMiddleware();
@@ -31,6 +31,6 @@ function configureStore(preloadedState = {}) {
 
 const store = configureStore();
 
-sagaMiddleware.run(rootSaga);
+sagaMiddleware.run(helloWorldSaga);
 
 export default store

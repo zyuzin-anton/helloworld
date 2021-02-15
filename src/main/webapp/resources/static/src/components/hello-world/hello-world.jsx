@@ -2,9 +2,9 @@ import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import Chip from '@material-ui/core/Chip';
+import Chip from '@material-ui/core/Chip'
 
-import { helloWorldMessageRequested } from './actions'
+import { helloWorldMessageRequested } from '../../redux/actions'
 
 class HelloWorld extends React.Component {
 

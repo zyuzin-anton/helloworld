@@ -1,7 +1,7 @@
 import {
   HELLO_WORLD_MESSAGE_OK,
   HELLO_WORLD_MESSAGE_FAIL
-} from './actions'
+} from '../action-types'
 
 const defaultState = {
     loading: false,
@@ -9,7 +9,7 @@ const defaultState = {
     errors: null
 };
 
-export function processHelloWorldMessage(state = defaultState, action) {
+export function helloWorldReducer(state = defaultState, action) {
   switch (action.type) {
     case HELLO_WORLD_MESSAGE_OK: return helloWorldMessageOk(action.message);
     case HELLO_WORLD_MESSAGE_FAIL: return helloWorldMessageFail(action.error);

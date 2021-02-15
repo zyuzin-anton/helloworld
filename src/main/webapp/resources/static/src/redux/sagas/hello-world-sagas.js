@@ -1,11 +1,17 @@
 import { takeLatest } from 'redux-saga/effects'
-import { getOrProcessError } from './utils'
-import { getHelloWorld } from './datasource'
-import { helloWorldMessageFail, helloWorldMessageOk } from './actions'
+import { getOrProcessError } from '../../utils'
+import { getHelloWorld } from '../../datasources'
+import { helloWorldMessageFail, helloWorldMessageOk } from '../actions'
 
 import {
     HELLO_WORLD_MESSAGE_REQUESTED
-} from './actions'
+} from '../action-types'
+
+export function *helloWorldSaga() {
+    yield [
+        processHelloWorldSagas()
+    ]
+}
 
 function *processHelloWorldSagas() {
     yield [
@@ -15,10 +21,4 @@ function *processHelloWorldSagas() {
 
 function *handleFetchHelloWorld() {
     yield getOrProcessError(getHelloWorld, helloWorldMessageOk, helloWorldMessageFail)
-}
-
-export function *rootSaga() {
-    yield [
-        processHelloWorldSagas()
-    ]
 }

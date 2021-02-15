@@ -1,9 +1,11 @@
-import {gql} from "@redux-requests/graphql";
+import { gql } from '@redux-requests/graphql'
 
-export const HELLO_WORLD_MESSAGE_REQUESTED = 'HELLO_WORLD_MESSAGE_REQUESTED';
-export const HELLO_WORLD_MESSAGE_OK = 'HELLO_WORLD_MESSAGE_OK';
-export const HELLO_WORLD_MESSAGE_FAIL = 'HELLO_WORLD_MESSAGE_FAIL';
-export const FETCH_HELLO_WORLD = 'FETCH_HELLO_WORLD';
+import {
+    HELLO_WORLD_MESSAGE_REQUESTED,
+    HELLO_WORLD_MESSAGE_OK,
+    HELLO_WORLD_MESSAGE_FAIL,
+    FETCH_HELLO_WORLD
+} from '../action-types'
 
 export function helloWorldMessageRequested() {
     return {

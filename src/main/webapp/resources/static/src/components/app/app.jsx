@@ -1,10 +1,10 @@
 import React from 'react'
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import { withRouter } from 'react-router';
+import Grid from '@material-ui/core/Grid'
+import Paper from '@material-ui/core/Paper'
+import { withRouter } from 'react-router'
 
-import HelloWorld from './helloWorld'
-import HelloWorldGql from "./helloWorldGql";
+import HelloWorld from '../hello-world'
+import HelloWorldGql from '../hello-world-gql'
 
 class App extends React.Component {
 
@@ -32,4 +32,4 @@ class App extends React.Component {
     }
 }
 
-export default withRouter(App);
+export default withRouter(App)

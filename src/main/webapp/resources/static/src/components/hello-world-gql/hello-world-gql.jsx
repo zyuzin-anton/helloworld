@@ -1,13 +1,13 @@
-import React from "react";
-import PropTypes from "prop-types";
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
-import {fetchHelloWorld} from "./actions";
-import { Query } from '@redux-requests/react';
-import Chip from '@material-ui/core/Chip';
+import React from 'react'
+import PropTypes from 'prop-types'
+import {connect} from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { fetchHelloWorld } from '../../redux/actions'
+import { Query } from '@redux-requests/react'
+import Chip from '@material-ui/core/Chip'
 import {
     FETCH_HELLO_WORLD
-} from './actions'
+} from '../../redux/action-types'
 
 const RequestError = () => (
     <Chip size="small" label="Error!" />
