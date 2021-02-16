@@ -209,8 +209,8 @@
                             <goal>install-node-and-npm</goal>
                         </goals>
                         <configuration>
-                            <nodeVersion>v6.10.1</nodeVersion>
-                            <npmVersion>5.5.1</npmVersion>
+                            <nodeVersion>v12.13.0</nodeVersion>
+                            <npmVersion>6.12.0</npmVersion>
                         </configuration>
                     </execution>
 
@@ -232,6 +232,17 @@
                         <configuration>
                             <arguments>run build</arguments>
                         </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>run tests</id>
+                        <goals>
+                            <goal>npm</goal>
+                        </goals>
+                        <configuration>
+                            <arguments>test</arguments>
+                        </configuration>
+                        <phase>test</phase>
                     </execution>
                 </executions>
             </plugin>

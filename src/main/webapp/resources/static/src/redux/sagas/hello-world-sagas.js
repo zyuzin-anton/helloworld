@@ -8,13 +8,13 @@ import {
 } from '../action-types'
 
 export function *helloWorldSaga() {
-    yield [
+    yield* [
         processHelloWorldSagas()
     ]
 }
 
 function *processHelloWorldSagas() {
-    yield [
+    yield* [
         takeLatest(HELLO_WORLD_MESSAGE_REQUESTED, handleFetchHelloWorld)
     ]
 }
