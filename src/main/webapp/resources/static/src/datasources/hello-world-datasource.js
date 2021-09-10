@@ -1,6 +1,6 @@
 import { call } from 'redux-saga/effects'
-import { getOne } from '../utils'
+import { one } from '../utils'
 
 export function *getHelloWorld() {
-    return yield call(getOne, "/rest/hello/world?id=1");
+    return yield call(one, 'get', '/rest/hello/world?id=1');
 }

@@ -7,15 +7,9 @@ import {
     HELLO_WORLD_MESSAGE_REQUESTED
 } from '../action-types'
 
-export function *helloWorldSaga() {
-    yield* [
-        processHelloWorldSagas()
-    ]
-}
-
-function *processHelloWorldSagas() {
-    yield* [
-        takeLatest(HELLO_WORLD_MESSAGE_REQUESTED, handleFetchHelloWorld)
+export function processHelloWorldSagas() {
+    return [
+        takeLatest(HELLO_WORLD_MESSAGE_REQUESTED, handleFetchHelloWorld),
     ]
 }
 

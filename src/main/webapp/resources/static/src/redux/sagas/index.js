@@ -1,2 +1,2 @@
-import { helloWorldSaga } from './hello-world-sagas'
-export { helloWorldSaga }
+import { rootSaga } from './root-saga'
+export { rootSaga }

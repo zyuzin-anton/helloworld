@@ -2,11 +2,13 @@ import {
     helloWorldMessageRequested,
     helloWorldMessageOk,
     helloWorldMessageFail,
-    fetchHelloWorld
+    fetchHelloWorld,
+    loginRequested
 } from './hello-world-actions'
 export {
     helloWorldMessageRequested,
     helloWorldMessageOk,
     helloWorldMessageFail,
-    fetchHelloWorld
+    fetchHelloWorld,
+    loginRequested
 }

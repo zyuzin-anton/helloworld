@@ -1,2 +1,4 @@
 import { helloWorldReducer } from './hello-world-reducers'
-export { helloWorldReducer }
+import { loginReducer } from "./login-reducers";
+
+export { helloWorldReducer, loginReducer }

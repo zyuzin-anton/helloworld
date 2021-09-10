@@ -3,6 +3,11 @@ server:
 
 spring:
   thymeleaf:
+    enabled: true
+    prefix: classpath:/templates/
+    suffix: .html
+    reactive:
+      max-chunk-size: 8192
     cache: false
   jpa:
     show-sql: false
@@ -13,3 +18,9 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEY_CLOAK_URL:http://keycloak:8080}/auth/realms/hello-world-realm
+          jwk-set-uri: ${KEY_CLOAK_URL:http://keycloak:8080}/auth/realms/hello-world-realm/protocol/openid-connect/certs
