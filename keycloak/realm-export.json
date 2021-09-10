@@ -768,7 +768,8 @@
         "http://localhost:8081/*"
       ],
       "webOrigins": [
-        "http://localhost:8081"
+        "http://localhost:8081",
+        "https://shabrack-helloworld.herokuapp.com"
       ],
       "notBefore": 0,
       "bearerOnly": false,
