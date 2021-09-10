@@ -1,5 +1,5 @@
 # build
-FROM maven
+FROM maven:3.8.2-openjdk-8
 WORKDIR /usr/src/app
 COPY . .
 ARG PROFILE=local
