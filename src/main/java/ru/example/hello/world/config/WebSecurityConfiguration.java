@@ -31,8 +31,17 @@ public class WebSecurityConfiguration {
         http
                 .authorizeExchange(authorizeRequests -> authorizeRequests
                         .pathMatchers("/").permitAll()
+                        .pathMatchers("/login").permitAll()
                         .pathMatchers("/static/webjars/app-bundle.js").permitAll()
                         .pathMatchers("/static/webjars/app-bundle.js.map").permitAll()
+                        .pathMatchers("/actuator/**").permitAll()
+                        .pathMatchers("/error/**").permitAll()
+                        // swagger
+                        .pathMatchers("/swagger-ui**").permitAll()
+                        .pathMatchers("/swagger-ui/**").permitAll()
+                        .pathMatchers("/webjars/springfox-swagger-ui/**").permitAll()
+                        .pathMatchers("/swagger-resources/**").permitAll()
+                        .pathMatchers("/v2/api-docs").permitAll()
                         .pathMatchers("/rest/hello/world").authenticated())
                 .oauth2ResourceServer(resourceServerConfigurer -> resourceServerConfigurer
                         .jwt(jwtConfigurer -> jwtConfigurer

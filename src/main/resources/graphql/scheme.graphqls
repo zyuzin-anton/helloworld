@@ -1,8 +1,0 @@
-type HelloWorld {
-    description: String!
-}
-
-# The Root Query for the application
-type Query {
-    helloWorld(id: Int): HelloWorld!
-}

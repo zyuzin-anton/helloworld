@@ -5,7 +5,6 @@
   "scripts": {
     "build": "env-cmd ./environment/heroku/.env webpack -p --config webpack.config.js",
     "local": "env-cmd ./environment/local/.env webpack -p --config webpack.config.js",
-    "docker": "env-cmd ./environment/docker/.env webpack -p --config webpack.config.js",
     "test": "mocha --require babel-register --require babel-polyfill --require mock-local-storage --verbose=true"
   },
   "author": "ru.example",

@@ -765,10 +765,10 @@
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "http://localhost:8081/*"
+        "http://localhost:8080/*"
       ],
       "webOrigins": [
-        "http://localhost:8081",
+        "http://localhost:8080",
         "https://shabrack-helloworld.herokuapp.com"
       ],
       "notBefore": 0,

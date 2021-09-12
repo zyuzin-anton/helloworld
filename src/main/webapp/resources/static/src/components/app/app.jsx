@@ -16,7 +16,7 @@ class App extends React.Component {
                     <Grid container spacing={3} justify={'center'}>
                         <Grid item xs={2}>
                             <Paper>
-                                <div onClick={() => window.open(window.location.href + "swagger-ui.html")}>
+                                <div onClick={() => window.open(window.location.href + "swagger-ui/")}>
                                     <p>REST</p>
                                     <HelloWorld />
                                 </div>
