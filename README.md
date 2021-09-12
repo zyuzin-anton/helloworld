@@ -27,11 +27,6 @@ or:
 mvn install
 java -jar ./target/ru.exmaple.hello.world-1.0-SNAPSHOT.jar 
 ```
-or if you use docker:
-```
-docker build -t helloworld . 
-docker run --rm -it -p 127.0.0.1:8080:8080 helloworld
-```
 
 Here we have:
 * Main page(http://localhost:8080)

@@ -8,14 +8,8 @@ import { rootSaga } from "./sagas"
 
 import { LOCATION_CHANGE } from 'react-router-redux'
 
-import { handleRequests } from '@redux-requests/core'
-import { createDriver } from '@redux-requests/graphql'
 import {fromJS} from "immutable";
 import {browserHistory} from "react-router";
-
-const { requestsReducer, requestsMiddleware } = handleRequests({
-    driver: createDriver({ url: '/graphql' }),
-});
 
 const initialState = fromJS({
     locationBeforeTransitions: null
@@ -31,7 +25,7 @@ function routerReducer(state = initialState, action) {
 }
 
 const rootReducer = combineReducers({
-    processHelloWorldMessage: helloWorldReducer, loginData: loginReducer, requests: requestsReducer, routing: routerReducer
+    processHelloWorldMessage: helloWorldReducer, loginData: loginReducer, routing: routerReducer
 });
 
 const sagaMiddleware = createSagaMiddleware();
@@ -41,7 +35,7 @@ function configureStore(preloadedState = {}) {
         rootReducer,
         preloadedState,
         applyMiddleware(
-          thunkMiddleware, sagaMiddleware, ...requestsMiddleware
+          thunkMiddleware, sagaMiddleware
         )
     )
 }

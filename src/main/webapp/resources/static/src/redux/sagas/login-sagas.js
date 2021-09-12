@@ -31,7 +31,6 @@ function *setTokens(history, {token}) {
 }
 
 function *showLoginErrorMessage({error}) {
-    //alert(error.response.data.error);
     console.log(error.error.response.data.error_description);
     yield put(loginError(error.error.response.data.error_description))
 }
@@ -41,11 +40,9 @@ function *handleRefresh({token}) {
 
     if (data.access_token) {
         storeTokens(data);
-     //   yield put(updateAbility(accessToken));
 
         yield put(refreshSuccess());
     } else {
-        //alert
         console.log("Cannot refresh tokens");
         yield put(logout())
     }

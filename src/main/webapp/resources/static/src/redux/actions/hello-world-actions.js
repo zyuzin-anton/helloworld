@@ -1,5 +1,3 @@
-import { gql } from '@redux-requests/graphql'
-
 import {
     HELLO_WORLD_MESSAGE_REQUESTED,
     HELLO_WORLD_MESSAGE_OK,
@@ -79,20 +77,5 @@ export function loginError(errorMessage) {
     return {
         type: LOGIN_ERROR,
         errorMessage
-    }
-}
-
-export function fetchHelloWorld() {
-    return {
-        type: FETCH_HELLO_WORLD,
-        request: {
-            query: gql`
-                {
-                    helloWorld(id: 1) {
-                        description
-                    }
-                }
-            `
-        }
     }
 }
