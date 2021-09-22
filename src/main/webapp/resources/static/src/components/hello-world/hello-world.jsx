@@ -5,6 +5,8 @@ import PropTypes from 'prop-types'
 import Chip from '@material-ui/core/Chip'
 
 import { helloWorldMessageRequested } from '../../redux/actions'
+import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper/Paper";
 
 class HelloWorld extends React.Component {
 
@@ -14,14 +16,19 @@ class HelloWorld extends React.Component {
 
     render() {
         const { loading, message, error } = this.props;
-        if (loading) {
-            return <Chip size="small" label="Loading" />;
-        }
-        if (error != null) {
-            return <Chip size="small" label="Error!" />;
-        }
 
-       return <Chip size="small" label={message} color="primary" />;
+        return (
+            <Grid container spacing={3} justify={'center'}>
+                <Grid item xs={2}>
+                    <Paper>
+                        <div onClick={() => window.open(window.location.href + "swagger-ui/")}>
+                            <p>REST</p>
+                            {loading ? <Chip size="small" label="Loading" /> : error != null ? <Chip size="small" label="Error!" /> : <Chip size="small" label={message} color="primary" />}
+                        </div>
+                    </Paper>
+                </Grid>
+            </Grid>
+        );
     }
 }
 

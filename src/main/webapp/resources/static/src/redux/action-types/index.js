@@ -8,3 +8,5 @@ export const LOGIN_REFRESH_TOKEN = 'LOGIN_REFRESH_TOKEN';
 export const REFRESH_SUCCESS = 'REFRESH_SUCCESS';
 export const LOGOUT = 'LOGOUT';
 export const LOGIN_ERROR = 'LOGIN_ERROR';
+export const DRAWER_OPEN = 'DRAWER_OPEN';
+export const DRAWER_CLOSE = 'DRAWER_CLOSE';

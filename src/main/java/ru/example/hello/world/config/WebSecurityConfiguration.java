@@ -32,6 +32,7 @@ public class WebSecurityConfiguration {
                 .authorizeExchange(authorizeRequests -> authorizeRequests
                         .pathMatchers("/").permitAll()
                         .pathMatchers("/login").permitAll()
+                        .pathMatchers("/todo").permitAll()
                         .pathMatchers("/static/webjars/app-bundle.js").permitAll()
                         .pathMatchers("/static/webjars/app-bundle.js.map").permitAll()
                         .pathMatchers("/actuator/**").permitAll()

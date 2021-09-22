@@ -16,4 +16,9 @@ public class HelloWorldController extends BaseController {
     public Mono<String> login() {
         return Mono.just("index");
     }
+
+    @GetMapping(path = "/todo")
+    public Mono<String> todo() {
+        return Mono.just("index");
+    }
 }

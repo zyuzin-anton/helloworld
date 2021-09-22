@@ -17,7 +17,8 @@ module.exports = {
     },
     plugins: [
         new webpack.LoaderOptionsPlugin({
-            debug: true}),
+            debug: true
+        }),
         new webpack.DefinePlugin({
             "process.env": {
                 NODE_ENV: JSON.stringify("development"),

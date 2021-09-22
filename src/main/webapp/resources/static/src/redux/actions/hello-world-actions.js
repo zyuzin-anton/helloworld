@@ -2,14 +2,15 @@ import {
     HELLO_WORLD_MESSAGE_REQUESTED,
     HELLO_WORLD_MESSAGE_OK,
     HELLO_WORLD_MESSAGE_FAIL,
-    FETCH_HELLO_WORLD,
     LOGIN_REQUESTED,
     LOGIN_SUCCESS,
     LOGIN_FAILED,
     LOGIN_REFRESH_TOKEN,
     REFRESH_SUCCESS,
     LOGOUT,
-    LOGIN_ERROR
+    LOGIN_ERROR,
+    DRAWER_CLOSE,
+    DRAWER_OPEN
 } from '../action-types'
 
 export function helloWorldMessageRequested() {
@@ -77,5 +78,17 @@ export function loginError(errorMessage) {
     return {
         type: LOGIN_ERROR,
         errorMessage
+    }
+}
+
+export function handleDrawerOpen() {
+    return {
+        type: DRAWER_OPEN
+    }
+}
+
+export function handleDrawerClose() {
+    return {
+        type: DRAWER_CLOSE
     }
 }

@@ -2,13 +2,17 @@ import {
     helloWorldMessageRequested,
     helloWorldMessageOk,
     helloWorldMessageFail,
-    fetchHelloWorld,
-    loginRequested
+    loginRequested,
+    handleDrawerOpen,
+    handleDrawerClose,
+    logout
 } from './hello-world-actions'
 export {
     helloWorldMessageRequested,
     helloWorldMessageOk,
     helloWorldMessageFail,
-    fetchHelloWorld,
-    loginRequested
+    loginRequested,
+    handleDrawerOpen,
+    handleDrawerClose,
+    logout
 }

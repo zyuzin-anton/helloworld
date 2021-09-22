@@ -1,7 +1,7 @@
 import {createStore, applyMiddleware, combineReducers} from 'redux'
 import thunkMiddleware from 'redux-thunk'
 
-import {helloWorldReducer, loginReducer} from './reducers'
+import {helloWorldReducer, loginReducer, navBarReducer} from './reducers'
 
 import createSagaMiddleware from 'redux-saga'
 import { rootSaga } from "./sagas"
@@ -25,7 +25,10 @@ function routerReducer(state = initialState, action) {
 }
 
 const rootReducer = combineReducers({
-    processHelloWorldMessage: helloWorldReducer, loginData: loginReducer, routing: routerReducer
+    processHelloWorldMessage: helloWorldReducer,
+    loginData: loginReducer,
+    navBarData: navBarReducer,
+    routing: routerReducer
 });
 
 const sagaMiddleware = createSagaMiddleware();
