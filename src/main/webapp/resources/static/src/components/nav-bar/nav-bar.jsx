@@ -46,7 +46,7 @@ const useStyles = theme => ({
 class NavBar extends React.Component {
     render() {
         const {logout, classes, handleDrawerOpen, handleDrawerClose, open} = this.props;
-        return (<Box sx={{ display: 'flex' }}>
+        return (<Box>
             <div className={classes.appBar}>
                  <AppBar position="static">
                     <Toolbar>
