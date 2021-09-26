@@ -104,7 +104,7 @@ class Todo extends React.Component {
                         <TodoCreationDialog/>
                         {
                             [...Array(todoMonth.weeks.length)].map((k, i) =>
-                                <TodoRow key={Math.random()} todoForWeek={todoMonth.weeks[i]}/>
+                                <TodoRow key={Math.random()} todoForWeek={todoMonth.weeks[i]} month={month}/>
                             )
                         }
                         <Grid container justify={'center'}>

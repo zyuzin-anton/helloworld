@@ -7,5 +7,6 @@ import java.util.List;
 @Data
 public class TodoDay {
     private String day;
+    private Long month;
     private List<TodoCell> todoCells = new ArrayList<>();
 }

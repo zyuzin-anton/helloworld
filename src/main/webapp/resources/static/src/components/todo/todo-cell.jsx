@@ -13,23 +13,30 @@ import {todoCreationDialogOpen, deleteTodo} from "../../redux/actions/hello-worl
 class TodoCell extends React.Component {
 
     render() {
-        const { todoForDay, todoCreationDialogOpen, deleteTodo } = this.props;
+        const { todoForDay, todoCreationDialogOpen, deleteTodo, disabled } = this.props;
         return (
             <Grid item>
                 <Card sx={{
                     width: 128,
                     height: 128
-                }} onClick={() => todoCreationDialogOpen(todoForDay.day)}>
-                    <CardHeader title={todoForDay.day}/>
+                }} onClick={() => !disabled && todoCreationDialogOpen(todoForDay.day)}>
+                    <CardHeader title={todoForDay.day} titleTypographyProps={{color: disabled ? "textSecondary" : "primary"}}/>
                     <CardContent>
                         {
                             todoForDay.todoCells && todoForDay.todoCells.map((todoCell, key) =>
                                 <Typography>
-                                    <Chip
-                                        size="small"
-                                        label={todoCell.time + ': ' + todoCell.description}
-                                        onDelete={() => deleteTodo(todoCell.id)}
-                                    />
+                                    { !disabled ?
+                                        <Chip
+                                            size="small"
+                                            color="primary"
+                                            label={todoCell.time + ': ' + todoCell.description}
+                                            onDelete={() => deleteTodo(todoCell.id)}
+                                        /> :
+                                        <Chip
+                                            size="small"
+                                            label={todoCell.time + ': ' + todoCell.description}
+                                        />
+                                    }
                                 </Typography>
                             )
                         }
@@ -42,6 +49,7 @@ class TodoCell extends React.Component {
 
 TodoCell.propTypes = {
     todoForDay: PropTypes.array,
+    disabled: PropTypes.bool,
     todoCreationDialogOpen: PropTypes.func,
     deleteTodo: PropTypes.func
 };

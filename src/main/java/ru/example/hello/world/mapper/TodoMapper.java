@@ -60,6 +60,7 @@ public interface TodoMapper {
             final LocalDate finalCurrentDate = currentDate;
             val todoDay = new TodoDay();
             todoDay.setDay(String.format("%d", currentDate.getDayOfMonth()));
+            todoDay.setMonth((long) currentDate.getMonthValue());
             todoDay.setTodoCells(todoEntities
                     .stream()
                     .filter(todoEntity -> todoEntity.getDate().toLocalDate().isEqual(finalCurrentDate))
