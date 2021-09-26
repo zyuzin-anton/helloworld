@@ -39,7 +39,7 @@ export function *one(method, url, data = {}) {
     } catch (error) {
         console.log("One error: ", error);
         console.log("One error response: ", error.response);
-        return {error: error.response.statusText}
+        return {error: error.response ? error.response.statusText : "Server does not response"}
     }
 }
 
