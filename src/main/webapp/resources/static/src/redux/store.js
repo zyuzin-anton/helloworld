@@ -1,7 +1,7 @@
 import {createStore, applyMiddleware, combineReducers} from 'redux'
 import thunkMiddleware from 'redux-thunk'
 
-import {helloWorldReducer, loginReducer, navBarReducer} from './reducers'
+import {helloWorldReducer, loginReducer, navBarReducer, todoReducer} from './reducers'
 
 import createSagaMiddleware from 'redux-saga'
 import { rootSaga } from "./sagas"
@@ -28,6 +28,7 @@ const rootReducer = combineReducers({
     processHelloWorldMessage: helloWorldReducer,
     loginData: loginReducer,
     navBarData: navBarReducer,
+    todoListData: todoReducer,
     routing: routerReducer
 });
 

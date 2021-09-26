@@ -2,11 +2,12 @@ spring:
   jpa:
     database: H2
   r2dbc:
-    url: r2dbc:h2:file://././hello_world_db
+    url: r2dbc:h2:file://././test_db
     username: sa
     password: ""
   flyway:
-    url: jdbc:h2:file:./hello_world_db
+    url: jdbc:h2:file:./test_db
     user: sa
     password: ""
     baseline-on-migrate: true
+    sql-migration-prefix: L

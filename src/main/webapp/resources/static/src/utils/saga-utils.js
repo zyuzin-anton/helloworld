@@ -4,7 +4,7 @@ import {getAccessToken, getRefreshToken} from "./login-utils";
 import {loginRefreshToken} from "../redux/actions/hello-world-actions";
 import {REFRESH_SUCCESS} from "../redux/action-types";
 
-const request = (method, url) => {
+const request = (method, url, data = {}) => {
     const headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -13,7 +13,8 @@ const request = (method, url) => {
     return axios({
         method: method,
         url: url,
-        headers: headers
+        headers: headers,
+        data: data
     })
         .then( result => result)
         .catch(result => {
@@ -24,28 +25,35 @@ const request = (method, url) => {
         });
 };
 
-export function *one(method, url) {
+export function *one(method, url, data = {}) {
     try {
-        let response =  yield call(request, method, url);
+        let response =  yield call(request, method, url, data);
+        console.log("One response: ", response);
         if (response.status && response.status === 401) {
             yield put(loginRefreshToken(getRefreshToken()));
             yield take(REFRESH_SUCCESS);
 
-            response = yield call(request, method, url);
+            response = yield call(request, method, url, data);
         }
         return response
     } catch (error) {
-        return {error: error}
+        console.log("One error: ", error);
+        console.log("One error response: ", error.response);
+        return {error: error.response.statusText}
     }
 }
 
 export function *getOrProcessError(getMethod, setMethod, errorMethod, params = {}) {
-    const {data} = yield call(getMethod, params);
+    const {data, error} = yield call(getMethod, params);
+    console.log("Data response: ", data, error);
 
-    if (data.error) {
-        yield put(errorMethod(data))
+
+    if (error) {
+        yield put(errorMethod(error))
+    } else if (data.error) {
+        yield put(errorMethod(data.error))
     } else {
-        yield put(setMethod(data))
+        yield put(setMethod(data, params))
     }
 }
 

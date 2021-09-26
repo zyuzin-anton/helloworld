@@ -43,7 +43,9 @@ public class WebSecurityConfiguration {
                         .pathMatchers("/webjars/springfox-swagger-ui/**").permitAll()
                         .pathMatchers("/swagger-resources/**").permitAll()
                         .pathMatchers("/v2/api-docs").permitAll()
-                        .pathMatchers("/rest/hello/world").authenticated())
+                        .pathMatchers("/rest/hello/world").authenticated()
+                        .pathMatchers("/rest/todo/month").authenticated()
+                        .pathMatchers("/rest/todo").authenticated())
                 .oauth2ResourceServer(resourceServerConfigurer -> resourceServerConfigurer
                         .jwt(jwtConfigurer -> jwtConfigurer
                                 .jwtAuthenticationConverter(jwtAuthenticationConverter())))

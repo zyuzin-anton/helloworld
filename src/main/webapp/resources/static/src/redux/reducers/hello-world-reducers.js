@@ -4,7 +4,7 @@ import {
 } from '../action-types'
 
 const defaultState = {
-    loading: false,
+    loading: true,
     message: null,
     errors: null
 };
