@@ -8,11 +8,9 @@ import {
     nextTodoMonthHide, nextTodoMonthShow,
     prevTodoMonthHide, prevTodoMonthShow,
     changeTodoDateHide, changeTodoDateShow,
-    todoErrorMessageClose,
     todoListRequested
 } from "../../redux/actions/hello-world-actions";
 import TodoCreationDialog from "./todo-creation-dialog";
-import Snackbar from "@material-ui/core/Snackbar";
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {Box} from "@material-ui/core";
@@ -71,7 +69,7 @@ class Todo extends React.Component {
     }
 
     render() {
-        const { todoMonth, loading, error, todoErrorMessageClose, show, showDirection, year, month } = this.props;
+        const { todoMonth, loading, show, showDirection, year, month } = this.props;
         if (loading) {
             return (
                 <div>
@@ -103,13 +101,6 @@ class Todo extends React.Component {
                             </IconButton>
                         </Grid>
                         <TodoHeader/>
-                        <Snackbar
-                            anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-                            open={error}
-                            onClose={todoErrorMessageClose}
-                            message={error}
-                            key={'bottomleft'}
-                        />
                         <TodoCreationDialog/>
                         {
                             [...Array(todoMonth.weeks.length)].map((k, i) =>
@@ -130,12 +121,10 @@ class Todo extends React.Component {
 
 Todo.propTypes = {
     todoMonth: PropTypes.object,
-    error: PropTypes.string,
     loading: PropTypes.bool,
     year: PropTypes.number,
     month: PropTypes.number,
     todoListRequested: PropTypes.func,
-    todoErrorMessageClose: PropTypes.func,
     nextTodoMonthHide: PropTypes.func,
     nextTodoMonthShow: PropTypes.func,
     prevTodoMonthHide: PropTypes.func,
@@ -148,7 +137,6 @@ export default connect(
     (state) => ({
         loading: state.todoListData.loading,
         todoMonth: state.todoListData.todoMonth,
-        error: state.todoListData.error,
         year: state.todoListData.year,
         month: state.todoListData.month,
         show: state.todoListData.show,
@@ -156,7 +144,6 @@ export default connect(
     }),
     (dispatch) => ({
         todoListRequested: bindActionCreators(todoListRequested, dispatch),
-        todoErrorMessageClose: bindActionCreators(todoErrorMessageClose, dispatch),
         nextTodoMonthHide: bindActionCreators(nextTodoMonthHide, dispatch),
         nextTodoMonthShow: bindActionCreators(nextTodoMonthShow, dispatch),
         prevTodoMonthHide: bindActionCreators(prevTodoMonthHide, dispatch),

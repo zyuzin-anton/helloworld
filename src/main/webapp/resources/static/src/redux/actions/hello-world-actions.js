@@ -1,7 +1,6 @@
 import {
     HELLO_WORLD_MESSAGE_REQUESTED,
     HELLO_WORLD_MESSAGE_OK,
-    HELLO_WORLD_MESSAGE_FAIL,
     LOGIN_REQUESTED,
     LOGIN_SUCCESS,
     LOGIN_FAILED,
@@ -13,21 +12,20 @@ import {
     DRAWER_OPEN,
     TODO_LIST_REQUESTED,
     TODO_LIST_OK,
-    TODO_LIST_FAIL,
     TODO_CREATION_DIALOG_OPEN,
     TODO_CREATION_DIALOG_CLOSE,
     CREATE_TODO,
     TODO_CREATED_OK,
-    TODO_CREATED_FAIL,
     DELETE_TODO,
     TODO_DELETE_OK,
-    TODO_DELETE_FAIL,
-    TODO_ERROR_MESSAGE_CLOSE,
     NEXT_TODO_MONTH_HIDE,
     NEXT_TODO_MONTH_SHOW,
     PREV_TODO_MONTH_SHOW,
     PREV_TODO_MONTH_HIDE,
-    CHANGE_TODO_DATE_HIDE, CHANGE_TODO_DATE_SHOW
+    CHANGE_TODO_DATE_HIDE,
+    CHANGE_TODO_DATE_SHOW,
+    ERROR_MESSAGE_CLOSE,
+    ERROR_MESSAGE_SHOW
 } from '../action-types'
 
 export function helloWorldMessageRequested() {
@@ -40,13 +38,6 @@ export function helloWorldMessageOk({description}) {
     return {
         type: HELLO_WORLD_MESSAGE_OK,
         message: description
-    }
-}
-
-export function helloWorldMessageFail(error) {
-    return {
-        type: HELLO_WORLD_MESSAGE_FAIL,
-        error
     }
 }
 
@@ -127,13 +118,6 @@ export function todoListOk(todoMonth, {year, month}) {
     }
 }
 
-export function todoListFail(error) {
-    return {
-        type: TODO_LIST_FAIL,
-        error
-    }
-}
-
 export function todoCreationDialogOpen(day) {
     return {
         type: TODO_CREATION_DIALOG_OPEN,
@@ -164,13 +148,6 @@ export function todoCreatedOk(createdTodo) {
     }
 }
 
-export function todoCreatedFail(error) {
-    return {
-        type: TODO_CREATED_FAIL,
-        error
-    }
-}
-
 export function deleteTodo(todoId) {
     return {
         type: DELETE_TODO,
@@ -182,19 +159,6 @@ export function todoDeletedOk(deletedTodo) {
     return {
         type: TODO_DELETE_OK,
         deletedTodo
-    }
-}
-
-export function todoDeletedFail(error) {
-    return {
-        type: TODO_DELETE_FAIL,
-        error
-    }
-}
-
-export function todoErrorMessageClose() {
-    return {
-        type: TODO_ERROR_MESSAGE_CLOSE
     }
 }
 
@@ -231,5 +195,18 @@ export function changeTodoDateHide() {
 export function changeTodoDateShow() {
     return {
         type: CHANGE_TODO_DATE_SHOW
+    }
+}
+
+export function errorMessageClose() {
+    return {
+        type: ERROR_MESSAGE_CLOSE
+    }
+}
+
+export function errorMessageShow(error) {
+    return {
+        type: ERROR_MESSAGE_SHOW,
+        error
     }
 }

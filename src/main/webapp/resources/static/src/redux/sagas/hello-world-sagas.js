@@ -1,7 +1,7 @@
 import { takeLatest } from 'redux-saga/effects'
 import { getOrProcessError } from '../../utils'
 import { getHelloWorld } from '../../datasources'
-import { helloWorldMessageFail, helloWorldMessageOk } from '../actions'
+import {errorMessageShow, helloWorldMessageOk} from '../actions'
 
 import {
     HELLO_WORLD_MESSAGE_REQUESTED
@@ -14,5 +14,5 @@ export function processHelloWorldSagas() {
 }
 
 function *handleFetchHelloWorld() {
-    yield getOrProcessError(getHelloWorld, helloWorldMessageOk, helloWorldMessageFail)
+    yield getOrProcessError(getHelloWorld, helloWorldMessageOk, errorMessageShow)
 }

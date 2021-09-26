@@ -1,20 +1,22 @@
 import {
     helloWorldMessageRequested,
     helloWorldMessageOk,
-    helloWorldMessageFail,
     loginRequested,
     handleDrawerOpen,
     handleDrawerClose,
     logout,
-    todoListRequested
+    todoListRequested,
+    errorMessageShow,
+    errorMessageClose
 } from './hello-world-actions'
 export {
     helloWorldMessageRequested,
     helloWorldMessageOk,
-    helloWorldMessageFail,
     loginRequested,
     handleDrawerOpen,
     handleDrawerClose,
     logout,
-    todoListRequested
+    todoListRequested,
+    errorMessageShow,
+    errorMessageClose
 }

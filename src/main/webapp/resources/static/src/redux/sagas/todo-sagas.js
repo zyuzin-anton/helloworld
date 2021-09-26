@@ -3,11 +3,9 @@ import { takeLatest } from 'redux-saga/effects'
 import {getOrProcessError} from "../../utils";
 import {deleteTodo, getTodoList, postTodo} from "../../datasources/todo-datasource";
 import {
-    todoCreatedFail,
     todoCreatedOk,
-    todoDeletedFail,
     todoDeletedOk,
-    todoListFail,
+    errorMessageShow,
     todoListOk
 } from "../actions/hello-world-actions";
 
@@ -20,13 +18,13 @@ export function processTodoSagas() {
 }
 
 function *handleFetchTodoList({year, month}) {
-    yield *getOrProcessError(getTodoList, todoListOk, todoListFail, {year, month})
+    yield *getOrProcessError(getTodoList, todoListOk, errorMessageShow, {year, month})
 }
 
 function *handleCreateTodo({todoData}) {
-    yield *getOrProcessError(postTodo, todoCreatedOk, todoCreatedFail, todoData)
+    yield *getOrProcessError(postTodo, todoCreatedOk, errorMessageShow, todoData)
 }
 
 function *handleDeleteTodo({todoId}) {
-    yield *getOrProcessError(deleteTodo, todoDeletedOk, todoDeletedFail, todoId)
+    yield *getOrProcessError(deleteTodo, todoDeletedOk, errorMessageShow, todoId)
 }

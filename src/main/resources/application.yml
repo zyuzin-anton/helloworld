@@ -21,6 +21,7 @@ spring:
   security:
     oauth2:
       resourceserver:
+        userInfoUri: ${KEY_CLOAK_URL:http://keycloak:8081}/auth/realms/hello-world-realm/protocol/openid-connect/userinfo
         jwt:
           issuer-uri: ${KEY_CLOAK_URL:http://keycloak:8081}/auth/realms/hello-world-realm
           jwk-set-uri: ${KEY_CLOAK_URL:http://keycloak:8081}/auth/realms/hello-world-realm/protocol/openid-connect/certs

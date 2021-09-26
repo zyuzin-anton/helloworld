@@ -15,7 +15,7 @@ class HelloWorld extends React.Component {
     }
 
     render() {
-        const { loading, message, error } = this.props;
+        const { loading, message } = this.props;
 
         return (
             <Grid container spacing={3} justify={'center'}>
@@ -23,7 +23,7 @@ class HelloWorld extends React.Component {
                     <Paper>
                         <div onClick={() => window.open(window.location.href + "swagger-ui/")}>
                             <p>REST</p>
-                            {loading ? <Chip size="small" label="Loading" /> : error != null ? <Chip size="small" label="Error!" /> : <Chip size="small" label={message} color="primary" />}
+                            {loading ? <Chip size="small" label="Loading" /> : <Chip size="small" label={message} color="primary" />}
                         </div>
                     </Paper>
                 </Grid>
@@ -35,15 +35,13 @@ class HelloWorld extends React.Component {
 HelloWorld.propTypes = {
   loading: PropTypes.bool,
   message : PropTypes.string,
-  error : PropTypes.string,
   helloWorldMessageRequested: PropTypes.func
 };
 
 export default connect(
     (state) => ({
         loading: state.processHelloWorldMessage.loading,
-        message: state.processHelloWorldMessage.message,
-        error: state.processHelloWorldMessage.error
+        message: state.processHelloWorldMessage.message
     }),
     (dispatch) => ({
         helloWorldMessageRequested: bindActionCreators(helloWorldMessageRequested, dispatch)
