@@ -13,6 +13,6 @@ public interface TodoRepository extends BaseRepository<TodoEntity> {
     Flux<TodoEntity> findByDateBetweenAndUserIdAndIsDeletedFalse(LocalDate startDate, LocalDate endDate, String userId);
 
     @Modifying
-    @Query("update todo set is_deleted = true where id = ?1")
+    @Query("update todo set is_deleted = true where id = $1")
     Mono<Integer> deleteTodo(Long id);
 }
