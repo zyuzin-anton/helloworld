@@ -11,7 +11,7 @@ export function *loginWithParams({code, refreshToken}) {
     } else {
         params.append('grant_type', 'authorization_code');
         params.append('code', code);
-        params.append('redirect_uri', 'http://localhost:8080/login');
+        params.append('redirect_uri', window.location.origin + '/login');
     }
 
     const config = {
