@@ -17,7 +17,7 @@ export function processLoginSagas({history}) {
         takeLatest(LOGIN_SUCCESS, setTokens, history),
         takeLatest(LOGIN_FAILED, showLoginErrorMessage),
         takeLatest(LOGIN_REFRESH_TOKEN, handleRefresh),
-        takeLatest(LOGOUT, handleLogout, history)
+        takeLatest(LOGOUT, handleLogout)
     ]
 }
 
@@ -48,7 +48,8 @@ function *handleRefresh({token}) {
     }
 }
 
-function *handleLogout(history) {
+function *handleLogout() {
     clearAuthentication();
-    yield history.push(appRoutes.LOGIN)
+    const redirectUri = window.location.origin + '/login';
+    window.location.assign(process.env.KEYCLOAK_URL + '/auth/realms/hello-world-realm/protocol/openid-connect/logout?redirect_uri=' + redirectUri);
 }
