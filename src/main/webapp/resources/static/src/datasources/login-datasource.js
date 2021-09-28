@@ -1,19 +1,18 @@
 import {call} from 'redux-saga/effects';
 import {login as loginCall} from "../utils/saga-utils";
 
-
-export function *loginWithParams({login, password, refreshToken}) {
+export function *loginWithParams({code, refreshToken}) {
     const params = new URLSearchParams();
     params.append('client_id', 'hello-world-client');
     if (refreshToken) {
         params.append('grant_type', 'refresh_token');
         params.append('refresh_token', refreshToken);
+        params.append('scope', 'openid');
     } else {
-        params.append('grant_type', 'password');
-        params.append('username', login);
-        params.append('password', password);
+        params.append('grant_type', 'authorization_code');
+        params.append('code', code);
+        params.append('redirect_uri', 'http://localhost:8080/login');
     }
-    params.append('scope', 'openid');
 
     const config = {
         headers: {

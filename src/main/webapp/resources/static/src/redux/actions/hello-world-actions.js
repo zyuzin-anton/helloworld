@@ -41,11 +41,10 @@ export function helloWorldMessageOk({description}) {
     }
 }
 
-export function loginRequested(login, password) {
+export function loginRequested(code) {
     return {
         type: LOGIN_REQUESTED,
-        login,
-        password
+        code
     }
 }
 
