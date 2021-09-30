@@ -11,12 +11,13 @@ import ru.example.hello.world.dto.TodoCell;
 import ru.example.hello.world.dto.TodoData;
 import ru.example.hello.world.dto.TodoDay;
 import ru.example.hello.world.dto.TodoMonth;
+import ru.example.hello.world.dto.TodoUserData;
 import ru.example.hello.world.dto.TodoWeek;
 import ru.example.hello.world.entity.TodoEntity;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.time.ZoneId;
 import java.time.temporal.WeekFields;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,16 +29,20 @@ public interface TodoMapper {
     @Mappings({
             @Mapping(target = "description", source = "todoData.description"),
             @Mapping(target = "date", source = "todoData.date"),
-            @Mapping(target = "userId", source = "userId")
+            @Mapping(target = "userId", source = "userId"),
+            @Mapping(target = "username", source = "username")
     })
-    TodoEntity toTodoEntity(TodoData todoData, String userId);
+    TodoEntity toTodoEntity(TodoData todoData, String userId, String username);
+
+    TodoUserData toTodoData(TodoEntity todoEntity);
 
     default CreatedTodo toCreatedTodo(TodoEntity todoEntity) {
-        val weekFields = WeekFields.of(DayOfWeek.MONDAY, 1);
+        val weekFields = WeekFields.of(todoEntity.getDate().getDayOfWeek(), 1);
         val weekOfMonth = weekFields.weekOfMonth();
+        val dateWithZone = todoEntity.getDate().withZoneSameInstant(ZoneId.systemDefault());
         return CreatedTodo.builder()
-                .weekOfMonth((long) todoEntity.getDate().get(weekOfMonth))
-                .dayOfWeek((long) todoEntity.getDate().getDayOfWeek().getValue())
+                .weekOfMonth((long) dateWithZone.get(weekOfMonth))
+                .dayOfWeek((long) dateWithZone.getDayOfWeek().getValue())
                 .todoCell(toTodoCell(todoEntity))
             .build();
     }
@@ -63,7 +68,13 @@ public interface TodoMapper {
             todoDay.setMonth((long) currentDate.getMonthValue());
             todoDay.setTodoCells(todoEntities
                     .stream()
-                    .filter(todoEntity -> todoEntity.getDate().toLocalDate().isEqual(finalCurrentDate))
+                    .filter(todoEntity ->
+                            todoEntity
+                                    .getDate()
+                                    .withZoneSameInstant(ZoneId.systemDefault())
+                                    .toLocalDate()
+                                    .isEqual(finalCurrentDate)
+                    )
                     .map(this::toTodoCell)
                     .collect(Collectors.toList())
             );
@@ -82,11 +93,8 @@ public interface TodoMapper {
         return TodoCell
                 .builder()
                 .id(todoEntity.getId())
-                .time(todoEntity
-                        .getDate()
-                        .toLocalTime()
-                        .format(DateTimeFormatter.ofPattern("HH:mm"))
-                ).description(todoEntity.getDescription())
+                .time(todoEntity.getDate())
+                .description(todoEntity.getDescription())
             .build();
     }
 }

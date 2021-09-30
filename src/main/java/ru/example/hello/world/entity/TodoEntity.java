@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -18,7 +18,10 @@ public class TodoEntity extends BaseEntity {
     private String userId;
 
     @Column
-    private LocalDateTime date;
+    private String username;
+
+    @Column
+    private ZonedDateTime date;
 
     @Column
     private Boolean isDeleted;

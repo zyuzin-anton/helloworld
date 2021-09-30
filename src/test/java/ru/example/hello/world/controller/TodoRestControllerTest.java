@@ -22,6 +22,8 @@ import ru.example.hello.world.dto.TodoData;
 import ru.example.hello.world.dto.TodoMonth;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 
 import static org.junit.Assert.assertEquals;
@@ -41,12 +43,12 @@ public class TodoRestControllerTest {
     @Before
     public void initData() {
         databaseClient
-                .sql("insert into todo(date, description, user_id) values (parsedatetime('30-08-2021 11:00:00.069', 'dd-MM-yyyy hh:mm:ss.SS'), 'do something', 'user')")
+                .sql("insert into todo(date, description, user_id, username) values (parsedatetime('30-08-2021 11:00:00.069', 'dd-MM-yyyy hh:mm:ss.SS'), 'do something', 'user', 'user')")
                 .then()
                 .block();
 
         databaseClient
-                .sql("insert into todo(date, description, user_id) values (parsedatetime('06-09-2021 11:00:00.069', 'dd-MM-yyyy hh:mm:ss.SS'), 'Delete', 'user')")
+                .sql("insert into todo(date, description, user_id, username) values (parsedatetime('06-09-2021 11:00:00.069', 'dd-MM-yyyy hh:mm:ss.SS'), 'Delete', 'user', 'user')")
                 .then()
                 .block();
     }
@@ -84,7 +86,7 @@ public class TodoRestControllerTest {
     @WithMockUser
     public void postTodo() {
         val todoData = new TodoData();
-        todoData.setDate(LocalDateTime.of(2021, 9, 1, 11, 0));
+        todoData.setDate(ZonedDateTime.of(LocalDateTime.of(2021, 9, 1, 11, 0), ZoneId.systemDefault()));
         todoData.setDescription("descr");
         val createdTodo = webTestClient.post()
                 .uri(uriBuilder -> uriBuilder

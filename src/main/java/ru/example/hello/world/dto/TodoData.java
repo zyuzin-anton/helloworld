@@ -2,10 +2,10 @@ package ru.example.hello.world.dto;
 
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Data
 public class TodoData {
-    private LocalDateTime date;
+    private ZonedDateTime date;
     private String description;
 }

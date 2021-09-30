@@ -23,9 +23,10 @@ it('should create todo', async () => {
     let date = new Date();
     date.setFullYear(2021, 9, 1);
 
-    const time = '11:00';
+    const time = new Date();
+    time.setHours(11, 0);
     const description = "descr";
-    date.setHours(parseInt(time.split(":")[0]), parseInt(time.split(":")[1]), 0, 0);
+    date.setHours(11, 0, 0, 0);
 
     const todoData = {date, description};
 
@@ -56,15 +57,20 @@ it('should delete todo', async () => {
     chai.expect(result.storeState.todoMonth.weeks[1].days[0].todoCells[0].description).to.equal("Leave");
 });
 
+let date = new Date();
+date.setHours(11, 0);
+let oneMoreDate = new Date();
+oneMoreDate.setHours(12, 0);
+
 const todoMonth = {weeks: [
         {days: [
-                {day: '30', todoCells: [{id: 1, time: "11:00", description: "qwe"}, {id: 2, time: "12:00", description: "qwe!"}]}, {day: '31'}, {day: '1'}, {day: '2'}, {day: '3'}, {day: '4'}, {day: '5'}
+                {day: '30', todoCells: [{id: 1, time: date, description: "qwe"}, {id: 2, time: oneMoreDate, description: "qwe!"}]}, {day: '31'}, {day: '1'}, {day: '2'}, {day: '3'}, {day: '4'}, {day: '5'}
             ]},
         {days: [
-                {day: '6', todoCells: [{id: 3, time: "11:00", description: "Delete"}, {id: 2, time: "12:00", description: "Leave"}]}, {day: '7'}, {day: '8'}, {day: '8'}, {day: '10'}, {day: '11'}, {day: '12'}
+                {day: '6', todoCells: [{id: 3, time: date, description: "Delete"}, {id: 2, time: oneMoreDate, description: "Leave"}]}, {day: '7'}, {day: '8'}, {day: '8'}, {day: '10'}, {day: '11'}, {day: '12'}
             ]},
         {days: [
-                {day: '13'}, {day: '14'}, {day: '15', todoCells: [{time: "11:00", description: "qwe"}, {time: "12:00", description: "qwe!"}]}, {day: '16'}, {day: '17'}, {day: '18'}, {day: '19'}
+                {day: '13'}, {day: '14'}, {day: '15', todoCells: [{time: date, description: "qwe"}, {time: oneMoreDate, description: "qwe!"}]}, {day: '16'}, {day: '17'}, {day: '18'}, {day: '19'}
             ]},
         {days: [
                 {day: '20'}, {day: '21'}, {day: '22'}, {day: '23'}, {day: '24'}, {day: '25'}, {day: '26'}

@@ -7,6 +7,7 @@ import reactor.core.publisher.Mono;
 import ru.example.hello.world.entity.TodoEntity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public interface TodoRepository extends BaseRepository<TodoEntity> {
 
@@ -15,4 +16,6 @@ public interface TodoRepository extends BaseRepository<TodoEntity> {
     @Modifying
     @Query("update todo set is_deleted = true where id = $1")
     Mono<Integer> deleteTodo(Long id);
+
+    Flux<TodoEntity> findByDateBetweenAndIsDeletedFalse(LocalDateTime startDate, LocalDateTime endDate);
 }

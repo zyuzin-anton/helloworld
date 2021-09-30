@@ -9,6 +9,7 @@ import PropTypes from 'prop-types'
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {todoCreationDialogOpen, deleteTodo} from "../../redux/actions/hello-world-actions";
+import dateFormat from "dateformat";
 
 class TodoCell extends React.Component {
 
@@ -23,18 +24,18 @@ class TodoCell extends React.Component {
                     <CardHeader title={todoForDay.day} titleTypographyProps={{color: disabled ? "textSecondary" : "primary"}}/>
                     <CardContent>
                         {
-                            todoForDay.todoCells && todoForDay.todoCells.map((todoCell, key) =>
+                            todoForDay.todoCells && todoForDay.todoCells.sort((a, b) => a.time > b.time ? 1 : -1) && todoForDay.todoCells.map((todoCell, key) =>
                                 <Typography>
                                     { !disabled ?
                                         <Chip
                                             size="small"
                                             color="primary"
-                                            label={todoCell.time + ': ' + todoCell.description}
+                                            label={dateFormat(todoCell.time, 'HH:MM') + ': ' + todoCell.description}
                                             onDelete={() => deleteTodo(todoCell.id)}
                                         /> :
                                         <Chip
                                             size="small"
-                                            label={todoCell.time + ': ' + todoCell.description}
+                                            label={dateFormat(todoCell.time, 'HH:MM') + ': ' + todoCell.description}
                                         />
                                     }
                                 </Typography>

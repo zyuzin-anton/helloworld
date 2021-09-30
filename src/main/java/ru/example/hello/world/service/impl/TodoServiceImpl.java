@@ -4,16 +4,19 @@ import lombok.AllArgsConstructor;
 import lombok.val;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import ru.example.hello.world.dto.CreatedTodo;
 import ru.example.hello.world.dto.DeletedTodo;
 import ru.example.hello.world.dto.TodoData;
 import ru.example.hello.world.dto.TodoMonth;
+import ru.example.hello.world.dto.TodoUserData;
 import ru.example.hello.world.mapper.TodoMapper;
 import ru.example.hello.world.repository.TodoRepository;
 import ru.example.hello.world.service.TodoService;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Service
 @AllArgsConstructor
@@ -34,14 +37,19 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     @Transactional
-    public Mono<CreatedTodo> createTodo(TodoData todoData, String userId) {
-        return todoRepository.save(todoMapper.toTodoEntity(todoData, userId)).map(todoMapper::toCreatedTodo);
+    public Mono<CreatedTodo> createTodo(TodoData todoData, String userId, String username) {
+        return todoRepository.save(todoMapper.toTodoEntity(todoData, userId, username)).map(todoMapper::toCreatedTodo);
     }
 
     @Override
     @Transactional
     public Mono<DeletedTodo> deleteTodo(Long id) {
         return todoRepository.deleteTodo(id).flatMap(row -> todoRepository.findById(id)).map(todoMapper::toDeletedTodo);
+    }
+
+    @Override
+    public Flux<TodoUserData> findTodoInRateRange(LocalDateTime startDate, LocalDateTime endDate) {
+        return todoRepository.findByDateBetweenAndIsDeletedFalse(startDate, endDate).map(todoMapper::toTodoData);
     }
 
     private LocalDate startDate(int year, int mont) {
