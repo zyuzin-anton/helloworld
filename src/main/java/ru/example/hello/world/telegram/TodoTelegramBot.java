@@ -62,7 +62,7 @@ public class TodoTelegramBot extends TelegramBot {
                 stateMachine.getExtendedState().getVariables().put(ActionVariable.REQUEST_MESSAGE, update.message().text());
                 val event = MessageBuilder.withPayload(TelegramBotCommand.of(update.message().text())).build();
                 log.info("Send event to state machine: {}", event.getPayload());
-                stateMachine.sendEvent(Mono.just(event)).subscribe(result -> log.info("Event result: {}", result));
+                stateMachine.sendEvent(Mono.just(event)).subscribe(result -> log.info("Event result: {}, {}-{}", result, Thread.currentThread().getId(), Thread.currentThread().getName()));
                 val responseMessage = stateMachine.getExtendedState().get(ActionVariable.RESPONSE_MESSAGE, String.class);
                 try {
                     persister.persist(stateMachine, update.message().chat().id());

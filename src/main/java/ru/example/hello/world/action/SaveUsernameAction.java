@@ -28,10 +28,10 @@ public class SaveUsernameAction implements ReactiveAction<TelegramBotState, Tele
                 .switchIfEmpty(Mono.error(new RuntimeException()))
                 .flatMap(telegramChat -> {
                     if (telegramChat.getUsername().equals(username)) {
-                        log.info("Already register username: {} for chat: {}", username, chatId);
+                        log.info("Already register username: {} for chat: {}, {}-{}", username, chatId, Thread.currentThread().getId(), Thread.currentThread().getName());
                         return alreadyRegister(username);
                     } else {
-                        log.info("Update username: {} for chat: {}", username, chatId);
+                        log.info("Update username: {} for chat: {}, {}-{}", username, chatId, Thread.currentThread().getId(), Thread.currentThread().getName());
                         return update(chatId, username);
                     }
                 })
@@ -40,6 +40,7 @@ public class SaveUsernameAction implements ReactiveAction<TelegramBotState, Tele
                     create(chatId, username).subscribe(responseMessage -> context.getExtendedState().getVariables().put(ActionVariable.RESPONSE_MESSAGE, responseMessage));
                 })
                 .map(responseMessage -> {
+                    log.info("Set response: {}, {}-{}", responseMessage, Thread.currentThread().getId(), Thread.currentThread().getName());
                     return context.getExtendedState().getVariables().put(ActionVariable.RESPONSE_MESSAGE, responseMessage);
                 })
                 .then(Mono.empty());
