@@ -24,6 +24,7 @@ public class SaveUsernameAction implements ReactiveAction<TelegramBotState, Tele
         val username = context.getExtendedState().get(ActionVariable.REQUEST_MESSAGE, String.class);
         context.getExtendedState().getVariables().put(ActionVariable.USERNAME, username);
         val chatId = context.getExtendedState().get(ActionVariable.CHAT_ID, Long.class);
+        log.info("Start registration for username: {} and chat: {}, {}-{}", username, chatId, Thread.currentThread().getId(), Thread.currentThread().getName());
         return telegramChatService.findByChatId(chatId)
                 .switchIfEmpty(Mono.error(new RuntimeException()))
                 .flatMap(telegramChat -> {
