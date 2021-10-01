@@ -49,7 +49,7 @@ class TodoCell extends React.Component {
 }
 
 TodoCell.propTypes = {
-    todoForDay: PropTypes.array,
+    todoForDay: PropTypes.object,
     disabled: PropTypes.bool,
     todoCreationDialogOpen: PropTypes.func,
     deleteTodo: PropTypes.func

@@ -57,13 +57,15 @@ public class TodoTelegramBot extends TelegramBot {
                 }
                 stateMachine.getExtendedState().getVariables().put(ActionVariable.REQUEST_MESSAGE, update.message().text());
                 val event = MessageBuilder.withPayload(TelegramBotCommand.of(update.message().text())).build();
+                log.info("Send event to state machine: {}", event.getPayload());
                 stateMachine.sendEvent(Mono.just(event)).subscribe();
                 val responseMessage = stateMachine.getExtendedState().get(ActionVariable.RESPONSE_MESSAGE, String.class);
                 try {
                     persister.persist(stateMachine, update.message().chat().id());
                 } catch (Exception e) {
-                    log.warn("Can't restore state machine for chat id {}", update.message().chat().id(), e);
+                    log.warn("Can't restore state machine for chat id: {}", update.message().chat().id(), e);
                 }
+                log.info("Send response to user: {}", responseMessage);
                 execute(new SendMessage(
                         update.message().chat().id(), responseMessage != null
                         ? responseMessage
@@ -77,7 +79,7 @@ public class TodoTelegramBot extends TelegramBot {
     @Scheduled(cron = "0 0/1 * 1/1 * ?")
     public void sendNotifications() {
         val currentDateTime = LocalDateTime.now();
-        todoService.findTodoInRateRange(currentDateTime.minusMinutes(1), currentDateTime)
+        todoService.findTodoInRateRange(currentDateTime.minusMinutes(1).plusSeconds(1), currentDateTime)
                 .subscribe(this::sendNotification);
     }
 

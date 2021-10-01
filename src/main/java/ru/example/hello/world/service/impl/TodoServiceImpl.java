@@ -30,7 +30,7 @@ public class TodoServiceImpl implements TodoService {
     public Mono<TodoMonth> findMonthlyTodo(int year, int month, String userId) {
         val startDate = startDate(year, month);
         val endDate = endDate(year, month);
-        return todoRepository.findByDateBetweenAndUserIdAndIsDeletedFalse(startDate, endDate, userId)
+        return todoRepository.findByDateBetweenAndUserIdAndIsDeletedFalse(startDate, endDate.plusDays(1), userId)
                 .collectList()
                 .map(todoEntities -> todoMapper.toTodoMonth(todoEntities, startDate, endDate));
     }

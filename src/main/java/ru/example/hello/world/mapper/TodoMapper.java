@@ -37,12 +37,11 @@ public interface TodoMapper {
     TodoUserData toTodoData(TodoEntity todoEntity);
 
     default CreatedTodo toCreatedTodo(TodoEntity todoEntity) {
-        val weekFields = WeekFields.of(todoEntity.getDate().getDayOfWeek(), 1);
+        val weekFields = WeekFields.of(DayOfWeek.MONDAY, 1);
         val weekOfMonth = weekFields.weekOfMonth();
-        val dateWithZone = todoEntity.getDate().withZoneSameInstant(ZoneId.systemDefault());
         return CreatedTodo.builder()
-                .weekOfMonth((long) dateWithZone.get(weekOfMonth))
-                .dayOfWeek((long) dateWithZone.getDayOfWeek().getValue())
+                .weekOfMonth((long) todoEntity.getDate().get(weekOfMonth))
+                .dayOfWeek((long) todoEntity.getDate().getDayOfWeek().getValue())
                 .todoCell(toTodoCell(todoEntity))
             .build();
     }

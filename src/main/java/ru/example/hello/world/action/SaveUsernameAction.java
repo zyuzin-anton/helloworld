@@ -32,10 +32,8 @@ public class SaveUsernameAction implements ReactiveAction<TelegramBotState, Tele
                     }
                 })
                 .doOnError(error -> create(chatId, username).subscribe(responseMessage -> context.getExtendedState().getVariables().put(ActionVariable.RESPONSE_MESSAGE, responseMessage)))
-                .map(responseMessage -> {
-                    return context.getExtendedState().getVariables().put(ActionVariable.RESPONSE_MESSAGE, responseMessage);
-                })
-                .then();
+                .map(responseMessage -> context.getExtendedState().getVariables().put(ActionVariable.RESPONSE_MESSAGE, responseMessage))
+                .then(Mono.empty());
     }
 
     private Mono<String> alreadyRegister(String username) {

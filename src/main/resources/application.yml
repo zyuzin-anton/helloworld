@@ -2,6 +2,9 @@ server:
   port: ${PORT:8080}
 
 spring:
+  jackson:
+    deserialization:
+      ADJUST_DATES_TO_CONTEXT_TIME_ZONE: false
   thymeleaf:
     enabled: true
     prefix: classpath:/templates/

@@ -38,7 +38,7 @@ class TodoCreationDialog extends React.Component {
         const { description, time } = this.state;
         const { date } = this.props;
         date.setHours(parseInt(time.split(":")[0]), parseInt(time.split(":")[1]), 0, 0);
-        this.props.createTodo(date, description);
+        this.props.createTodo(dateFormat(date, "yyyy-mm-dd'T'HH:MM:sso"), description);
         this.props.todoCreationDialogClose();
     }
 
