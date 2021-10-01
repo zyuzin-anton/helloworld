@@ -1,6 +1,7 @@
 package ru.example.hello.world.action;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.statemachine.StateContext;
 import org.springframework.statemachine.action.ReactiveAction;
@@ -11,6 +12,7 @@ import ru.example.hello.world.service.TelegramChatService;
 import ru.example.hello.world.telegram.TelegramBotCommand;
 import ru.example.hello.world.telegram.TelegramBotState;
 
+@Slf4j
 @Component
 @AllArgsConstructor
 public class SaveUsernameAction implements ReactiveAction<TelegramBotState, TelegramBotCommand> {
@@ -26,13 +28,23 @@ public class SaveUsernameAction implements ReactiveAction<TelegramBotState, Tele
                 .switchIfEmpty(Mono.error(new RuntimeException()))
                 .flatMap(telegramChat -> {
                     if (telegramChat.getUsername().equals(username)) {
+                        log.info("Already register username: {} for chat: {}", username, chatId);
                         return alreadyRegister(username);
                     } else {
+                        log.info("Update username: {} for chat: {}", username, chatId);
                         return update(chatId, username);
                     }
                 })
-                .doOnError(error -> create(chatId, username).subscribe(responseMessage -> context.getExtendedState().getVariables().put(ActionVariable.RESPONSE_MESSAGE, responseMessage)))
-                .map(responseMessage -> context.getExtendedState().getVariables().put(ActionVariable.RESPONSE_MESSAGE, responseMessage))
+                .doOnError(error -> {
+                    log.info("Create connection username: {} for chat: {}", username, chatId);
+                    create(chatId, username).subscribe(responseMessage -> context.getExtendedState().getVariables().put(ActionVariable.RESPONSE_MESSAGE, responseMessage));
+                })
+                .map(responseMessage -> {
+                    try {
+                        Thread.sleep(5000L);
+                    } catch (Exception e) {}
+                    return context.getExtendedState().getVariables().put(ActionVariable.RESPONSE_MESSAGE, responseMessage);
+                })
                 .then(Mono.empty());
     }
 

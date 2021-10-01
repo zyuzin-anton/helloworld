@@ -51,6 +51,10 @@ public class TodoTelegramBot extends TelegramBot {
                 try {
                     persister.restore(stateMachine, update.message().chat().id());
                     stateMachine.getExtendedState().getVariables().put(ActionVariable.CHAT_ID, update.message().chat().id());
+                    if (stateMachine.getState().getId().equals(TelegramBotState.END)) {
+                        stateMachine.getExtendedState().getVariables().clear();
+                        stateMachine.startReactively().subscribe();
+                    }
                 } catch (Exception e) {
                     stateMachine.getExtendedState().getVariables().put(ActionVariable.CHAT_ID, update.message().chat().id());
                     stateMachine.startReactively().subscribe();
