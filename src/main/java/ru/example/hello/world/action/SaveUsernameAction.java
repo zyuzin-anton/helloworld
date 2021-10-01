@@ -7,6 +7,7 @@ import org.springframework.statemachine.StateContext;
 import org.springframework.statemachine.action.ReactiveAction;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 import ru.example.hello.world.dto.TelegramChat;
 import ru.example.hello.world.service.TelegramChatService;
 import ru.example.hello.world.telegram.TelegramBotCommand;
@@ -26,6 +27,7 @@ public class SaveUsernameAction implements ReactiveAction<TelegramBotState, Tele
         val chatId = context.getExtendedState().get(ActionVariable.CHAT_ID, Long.class);
         log.info("Start registration for username: {} and chat: {}, {}-{}", username, chatId, Thread.currentThread().getId(), Thread.currentThread().getName());
         return telegramChatService.findByChatId(chatId)
+                .subscribeOn(Schedulers.immediate())
                 .switchIfEmpty(Mono.error(new RuntimeException()))
                 .flatMap(telegramChat -> {
                     if (telegramChat.getUsername().equals(username)) {
