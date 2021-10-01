@@ -40,9 +40,6 @@ public class SaveUsernameAction implements ReactiveAction<TelegramBotState, Tele
                     create(chatId, username).subscribe(responseMessage -> context.getExtendedState().getVariables().put(ActionVariable.RESPONSE_MESSAGE, responseMessage));
                 })
                 .map(responseMessage -> {
-                    try {
-                        Thread.sleep(5000L);
-                    } catch (Exception e) {}
                     return context.getExtendedState().getVariables().put(ActionVariable.RESPONSE_MESSAGE, responseMessage);
                 })
                 .then(Mono.empty());

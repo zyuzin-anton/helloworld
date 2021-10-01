@@ -62,12 +62,12 @@ public class TodoTelegramBot extends TelegramBot {
                 stateMachine.getExtendedState().getVariables().put(ActionVariable.REQUEST_MESSAGE, update.message().text());
                 val event = MessageBuilder.withPayload(TelegramBotCommand.of(update.message().text())).build();
                 log.info("Send event to state machine: {}", event.getPayload());
-                stateMachine.sendEvent(Mono.just(event)).subscribe();
+                stateMachine.sendEvent(Mono.just(event)).subscribe(result -> log.info("Event result: {}", result));
                 val responseMessage = stateMachine.getExtendedState().get(ActionVariable.RESPONSE_MESSAGE, String.class);
                 try {
                     persister.persist(stateMachine, update.message().chat().id());
                 } catch (Exception e) {
-                    log.warn("Can't restore state machine for chat id: {}", update.message().chat().id(), e);
+                    log.warn("Can't persist state machine for chat id: {}", update.message().chat().id(), e);
                 }
                 log.info("Send response to user: {}", responseMessage);
                 execute(new SendMessage(
