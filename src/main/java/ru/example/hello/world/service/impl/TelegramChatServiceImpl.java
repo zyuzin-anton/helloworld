@@ -3,7 +3,6 @@ package ru.example.hello.world.service.impl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Schedulers;
 import ru.example.hello.world.dto.TelegramChat;
 import ru.example.hello.world.mapper.TelegramChatMapper;
 import ru.example.hello.world.repository.TelegramChatRepository;
@@ -19,7 +18,6 @@ public class TelegramChatServiceImpl implements TelegramChatService {
     @Override
     public Mono<TelegramChat> findByChatId(Long chatId) {
         return telegramChatRepository.findByChatId(chatId)
-                .subscribeOn(Schedulers.immediate())
                 .map(telegramChatMapper::toTelegramChat);
     }
 

@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.statemachine.StateContext;
-import org.springframework.statemachine.action.ReactiveAction;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 import ru.example.hello.world.dto.TelegramChat;
@@ -15,7 +14,7 @@ import ru.example.hello.world.telegram.TelegramBotState;
 @Slf4j
 @Component
 @AllArgsConstructor
-public class SaveUsernameAction implements ReactiveAction<TelegramBotState, TelegramBotCommand> {
+public class SaveUsernameAction extends TelegramBotReactiveAction {
 
     private TelegramChatService telegramChatService;
 
@@ -24,27 +23,27 @@ public class SaveUsernameAction implements ReactiveAction<TelegramBotState, Tele
         val username = context.getExtendedState().get(ActionVariable.REQUEST_MESSAGE, String.class);
         context.getExtendedState().getVariables().put(ActionVariable.USERNAME, username);
         val chatId = context.getExtendedState().get(ActionVariable.CHAT_ID, Long.class);
-        log.info("Start registration for username: {} and chat: {}, {}-{}", username, chatId, Thread.currentThread().getId(), Thread.currentThread().getName());
+        log.info("Start registration for username: {} and chat: {}", username, chatId);
         return telegramChatService.findByChatId(chatId)
                 .switchIfEmpty(Mono.error(new RuntimeException()))
                 .flatMap(telegramChat -> {
                     if (telegramChat.getUsername().equals(username)) {
-                        log.info("Already register username: {} for chat: {}, {}-{}", username, chatId, Thread.currentThread().getId(), Thread.currentThread().getName());
+                        log.info("Already register username: {} for chat: {}", username, chatId);
                         return alreadyRegister(username);
                     } else {
-                        log.info("Update username: {} for chat: {}, {}-{}", username, chatId, Thread.currentThread().getId(), Thread.currentThread().getName());
+                        log.info("Update username: {} for chat: {}", username, chatId);
                         return update(chatId, username);
                     }
                 })
                 .doOnError(error -> {
                     log.info("Create connection username: {} for chat: {}", username, chatId);
-                    create(chatId, username).subscribe(responseMessage -> context.getExtendedState().getVariables().put(ActionVariable.RESPONSE_MESSAGE, responseMessage));
+                    create(chatId, username).subscribe(responseMessage -> sendMessage(chatId, responseMessage));
                 })
-                .map(responseMessage -> {
-                    log.info("Set response: {}, {}-{}", responseMessage, Thread.currentThread().getId(), Thread.currentThread().getName());
-                    return context.getExtendedState().getVariables().put(ActionVariable.RESPONSE_MESSAGE, responseMessage);
-                })
-                .then(Mono.empty());
+                .flatMap(responseMessage -> {
+                    log.info("Send response: {}", responseMessage);
+                    sendMessage(chatId, responseMessage);
+                    return Mono.empty();
+                });
     }
 
     private Mono<String> alreadyRegister(String username) {
