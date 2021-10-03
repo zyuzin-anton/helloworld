@@ -24,6 +24,7 @@ module.exports = {
                 NODE_ENV: JSON.stringify("development"),
                 IS_BROWSER: JSON.stringify( 'true'),
                 KEYCLOAK_URL: JSON.stringify(process.env.KEYCLOAK_URL),
+                TELEGRAM_BOT_URL: JSON.stringify(process.env.TELEGRAM_BOT_URL)
             }
         })
     ],

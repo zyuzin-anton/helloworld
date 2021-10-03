@@ -19,6 +19,7 @@ import Slide from "@material-ui/core/Slide";
 import Grid from "@material-ui/core/Grid";
 import DateFnsUtils from "@date-io/date-fns";
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
+import Link from "@material-ui/core/Link";
 
 class Todo extends React.Component {
 
@@ -80,8 +81,8 @@ class Todo extends React.Component {
 
         return(
             <Box>
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                    <Grid container justify="space-around">
+                <Grid container direction="row" justify="space-evenly" alignItems="center">
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <DatePicker
                             variant="inline"
                             openTo="year"
@@ -91,8 +92,11 @@ class Todo extends React.Component {
                             value={new Date(year, month - 1)}
                             onChange={this.handleTodoDateChange}
                         />
+                    </MuiPickersUtilsProvider>
+                    <Grid item>
+                        You could receive notifications via <Link target="_blank" rel="noreferrer" href={process.env.TELEGRAM_BOT_URL}>Telegram</Link>
                     </Grid>
-                </MuiPickersUtilsProvider>
+                </Grid>
                 <Slide direction={showDirection} in={show} mountOnEnter unmountOnExit>
                     <Box>
                         <Grid container justify={'center'}>

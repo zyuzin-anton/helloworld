@@ -5,6 +5,16 @@ import {bindActionCreators} from "redux";
 import {loginRequested} from "../../redux/actions";
 import PropTypes from "prop-types";
 import {v4 as uuidv4} from "uuid";
+import withStyles from "@material-ui/core/styles/withStyles";
+import Backdrop from "@material-ui/core/Backdrop";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
+const useStyles = theme => ({
+    backdrop: {
+        zIndex: theme.zIndex.drawer + 1,
+        color: '#fff',
+    }
+});
 
 class Login extends React.Component {
     componentDidMount() {
@@ -21,10 +31,14 @@ class Login extends React.Component {
     }
 
     render() {
-        const {errorMessage} = this.props;
+        const {errorMessage, classes} = this.props;
         return (
             <div className="App">
-                {errorMessage ? errorMessage : 'Login'}
+                {errorMessage
+                    ? errorMessage
+                    : <Backdrop className={classes.backdrop} open={true}>
+                        <CircularProgress color="inherit" />
+                    </Backdrop>}
             </div>
         )
     }
@@ -42,4 +56,4 @@ export default connect(
     (dispatch) => ({
         loginRequested: bindActionCreators(loginRequested, dispatch)
     })
-)(withRouter(Login))
+)(withRouter(withStyles(useStyles)(Login)))
