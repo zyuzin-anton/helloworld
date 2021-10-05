@@ -20,6 +20,16 @@ import Grid from "@material-ui/core/Grid";
 import DateFnsUtils from "@date-io/date-fns";
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 import Link from "@material-ui/core/Link";
+import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
+import Backdrop from "@material-ui/core/Backdrop/Backdrop";
+import withStyles from "@material-ui/core/styles/withStyles";
+
+const useStyles = theme => ({
+    backdrop: {
+        zIndex: theme.zIndex.drawer + 1,
+        color: '#fff',
+    }
+});
 
 class Todo extends React.Component {
 
@@ -70,12 +80,14 @@ class Todo extends React.Component {
     }
 
     render() {
-        const { todoMonth, loading, show, showDirection, year, month } = this.props;
+        const { todoMonth, loading, show, showDirection, year, month, classes } = this.props;
         if (loading) {
             return (
-                <div>
-                    loading...
-                </div>
+                <Box>
+                    <Backdrop className={classes.backdrop} open={true}>
+                        <CircularProgress color="inherit" />
+                    </Backdrop>
+                </Box>
             )
         }
 
@@ -155,4 +167,4 @@ export default connect(
         changeTodoDateHide: bindActionCreators(changeTodoDateHide, dispatch),
         changeTodoDateShow: bindActionCreators(changeTodoDateShow, dispatch)
     })
-)(Todo)
+)(withStyles(useStyles)(Todo))
