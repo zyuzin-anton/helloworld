@@ -7,7 +7,7 @@ HelloWorld project that prints "Hello, World!" message using modern technologies
 * JDK8 and higher
 * Maven
 ### or
-*Docker
+* Docker
 
 Run next command to start application:
 ```
