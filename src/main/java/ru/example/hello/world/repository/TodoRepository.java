@@ -18,4 +18,6 @@ public interface TodoRepository extends BaseRepository<TodoEntity> {
     Mono<Integer> deleteTodo(Long id);
 
     Flux<TodoEntity> findByDateBetweenAndIsDeletedFalse(LocalDateTime startDate, LocalDateTime endDate);
+
+    Mono<TodoEntity> findFirstByDateAfterAndUsernameEqualsAndIsDeletedFalseOrderByDateAsc(LocalDateTime dateTime, String username);
 }

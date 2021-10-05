@@ -13,6 +13,7 @@ import org.springframework.statemachine.config.builders.StateMachineTransitionCo
 import org.springframework.statemachine.persist.DefaultStateMachinePersister;
 import org.springframework.statemachine.persist.StateMachinePersister;
 import ru.example.hello.world.action.SaveUsernameAction;
+import ru.example.hello.world.action.ShowNearestTodoAction;
 import ru.example.hello.world.action.StartAction;
 import ru.example.hello.world.action.StartRegistrationAction;
 import ru.example.hello.world.telegram.TelegramBotCommand;
@@ -30,6 +31,7 @@ public class TelegramBotStateMachineConfiguration extends EnumStateMachineConfig
     private StartAction startAction;
     private StartRegistrationAction startRegistrationAction;
     private SaveUsernameAction saveUsernameAction;
+    private ShowNearestTodoAction showNearestTodoAction;
 
     @Override
     public void configure(StateMachineConfigurationConfigurer<TelegramBotState, TelegramBotCommand> config) throws Exception {
@@ -53,6 +55,12 @@ public class TelegramBotStateMachineConfiguration extends EnumStateMachineConfig
                 .source(TelegramBotState.START)
                 .actionFunction(startAction)
                 .event(TelegramBotCommand.START)
+            .and()
+                .withExternal()
+                .source(TelegramBotState.START)
+                .target(TelegramBotState.END)
+                .actionFunction(showNearestTodoAction)
+                .event(TelegramBotCommand.SHOW_NEAREST)
             .and()
                 .withExternal()
                 .source(TelegramBotState.START)

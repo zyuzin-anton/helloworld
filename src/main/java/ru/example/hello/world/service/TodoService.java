@@ -15,4 +15,5 @@ public interface TodoService {
     Mono<CreatedTodo> createTodo(TodoData todoData, String userId, String username);
     Mono<DeletedTodo> deleteTodo(Long id);
     Flux<TodoUserData> findTodoInRateRange(LocalDateTime startDate, LocalDateTime endDate);
+    Mono<TodoUserData> findNearestTodo(LocalDateTime dateTime, String username);
 }

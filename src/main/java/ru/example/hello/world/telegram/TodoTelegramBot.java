@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.statemachine.config.StateMachineFactory;
@@ -53,18 +54,20 @@ public class TodoTelegramBot extends TelegramBot {
         telegramBotReactiveActionList.forEach(action -> action.setTodoTelegramBot(this));
         setUpdatesListener(updates -> {
             updates.forEach(update -> {
+                if (StringUtils.isBlank(update.message().text())) {
+                    return;
+                }
                 val stateMachine = stateMachineFactory.getStateMachine();
                 try {
                     persister.restore(stateMachine, update.message().chat().id());
-                    stateMachine.getExtendedState().getVariables().put(ActionVariable.CHAT_ID, update.message().chat().id());
                     if (stateMachine.getState().getId().equals(TelegramBotState.END)) {
                         stateMachine.getExtendedState().getVariables().clear();
                         stateMachine.startReactively().subscribe();
                     }
                 } catch (Exception e) {
-                    stateMachine.getExtendedState().getVariables().put(ActionVariable.CHAT_ID, update.message().chat().id());
                     stateMachine.startReactively().subscribe();
                 }
+                stateMachine.getExtendedState().getVariables().put(ActionVariable.CHAT_ID, update.message().chat().id());
                 stateMachine.getExtendedState().getVariables().put(ActionVariable.REQUEST_MESSAGE, update.message().text());
                 val event = MessageBuilder.withPayload(TelegramBotCommand.of(update.message().text())).build();
                 log.info("Send event to state machine: {}", event.getPayload());
@@ -97,7 +100,7 @@ public class TodoTelegramBot extends TelegramBot {
     }
 
     public void sendMessage(Long chatId, String message) {
-        log.info("Send response to user: {}", message);
+        log.info("Send response to user {} in chat {}", message, chatId);
         execute(new SendMessage(
                 chatId, message != null
                 ? message

@@ -52,6 +52,12 @@ public class TodoServiceImpl implements TodoService {
         return todoRepository.findByDateBetweenAndIsDeletedFalse(startDate, endDate).map(todoMapper::toTodoData);
     }
 
+    @Override
+    public Mono<TodoUserData> findNearestTodo(LocalDateTime dateTime, String username) {
+        return todoRepository.findFirstByDateAfterAndUsernameEqualsAndIsDeletedFalseOrderByDateAsc(dateTime, username)
+                .map(todoMapper::toTodoData);
+    }
+
     private LocalDate startDate(int year, int mont) {
         val firstDate = LocalDate.of(year, mont, 1);
         return firstDate.minusDays(firstDate.getDayOfWeek().getValue() - 1);

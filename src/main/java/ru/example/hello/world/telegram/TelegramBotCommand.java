@@ -3,6 +3,7 @@ package ru.example.hello.world.telegram;
 public enum TelegramBotCommand {
     START("/start"),
     LINK("/link"),
+    SHOW_NEAREST("/show_nearest"),
     USER_MESSAGE("");
 
     private String description;
