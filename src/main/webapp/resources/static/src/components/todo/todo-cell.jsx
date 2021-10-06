@@ -15,13 +15,20 @@ class TodoCell extends React.Component {
 
     render() {
         const { todoForDay, todoCreationDialogOpen, deleteTodo, disabled } = this.props;
+        let currentDate = new Date();
+        currentDate.setHours(0, 0, 0, 0);
+
+        let cellDate = new Date(todoForDay.year, todoForDay.month - 1, todoForDay.day);
+
+        const isToday = cellDate.getTime() === currentDate.getTime();
+        const isPastDate = cellDate.getTime() < currentDate.getTime();
         return (
             <Grid item>
-                <Card sx={{
-                    width: 128,
-                    height: 128
-                }} onClick={() => !disabled && todoCreationDialogOpen(todoForDay.day)}>
-                    <CardHeader title={todoForDay.day} titleTypographyProps={{color: disabled ? "textSecondary" : "primary"}}/>
+                <Card
+                    onClick={() => !disabled && todoCreationDialogOpen(todoForDay.day)}
+                    raised={isToday}
+                >
+                    <CardHeader title={todoForDay.day} titleTypographyProps={{color: disabled ? "textSecondary" : isPastDate ? "secondary" : "primary"}}/>
                     <CardContent>
                         {
                             todoForDay.todoCells && todoForDay.todoCells.sort((a, b) => a.time > b.time ? 1 : -1) && todoForDay.todoCells.map((todoCell, key) =>

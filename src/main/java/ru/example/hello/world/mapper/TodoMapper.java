@@ -65,6 +65,7 @@ public interface TodoMapper {
             val todoDay = new TodoDay();
             todoDay.setDay(String.format("%d", currentDate.getDayOfMonth()));
             todoDay.setMonth((long) currentDate.getMonthValue());
+            todoDay.setYear((long) currentDate.getYear());
             todoDay.setTodoCells(todoEntities
                     .stream()
                     .filter(todoEntity ->
