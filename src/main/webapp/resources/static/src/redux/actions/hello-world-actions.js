@@ -25,7 +25,7 @@ import {
     CHANGE_TODO_DATE_HIDE,
     CHANGE_TODO_DATE_SHOW,
     ERROR_MESSAGE_CLOSE,
-    ERROR_MESSAGE_SHOW
+    ERROR_MESSAGE_SHOW, USER_MENU_OPEN, USER_MENU_CLOSE
 } from '../action-types'
 
 export function helloWorldMessageRequested() {
@@ -97,6 +97,18 @@ export function handleDrawerOpen() {
 export function handleDrawerClose() {
     return {
         type: DRAWER_CLOSE
+    }
+}
+
+export function handleUserMenuOpen() {
+    return {
+        type: USER_MENU_OPEN
+    }
+}
+
+export function handleUserMenuClose() {
+    return {
+        type: USER_MENU_CLOSE
     }
 }
 

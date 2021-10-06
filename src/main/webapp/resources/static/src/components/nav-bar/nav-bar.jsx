@@ -12,8 +12,24 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import Box from "@material-ui/core/Box";
 import Drawer from "@material-ui/core/Drawer";
-import {logout, handleDrawerOpen, handleDrawerClose} from "../../redux/actions";
+import {
+    logout,
+    handleDrawerOpen,
+    handleDrawerClose,
+    handleUserMenuOpen,
+    handleUserMenuClose
+} from "../../redux/actions";
 import Menu from "./menu";
+import jwt_decode from "jwt-decode";
+import {getAccessToken} from "../../utils";
+import Popper from "@material-ui/core/Popper";
+import Grow from "@material-ui/core/Grow";
+import Paper from "@material-ui/core/Paper";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import MenuList from "@material-ui/core/MenuList";
+import MenuItem from "@material-ui/core/MenuItem";
+import Skeleton from "@material-ui/lab/Skeleton";
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 const drawerWidth = 240;
 
@@ -44,8 +60,15 @@ const useStyles = theme => ({
 });
 
 class NavBar extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.anchorRef = React.createRef();
+    }
+
     render() {
-        const {logout, classes, handleDrawerOpen, handleDrawerClose, open} = this.props;
+        const {logout, classes, handleDrawerOpen, handleDrawerClose, open, handleUserMenuOpen, handleUserMenuClose, userMenuOpen} = this.props;
+        const jwt = jwt_decode(getAccessToken());
         return (<Box>
             <div className={classes.appBar}>
                  <AppBar position="static">
@@ -56,7 +79,35 @@ class NavBar extends React.Component {
                         <Typography variant="h6" className={classes.title}>
                             Menu
                         </Typography>
-                        <Button color="inherit" onClick={logout}>Logout</Button>
+                        {
+                            jwt ?
+                                <Button
+                                    ref={this.anchorRef}
+                                    color="inherit"
+                                    aria-controls={userMenuOpen ? 'menu-list-grow' : undefined}
+                                    aria-haspopup="true"
+                                    onClick={handleUserMenuOpen}
+                                >
+                                    {jwt.preferred_username}<ArrowDropDownIcon/>
+                                </Button> :
+                                <Skeleton animation="wave" />
+                        }
+                        <Popper open={userMenuOpen} anchorEl={this.anchorRef.current} role={undefined} transition disablePortal>
+                            {({ TransitionProps, placement }) => (
+                                <Grow
+                                    {...TransitionProps}
+                                    style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+                                >
+                                    <Paper>
+                                        <ClickAwayListener onClickAway={handleUserMenuClose}>
+                                            <MenuList autoFocusItem={userMenuOpen} id="menu-list-grow">
+                                                <MenuItem onClick={logout}>Logout</MenuItem>
+                                            </MenuList>
+                                        </ClickAwayListener>
+                                    </Paper>
+                                </Grow>
+                            )}
+                        </Popper>
                     </Toolbar>
                 </AppBar>
             </div>
@@ -88,16 +139,22 @@ NavBar.propTypes = {
     logout: PropTypes.func,
     handleDrawerOpen: PropTypes.func,
     handleDrawerClose: PropTypes.func,
-    open: PropTypes.bool
+    handleUserMenuOpen: PropTypes.func,
+    handleUserMenuClose: PropTypes.func,
+    open: PropTypes.bool,
+    userMenuOpen: PropTypes.bool
 };
 
 export default connect(
     (state) => ({
-        open: state.navBarData.open
+        open: state.navBarData.open,
+        userMenuOpen: state.navBarData.userMenuOpen
     }),
     (dispatch) => ({
         logout: bindActionCreators(logout, dispatch),
         handleDrawerOpen: bindActionCreators(handleDrawerOpen, dispatch),
-        handleDrawerClose: bindActionCreators(handleDrawerClose, dispatch)
+        handleDrawerClose: bindActionCreators(handleDrawerClose, dispatch),
+        handleUserMenuOpen: bindActionCreators(handleUserMenuOpen, dispatch),
+        handleUserMenuClose: bindActionCreators(handleUserMenuClose, dispatch)
     })
 )(withStyles(useStyles)(NavBar))
