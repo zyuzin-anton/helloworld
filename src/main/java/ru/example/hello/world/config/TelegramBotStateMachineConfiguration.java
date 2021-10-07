@@ -1,6 +1,8 @@
 package ru.example.hello.world.config;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.statemachine.StateMachineContext;
@@ -12,6 +14,8 @@ import org.springframework.statemachine.config.builders.StateMachineStateConfigu
 import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
 import org.springframework.statemachine.persist.DefaultStateMachinePersister;
 import org.springframework.statemachine.persist.StateMachinePersister;
+import reactor.core.publisher.Mono;
+import ru.example.hello.world.action.ActionVariable;
 import ru.example.hello.world.action.SaveUsernameAction;
 import ru.example.hello.world.action.ShowNearestTodoAction;
 import ru.example.hello.world.action.StartAction;
@@ -23,6 +27,7 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @AllArgsConstructor
 @Configuration
 @EnableStateMachineFactory
@@ -78,7 +83,21 @@ public class TelegramBotStateMachineConfiguration extends EnumStateMachineConfig
                 .source(TelegramBotState.USERNAME)
                 .target(TelegramBotState.END)
                 .event(TelegramBotCommand.USER_MESSAGE)
-                .actionFunction(saveUsernameAction);
+                .actionFunction(saveUsernameAction)
+            .and()
+                .withInternal()
+                .source(TelegramBotState.END)
+                .timerOnce(1)
+                .actionFunction((context -> {
+                    val chatId = context.getExtendedState().get(ActionVariable.CHAT_ID, Long.class);
+                    try {
+                        persister(inMemoryPersist()).persist(context.getStateMachine(), chatId);
+                    } catch (Exception e) {
+                        log.error("Exception occurred while saving state machine for chat id: {}", chatId, e);
+                    }
+                    return Mono.empty();
+                }));
+
     }
 
     @Bean
