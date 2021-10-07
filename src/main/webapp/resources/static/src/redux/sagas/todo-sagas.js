@@ -1,7 +1,7 @@
 import {CREATE_TODO, DELETE_TODO, TODO_LIST_REQUESTED} from "../action-types";
 import { takeLatest } from 'redux-saga/effects'
 import {getOrProcessError} from "../../utils";
-import {deleteTodo, getTodoList, postTodo} from "../../datasources/todo-datasource";
+import {deleteTodo, getTodoList, postTodo} from "../../datasources";
 import {
     todoCreatedOk,
     todoDeletedOk,

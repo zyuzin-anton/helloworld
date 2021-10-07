@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { call, put, take } from 'redux-saga/effects'
 import {getAccessToken, getRefreshToken} from "./login-utils";
-import {loginRefreshToken} from "../redux/actions/hello-world-actions";
+import {loginRefreshToken} from "../redux/actions";
 import {REFRESH_SUCCESS} from "../redux/action-types";
 
 const request = (method, url, data = {}) => {

@@ -1,7 +1,7 @@
 import {call, put, takeLatest} from 'redux-saga/effects'
-import {loginWithParams} from "../../datasources/login-datasource";
+import {loginWithParams} from "../../datasources";
 import {getOrProcessError, storeTokens} from "../../utils";
-import {loginError, loginFailed, loginSuccess, logout, refreshSuccess} from "../actions/hello-world-actions";
+import {loginError, loginFailed, loginSuccess, logout, refreshSuccess} from "../actions";
 import appRoutes from '../../utils/app-routes'
 import {
     LOGIN_FAILED,

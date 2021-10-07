@@ -10,11 +10,19 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {todoCreationDialogOpen, deleteTodo} from "../../redux/actions/hello-world-actions";
 import dateFormat from "dateformat";
+import withStyles from "@material-ui/core/styles/withStyles";
+
+const useStyles = (theme) => ({
+    root: {
+        minWidth: 120,
+        minHeight: 150
+    }
+});
 
 class TodoCell extends React.Component {
 
     render() {
-        const { todoForDay, todoCreationDialogOpen, deleteTodo, disabled } = this.props;
+        const { todoForDay, todoCreationDialogOpen, deleteTodo, disabled, classes } = this.props;
         let currentDate = new Date();
         currentDate.setHours(0, 0, 0, 0);
 
@@ -24,7 +32,7 @@ class TodoCell extends React.Component {
         const isPastDate = cellDate.getTime() < currentDate.getTime();
         return (
             <Grid item>
-                <Card
+                <Card className={classes.root}
                     onClick={() => !disabled && todoCreationDialogOpen(todoForDay.day)}
                     raised={isToday}
                 >
@@ -36,7 +44,7 @@ class TodoCell extends React.Component {
                                     { !disabled ?
                                         <Chip
                                             size="small"
-                                            color="primary"
+                                            color={new Date(todoCell.time).getTime() < currentDate.getTime() ? "secondary" : "primary"}
                                             label={dateFormat(todoCell.time, 'HH:MM') + ': ' + todoCell.description}
                                             onDelete={() => deleteTodo(todoCell.id)}
                                         /> :
@@ -68,4 +76,4 @@ export default connect(
         todoCreationDialogOpen: bindActionCreators(todoCreationDialogOpen, dispatch),
         deleteTodo: bindActionCreators(deleteTodo, dispatch)
     })
-)(TodoCell)
+)(withStyles(useStyles)(TodoCell))

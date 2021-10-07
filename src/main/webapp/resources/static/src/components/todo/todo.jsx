@@ -1,6 +1,6 @@
 import React from "react";
 import {TodoRow} from "./todo-row";
-import {TodoHeader} from "./todo-header";
+import TodoHeader from "./todo-header";
 import PropTypes from 'prop-types'
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
@@ -100,7 +100,6 @@ class Todo extends React.Component {
                             openTo="year"
                             views={["year", "month"]}
                             label="Year and Month"
-                            helperText="Year and month"
                             value={new Date(year, month - 1)}
                             onChange={this.handleTodoDateChange}
                         />
