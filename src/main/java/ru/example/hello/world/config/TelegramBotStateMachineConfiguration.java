@@ -50,6 +50,19 @@ public class TelegramBotStateMachineConfiguration extends EnumStateMachineConfig
         states.withStates()
                 .initial(TelegramBotState.START)
                 .end(TelegramBotState.END)
+                .stateEntryFunction(
+                    TelegramBotState.END,
+                    (context -> {
+                        val chatId = context.getExtendedState().get(ActionVariable.CHAT_ID, Long.class);
+                        try {
+                            persister(inMemoryPersist()).persist(context.getStateMachine(), chatId);
+                            log.info("State machine has been persisted for chat id: {}", chatId);
+                        } catch (Exception e) {
+                            log.error("Exception occurred while saving state machine for chat id: {}", chatId, e);
+                        }
+                        return Mono.empty();
+                    })
+                )
                 .states(EnumSet.allOf(TelegramBotState.class));
     }
 
@@ -83,21 +96,7 @@ public class TelegramBotStateMachineConfiguration extends EnumStateMachineConfig
                 .source(TelegramBotState.USERNAME)
                 .target(TelegramBotState.END)
                 .event(TelegramBotCommand.USER_MESSAGE)
-                .actionFunction(saveUsernameAction)
-            .and()
-                .withInternal()
-                .source(TelegramBotState.END)
-                .timerOnce(1)
-                .actionFunction((context -> {
-                    val chatId = context.getExtendedState().get(ActionVariable.CHAT_ID, Long.class);
-                    try {
-                        persister(inMemoryPersist()).persist(context.getStateMachine(), chatId);
-                    } catch (Exception e) {
-                        log.error("Exception occurred while saving state machine for chat id: {}", chatId, e);
-                    }
-                    return Mono.empty();
-                }));
-
+                .actionFunction(saveUsernameAction);
     }
 
     @Bean
