@@ -4,7 +4,8 @@ public enum TelegramBotCommand {
     START("/start"),
     LINK("/link"),
     SHOW_NEAREST("/show_nearest"),
-    USER_MESSAGE("");
+    USER_MESSAGE(""),
+    TERMINATE(null);
 
     private String description;
 
@@ -18,7 +19,7 @@ public enum TelegramBotCommand {
 
     public static TelegramBotCommand of(String description) {
         for (int i = 0; i < values().length; i ++) {
-            if (values()[i].getDescription().equals(description)) {
+            if (values()[i].getDescription() != null && values()[i].getDescription().equals(description)) {
                 return values()[i];
             }
         }

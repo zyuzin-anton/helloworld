@@ -23,8 +23,8 @@ import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Component
 @Slf4j
+@Component
 public class TodoTelegramBot extends TelegramBot {
 
     private StateMachineFactory<TelegramBotState, TelegramBotCommand> stateMachineFactory;
@@ -60,9 +60,9 @@ public class TodoTelegramBot extends TelegramBot {
                 val stateMachine = stateMachineFactory.getStateMachine();
                 try {
                     persister.restore(stateMachine, update.message().chat().id());
-                    if (stateMachine.getState().getId().equals(TelegramBotState.END)) {
+                    if (stateMachine.getState().getId().equals(TelegramBotState.PRE_END)) {
                         stateMachine.getExtendedState().getVariables().clear();
-                        stateMachine.startReactively().subscribe();
+                        stateMachine.sendEvent(Mono.just(MessageBuilder.withPayload(TelegramBotCommand.START).build())).blockLast();
                     }
                 } catch (Exception e) {
                     stateMachine.startReactively().subscribe();
@@ -72,13 +72,8 @@ public class TodoTelegramBot extends TelegramBot {
                 log.info("State machine current state: {} for chat: {}", stateMachine.getState().getId(), update.message().chat().id());
                 val event = MessageBuilder.withPayload(TelegramBotCommand.of(update.message().text())).build();
                 log.info("Send event: {} for chat: {}", event.getPayload(), update.message().chat().id());
-                stateMachine.sendEvent(Mono.just(event)).subscribe();
+                stateMachine.sendEvent(Mono.just(event)).blockLast();
                 log.info("Event: {} has been sent for chat: {}", event.getPayload(), update.message().chat().id());
-                try {
-                    persister.persist(stateMachine, update.message().chat().id());
-                } catch (Exception e) {
-                    log.warn("Can't persist state machine for chat id: {}", update.message().chat().id(), e);
-                }
             });
             return UpdatesListener.CONFIRMED_UPDATES_ALL;
         });

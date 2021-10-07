@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.Message;
+import org.springframework.statemachine.StateMachine;
 import org.springframework.statemachine.StateMachineContext;
 import org.springframework.statemachine.StateMachinePersist;
 import org.springframework.statemachine.config.EnableStateMachineFactory;
@@ -14,7 +16,11 @@ import org.springframework.statemachine.config.builders.StateMachineStateConfigu
 import org.springframework.statemachine.config.builders.StateMachineTransitionConfigurer;
 import org.springframework.statemachine.persist.DefaultStateMachinePersister;
 import org.springframework.statemachine.persist.StateMachinePersister;
-import reactor.core.publisher.Mono;
+import org.springframework.statemachine.persist.StateMachineRuntimePersister;
+import org.springframework.statemachine.state.State;
+import org.springframework.statemachine.support.StateMachineInterceptor;
+import org.springframework.statemachine.support.StateMachineInterceptorAdapter;
+import org.springframework.statemachine.transition.Transition;
 import ru.example.hello.world.action.ActionVariable;
 import ru.example.hello.world.action.SaveUsernameAction;
 import ru.example.hello.world.action.ShowNearestTodoAction;
@@ -41,6 +47,9 @@ public class TelegramBotStateMachineConfiguration extends EnumStateMachineConfig
     @Override
     public void configure(StateMachineConfigurationConfigurer<TelegramBotState, TelegramBotCommand> config) throws Exception {
         config
+                .withPersistence()
+                .runtimePersister(runtimePersister())
+            .and()
                 .withConfiguration()
                 .autoStartup(false);
     }
@@ -50,19 +59,6 @@ public class TelegramBotStateMachineConfiguration extends EnumStateMachineConfig
         states.withStates()
                 .initial(TelegramBotState.START)
                 .end(TelegramBotState.END)
-                .stateEntryFunction(
-                    TelegramBotState.END,
-                    (context -> {
-                        val chatId = context.getExtendedState().get(ActionVariable.CHAT_ID, Long.class);
-                        try {
-                            persister(inMemoryPersist()).persist(context.getStateMachine(), chatId);
-                            log.info("State machine has been persisted for chat id: {}", chatId);
-                        } catch (Exception e) {
-                            log.error("Exception occurred while saving state machine for chat id: {}", chatId, e);
-                        }
-                        return Mono.empty();
-                    })
-                )
                 .states(EnumSet.allOf(TelegramBotState.class));
     }
 
@@ -76,7 +72,7 @@ public class TelegramBotStateMachineConfiguration extends EnumStateMachineConfig
             .and()
                 .withExternal()
                 .source(TelegramBotState.START)
-                .target(TelegramBotState.END)
+                .target(TelegramBotState.PRE_END)
                 .actionFunction(showNearestTodoAction)
                 .event(TelegramBotCommand.SHOW_NEAREST)
             .and()
@@ -94,9 +90,19 @@ public class TelegramBotStateMachineConfiguration extends EnumStateMachineConfig
             .and()
                 .withExternal()
                 .source(TelegramBotState.USERNAME)
-                .target(TelegramBotState.END)
+                .target(TelegramBotState.PRE_END)
                 .event(TelegramBotCommand.USER_MESSAGE)
-                .actionFunction(saveUsernameAction);
+                .actionFunction(saveUsernameAction)
+            .and()
+                .withExternal()
+                .source(TelegramBotState.PRE_END)
+                .target(TelegramBotState.START)
+                .event(TelegramBotCommand.START)
+            .and()
+                .withExternal()
+                .source(TelegramBotState.PRE_END)
+                .target(TelegramBotState.END)
+                .event(TelegramBotCommand.TERMINATE);
     }
 
     @Bean
@@ -107,6 +113,42 @@ public class TelegramBotStateMachineConfiguration extends EnumStateMachineConfig
     @Bean
     public StateMachinePersister<TelegramBotState, TelegramBotCommand, Long> persister(InMemoryPersist inMemoryPersist) {
         return new DefaultStateMachinePersister<>(inMemoryPersist);
+    }
+
+    @Bean
+    public StateMachineRuntimePersister<TelegramBotState, TelegramBotCommand, Long> runtimePersister() {
+        return new StateMachineRuntimePersister<TelegramBotState, TelegramBotCommand, Long>() {
+            @Override
+            public void write(StateMachineContext<TelegramBotState, TelegramBotCommand> context, Long contextObj) {}
+
+            @Override
+            public StateMachineContext<TelegramBotState, TelegramBotCommand> read(Long contextObj) { return null; }
+
+            @Override
+            public StateMachineInterceptor<TelegramBotState, TelegramBotCommand> getInterceptor() {
+                return new StateMachineInterceptorAdapter<TelegramBotState, TelegramBotCommand>() {
+
+                    @Override
+                    public void postStateChange(
+                            State<TelegramBotState, TelegramBotCommand> state,
+                            Message<TelegramBotCommand> message,
+                            Transition<TelegramBotState, TelegramBotCommand> transition,
+                            StateMachine<TelegramBotState, TelegramBotCommand> stateMachine,
+                            StateMachine<TelegramBotState, TelegramBotCommand> rootStateMachine
+                    ) {
+                        val chatId = stateMachine.getExtendedState().get(ActionVariable.CHAT_ID, Long.class);
+                        try {
+                            if (stateMachine.getState().getId().equals(state.getId())) {
+                                persister(inMemoryPersist()).persist(stateMachine, chatId);
+                                log.info("State machine has been persisted for chat id: {} in state {}", chatId, state.getId());
+                            }
+                        } catch (Exception e) {
+                            log.error("Exception occurred while saving state machine for chat id: {}", chatId, e);
+                        }
+                    }
+                };
+            }
+        };
     }
 }
 
