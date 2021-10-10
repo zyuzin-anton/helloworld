@@ -71,7 +71,6 @@ public interface TodoMapper {
                     .filter(todoEntity ->
                             todoEntity
                                     .getDate()
-                                    .withZoneSameInstant(ZoneId.systemDefault())
                                     .toLocalDate()
                                     .isEqual(finalCurrentDate)
                     )
