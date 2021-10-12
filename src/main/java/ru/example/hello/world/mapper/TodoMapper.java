@@ -17,7 +17,7 @@ import ru.example.hello.world.entity.TodoEntity;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.temporal.WeekFields;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,17 +46,17 @@ public interface TodoMapper {
             .build();
     }
 
-    default DeletedTodo toDeletedTodo(TodoEntity todoEntity) {
+    default DeletedTodo toDeletedTodo(TodoEntity todoEntity, ZoneOffset offset) {
         val weekFields = WeekFields.of(DayOfWeek.MONDAY, 1);
         val weekOfMonth = weekFields.weekOfMonth();
         return DeletedTodo.builder()
-                .weekOfMonth((long) todoEntity.getDate().get(weekOfMonth))
-                .dayOfWeek((long) todoEntity.getDate().getDayOfWeek().getValue())
+                .weekOfMonth((long) todoEntity.getDate().plusSeconds(offset.getTotalSeconds()).get(weekOfMonth))
+                .dayOfWeek((long) todoEntity.getDate().plusSeconds(offset.getTotalSeconds()).getDayOfWeek().getValue())
                 .id(todoEntity.getId())
             .build();
     }
 
-    default TodoMonth toTodoMonth(List<TodoEntity> todoEntities, LocalDate startDate, LocalDate endDate) {
+    default TodoMonth toTodoMonth(List<TodoEntity> todoEntities, LocalDate startDate, LocalDate endDate, ZoneOffset offset) {
         val todoMonth = new TodoMonth();
         var currentWeek = new TodoWeek();
         val nextDayAfterEndDate = endDate.plusDays(1);
@@ -70,7 +70,7 @@ public interface TodoMapper {
                     .stream()
                     .filter(todoEntity ->
                             todoEntity
-                                    .getDate()
+                                    .getDate().plusSeconds(offset.getTotalSeconds())
                                     .toLocalDate()
                                     .isEqual(finalCurrentDate)
                     )

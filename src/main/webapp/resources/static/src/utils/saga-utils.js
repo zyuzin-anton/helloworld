@@ -4,6 +4,13 @@ import {getAccessToken, getRefreshToken} from "./login-utils";
 import {loginRefreshToken} from "../redux/actions";
 import {REFRESH_SUCCESS} from "../redux/action-types";
 
+function getTimeZone() {
+    let offset = new Date().getTimezoneOffset(), o = Math.abs(offset);
+    return (offset < 0 ? "+" : "-") + ("00" + Math.floor(o / 60)).slice(-2) + ":" + ("00" + (o % 60)).slice(-2);
+}
+axios.defaults.params = {};
+axios.defaults.params['offset'] = getTimeZone();
+
 const request = (method, url, data = {}) => {
     const headers = {
         'Accept': 'application/json',

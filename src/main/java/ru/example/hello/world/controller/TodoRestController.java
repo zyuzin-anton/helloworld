@@ -27,9 +27,10 @@ public class TodoRestController extends BaseController {
     public Mono<TodoMonth> getTodoMonth(
             @RequestParam(name = "year") Long year,
             @RequestParam(name = "month") Long month,
+            @RequestParam(name = "offset", defaultValue = "+00:00") String offset,
             Principal principal
     ) {
-        return todoService.findMonthlyTodo(year.intValue(), month.intValue(), principal.getName());
+        return todoService.findMonthlyTodo(year.intValue(), month.intValue(), offset, principal.getName());
     }
 
     @PostMapping
@@ -40,8 +41,8 @@ public class TodoRestController extends BaseController {
 
     @DeleteMapping
     @PreAuthorize("hasRole('USER')")
-    public Mono<DeletedTodo> deleteTodo(@RequestParam(name = "id") Long id) {
-        return todoService.deleteTodo(id);
+    public Mono<DeletedTodo> deleteTodo(@RequestParam(name = "id") Long id, @RequestParam(name = "offset", defaultValue = "+00:00") String offset) {
+        return todoService.deleteTodo(id, offset);
     }
 
     private String getUserName(Principal principal) {

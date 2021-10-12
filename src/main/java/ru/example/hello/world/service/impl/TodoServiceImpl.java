@@ -17,6 +17,8 @@ import ru.example.hello.world.service.TodoService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 
 @Service
 @AllArgsConstructor
@@ -27,12 +29,13 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     @Transactional(readOnly = true)
-    public Mono<TodoMonth> findMonthlyTodo(int year, int month, String userId) {
+    public Mono<TodoMonth> findMonthlyTodo(int year, int month, String offset, String userId) {
         val startDate = startDate(year, month);
         val endDate = endDate(year, month);
-        return todoRepository.findByDateBetweenAndUserIdAndIsDeletedFalse(startDate, endDate.plusDays(1), userId)
+        val zoneOffset = ZoneOffset.from(DateTimeFormatter.ofPattern("XXX").parse(offset));
+        return todoRepository.findByDateBetweenAndUserIdAndIsDeletedFalse(applyOffset(startDate, zoneOffset), applyOffset(endDate.plusDays(1), zoneOffset), userId)
                 .collectList()
-                .map(todoEntities -> todoMapper.toTodoMonth(todoEntities, startDate, endDate));
+                .map(todoEntities -> todoMapper.toTodoMonth(todoEntities, startDate, endDate, zoneOffset));
     }
 
     @Override
@@ -43,8 +46,12 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     @Transactional
-    public Mono<DeletedTodo> deleteTodo(Long id) {
-        return todoRepository.deleteTodo(id).flatMap(row -> todoRepository.findById(id)).map(todoMapper::toDeletedTodo);
+    public Mono<DeletedTodo> deleteTodo(Long id, String offset) {
+        val zoneOffset = ZoneOffset.from(DateTimeFormatter.ofPattern("XXX").parse(offset));
+        return todoRepository
+                .deleteTodo(id)
+                .flatMap(row -> todoRepository.findById(id))
+                .map(todoEntity -> todoMapper.toDeletedTodo(todoEntity, zoneOffset));
     }
 
     @Override
@@ -66,5 +73,9 @@ public class TodoServiceImpl implements TodoService {
     private LocalDate endDate(int year, int mont) {
         val lastDate = LocalDate.of(year, mont, 1).plusMonths(1).minusDays(1);
         return lastDate.plusDays(7 - lastDate.getDayOfWeek().getValue());
+    }
+
+    private LocalDateTime applyOffset(LocalDate date, ZoneOffset offset) {
+        return date.atStartOfDay().minusSeconds(offset.getTotalSeconds());
     }
 }

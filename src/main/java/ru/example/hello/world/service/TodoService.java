@@ -11,9 +11,9 @@ import ru.example.hello.world.dto.TodoUserData;
 import java.time.LocalDateTime;
 
 public interface TodoService {
-    Mono<TodoMonth> findMonthlyTodo(int year, int month, String userId);
+    Mono<TodoMonth> findMonthlyTodo(int year, int month, String offset, String userId);
     Mono<CreatedTodo> createTodo(TodoData todoData, String userId, String username);
-    Mono<DeletedTodo> deleteTodo(Long id);
+    Mono<DeletedTodo> deleteTodo(Long id, String offset);
     Flux<TodoUserData> findTodoInRateRange(LocalDateTime startDate, LocalDateTime endDate);
     Mono<TodoUserData> findNearestTodo(LocalDateTime dateTime, String username);
 }
