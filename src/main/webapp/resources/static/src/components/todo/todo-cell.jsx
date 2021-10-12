@@ -14,7 +14,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 
 const useStyles = (theme) => ({
     root: {
-        minWidth: 140,
+        minWidth: 130,
         minHeight: 150
     }
 });
