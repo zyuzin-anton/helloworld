@@ -14,8 +14,16 @@ import withStyles from "@material-ui/core/styles/withStyles";
 
 const useStyles = (theme) => ({
     root: {
-        minWidth: 130,
+        width: 130,
         minHeight: 150
+    },
+    chip: {
+        "& span": {
+            whiteSpace: 'unset !important',
+        },
+        whiteSpace: 'unset !important',
+        wordBreak: "break-all",
+        height: 'auto'
     }
 });
 
@@ -43,12 +51,14 @@ class TodoCell extends React.Component {
                                 <Typography>
                                     { !disabled ?
                                         <Chip
+                                            className={classes.chip}
                                             size="small"
                                             color={new Date(todoCell.time).getTime() < currentDate.getTime() ? "secondary" : "primary"}
                                             label={dateFormat(todoCell.time, 'HH:MM') + ': ' + todoCell.description}
                                             onDelete={() => deleteTodo(todoCell.id)}
                                         /> :
                                         <Chip
+                                            className={classes.chip}
                                             size="small"
                                             label={dateFormat(todoCell.time, 'HH:MM') + ': ' + todoCell.description}
                                         />
