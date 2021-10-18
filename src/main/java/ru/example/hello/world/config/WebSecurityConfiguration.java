@@ -84,7 +84,7 @@ public class WebSecurityConfiguration {
 
                 val keycloakAuthorities = roles
                         .stream()
-                        .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                        .map(role -> new SimpleGrantedAuthority(String.format("ROLE_%s", role)))
                         .collect(Collectors.toList());
 
                 grantedAuthorities.addAll(keycloakAuthorities);

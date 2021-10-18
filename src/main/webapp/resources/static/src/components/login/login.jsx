@@ -38,9 +38,9 @@ export default class Login extends React.Component {
             loginRequested(router.location.query.code);
         } else  {
             const state = uuidv4();
-            const redirectUri = window.location.origin + '/login';
+            const redirectUri = `${window.location.origin}/login`;
             console.log("Redirect uri: ", redirectUri);
-            window.location.assign(process.env.KEYCLOAK_URL + '/auth/realms/hello-world-realm/protocol/openid-connect/auth?response_type=code&client_id=hello-world-client&redirect_uri=' + redirectUri + '&state=' + state + '&login=true&scope=openid');
+            window.location.assign(`${process.env.KEYCLOAK_URL}/auth/realms/hello-world-realm/protocol/openid-connect/auth?response_type=code&client_id=hello-world-client&redirect_uri=${redirectUri}&state=${state}&login=true&scope=openid`);
         }
     }
 

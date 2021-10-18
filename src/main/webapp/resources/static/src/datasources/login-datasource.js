@@ -11,7 +11,7 @@ export function *loginWithParams({code, refreshToken}) {
     } else {
         params.append('grant_type', 'authorization_code');
         params.append('code', code);
-        params.append('redirect_uri', window.location.origin + '/login');
+        params.append('redirect_uri', `${window.location.origin}/login`);
     }
 
     const config = {
@@ -20,5 +20,5 @@ export function *loginWithParams({code, refreshToken}) {
         }
     };
 
-    return yield call(loginCall, process.env.KEYCLOAK_URL + "/auth/realms/hello-world-realm/protocol/openid-connect/token", params, config);
+    return yield call(loginCall, `${process.env.KEYCLOAK_URL}/auth/realms/hello-world-realm/protocol/openid-connect/token`, params, config);
 }

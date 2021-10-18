@@ -67,13 +67,13 @@ export default class TodoCell extends React.Component {
                                             className={classes.chip}
                                             size="small"
                                             color={new Date(todoCell.time).getTime() < currentDate.getTime() ? "secondary" : "primary"}
-                                            label={dateFormat(todoCell.time, 'HH:MM') + ': ' + todoCell.description}
+                                            label={`${dateFormat(todoCell.time, 'HH:MM')}: ${todoCell.description}`}
                                             onDelete={() => deleteTodo(todoCell.id)}
                                         /> :
                                         <Chip
                                             className={classes.chip}
                                             size="small"
-                                            label={dateFormat(todoCell.time, 'HH:MM') + ': ' + todoCell.description}
+                                            label={`${dateFormat(todoCell.time, 'HH:MM')}: ${todoCell.description}`}
                                         />
                                     }
                                 </Typography>

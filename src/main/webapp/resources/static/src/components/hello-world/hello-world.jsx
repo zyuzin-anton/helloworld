@@ -36,7 +36,7 @@ export default class HelloWorld extends React.Component {
             <Grid container spacing={3} justify={'center'}>
                 <Grid item xs={2}>
                     <Paper>
-                        <div onClick={() => window.open(window.location.href + "swagger-ui/")}>
+                        <div onClick={() => window.open(`${window.location.href}swagger-ui/`)}>
                             <p>REST</p>
                             {loading ? <Chip size="small" label="Loading" /> : <Chip size="small" label={message} color="primary" />}
                         </div>
