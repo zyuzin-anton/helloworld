@@ -22,7 +22,7 @@ const useStyles = (theme) => ({
             whiteSpace: 'unset !important',
         },
         whiteSpace: 'unset !important',
-        wordBreak: "break-all",
+        wordBreak: "break-word",
         height: 'auto'
     }
 });
