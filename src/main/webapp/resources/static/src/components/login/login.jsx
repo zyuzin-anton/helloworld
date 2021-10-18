@@ -9,14 +9,28 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-const useStyles = theme => ({
+@connect(
+    (state) => ({
+        errorMessage: state.loginData.errorMessage
+    }),
+    (dispatch) => ({
+        loginRequested: bindActionCreators(loginRequested, dispatch)
+    })
+)
+@withRouter
+@withStyles(theme => ({
     backdrop: {
         zIndex: theme.zIndex.drawer + 1,
         color: '#fff',
     }
-});
+}))
+export default class Login extends React.Component {
 
-class Login extends React.Component {
+    static propTypes = {
+        loginRequested: PropTypes.func,
+        errorMessage: PropTypes.string
+    }
+
     componentDidMount() {
         const { router, loginRequested } = this.props;
         console.log("Router: ", router);
@@ -43,17 +57,3 @@ class Login extends React.Component {
         )
     }
 }
-
-Login.propTypes = {
-    loginRequested: PropTypes.func,
-    errorMessage: PropTypes.string
-};
-
-export default connect(
-    (state) => ({
-        errorMessage: state.loginData.errorMessage
-    }),
-    (dispatch) => ({
-        loginRequested: bindActionCreators(loginRequested, dispatch)
-    })
-)(withRouter(withStyles(useStyles)(Login)))

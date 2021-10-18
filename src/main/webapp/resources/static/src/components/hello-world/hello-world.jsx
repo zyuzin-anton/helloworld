@@ -8,7 +8,22 @@ import { helloWorldMessageRequested } from '../../redux/actions'
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper/Paper";
 
-class HelloWorld extends React.Component {
+@connect(
+    (state) => ({
+        loading: state.processHelloWorldMessage.loading,
+        message: state.processHelloWorldMessage.message
+    }),
+    (dispatch) => ({
+        helloWorldMessageRequested: bindActionCreators(helloWorldMessageRequested, dispatch)
+    })
+)
+export default class HelloWorld extends React.Component {
+
+    static propTypes = {
+        loading: PropTypes.bool,
+        message : PropTypes.string,
+        helloWorldMessageRequested: PropTypes.func
+    }
 
     componentDidMount() {
         this.props.helloWorldMessageRequested();
@@ -31,19 +46,3 @@ class HelloWorld extends React.Component {
         );
     }
 }
-
-HelloWorld.propTypes = {
-  loading: PropTypes.bool,
-  message : PropTypes.string,
-  helloWorldMessageRequested: PropTypes.func
-};
-
-export default connect(
-    (state) => ({
-        loading: state.processHelloWorldMessage.loading,
-        message: state.processHelloWorldMessage.message
-    }),
-    (dispatch) => ({
-        helloWorldMessageRequested: bindActionCreators(helloWorldMessageRequested, dispatch)
-    })
-)(HelloWorld)

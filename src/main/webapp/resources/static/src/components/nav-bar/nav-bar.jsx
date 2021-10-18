@@ -31,9 +31,20 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Skeleton from "@material-ui/lab/Skeleton";
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
-const drawerWidth = 240;
-
-const useStyles = theme => ({
+@connect(
+    (state) => ({
+        open: state.navBarData.open,
+        userMenuOpen: state.navBarData.userMenuOpen
+    }),
+    (dispatch) => ({
+        logout: bindActionCreators(logout, dispatch),
+        handleDrawerOpen: bindActionCreators(handleDrawerOpen, dispatch),
+        handleDrawerClose: bindActionCreators(handleDrawerClose, dispatch),
+        handleUserMenuOpen: bindActionCreators(handleUserMenuOpen, dispatch),
+        handleUserMenuClose: bindActionCreators(handleUserMenuClose, dispatch)
+    })
+)
+@withStyles(theme => ({
     root: {
         flexGrow: 1
     },
@@ -57,9 +68,18 @@ const useStyles = theme => ({
         ...theme.mixins.toolbar,
         justifyContent: 'flex-end'
     }
-});
+}))
+export default class NavBar extends React.Component {
 
-class NavBar extends React.Component {
+    static propTypes = {
+        logout: PropTypes.func,
+        handleDrawerOpen: PropTypes.func,
+        handleDrawerClose: PropTypes.func,
+        handleUserMenuOpen: PropTypes.func,
+        handleUserMenuClose: PropTypes.func,
+        open: PropTypes.bool,
+        userMenuOpen: PropTypes.bool
+    }
 
     constructor(props) {
         super(props);
@@ -69,6 +89,7 @@ class NavBar extends React.Component {
     render() {
         const {logout, classes, handleDrawerOpen, handleDrawerClose, open, handleUserMenuOpen, handleUserMenuClose, userMenuOpen} = this.props;
         const jwt = jwt_decode(getAccessToken());
+        const drawerWidth = 240;
         return (<Box>
             <div className={classes.appBar}>
                  <AppBar position="static">
@@ -134,27 +155,3 @@ class NavBar extends React.Component {
         </Box>)
     }
 }
-
-NavBar.propTypes = {
-    logout: PropTypes.func,
-    handleDrawerOpen: PropTypes.func,
-    handleDrawerClose: PropTypes.func,
-    handleUserMenuOpen: PropTypes.func,
-    handleUserMenuClose: PropTypes.func,
-    open: PropTypes.bool,
-    userMenuOpen: PropTypes.bool
-};
-
-export default connect(
-    (state) => ({
-        open: state.navBarData.open,
-        userMenuOpen: state.navBarData.userMenuOpen
-    }),
-    (dispatch) => ({
-        logout: bindActionCreators(logout, dispatch),
-        handleDrawerOpen: bindActionCreators(handleDrawerOpen, dispatch),
-        handleDrawerClose: bindActionCreators(handleDrawerClose, dispatch),
-        handleUserMenuOpen: bindActionCreators(handleUserMenuOpen, dispatch),
-        handleUserMenuClose: bindActionCreators(handleUserMenuClose, dispatch)
-    })
-)(withStyles(useStyles)(NavBar))

@@ -24,14 +24,46 @@ import CircularProgress from "@material-ui/core/CircularProgress/CircularProgres
 import Backdrop from "@material-ui/core/Backdrop/Backdrop";
 import withStyles from "@material-ui/core/styles/withStyles";
 
-const useStyles = theme => ({
+@connect(
+    (state) => ({
+        loading: state.todoListData.loading,
+        todoMonth: state.todoListData.todoMonth,
+        year: state.todoListData.year,
+        month: state.todoListData.month,
+        show: state.todoListData.show,
+        showDirection: state.todoListData.showDirection
+    }),
+    (dispatch) => ({
+        todoListRequested: bindActionCreators(todoListRequested, dispatch),
+        nextTodoMonthHide: bindActionCreators(nextTodoMonthHide, dispatch),
+        nextTodoMonthShow: bindActionCreators(nextTodoMonthShow, dispatch),
+        prevTodoMonthHide: bindActionCreators(prevTodoMonthHide, dispatch),
+        prevTodoMonthShow: bindActionCreators(prevTodoMonthShow, dispatch),
+        changeTodoDateHide: bindActionCreators(changeTodoDateHide, dispatch),
+        changeTodoDateShow: bindActionCreators(changeTodoDateShow, dispatch)
+    })
+)
+@withStyles(theme => ({
     backdrop: {
         zIndex: theme.zIndex.drawer + 1,
         color: '#fff',
     }
-});
+}))
+export default class Todo extends React.Component {
 
-class Todo extends React.Component {
+    static propTypes = {
+        todoMonth: PropTypes.object,
+        loading: PropTypes.bool,
+        year: PropTypes.number,
+        month: PropTypes.number,
+        todoListRequested: PropTypes.func,
+        nextTodoMonthHide: PropTypes.func,
+        nextTodoMonthShow: PropTypes.func,
+        prevTodoMonthHide: PropTypes.func,
+        prevTodoMonthShow: PropTypes.func,
+        changeTodoDateHide: PropTypes.func,
+        changeTodoDateShow: PropTypes.func
+    }
 
     constructor(props) {
         super(props);
@@ -105,7 +137,7 @@ class Todo extends React.Component {
                         />
                     </MuiPickersUtilsProvider>
                     <Grid item>
-                        You could receive notifications via <Link target="_blank" rel="noreferrer" href={process.env.TELEGRAM_BOT_URL}>Telegram</Link>
+                        You could receive notifications via: <Link target="_blank" rel="noreferrer" href={process.env.TELEGRAM_BOT_URL}>Telegram</Link>
                     </Grid>
                 </Grid>
                 <Slide direction={showDirection} in={show} mountOnEnter unmountOnExit>
@@ -133,37 +165,3 @@ class Todo extends React.Component {
         )
     }
 }
-
-Todo.propTypes = {
-    todoMonth: PropTypes.object,
-    loading: PropTypes.bool,
-    year: PropTypes.number,
-    month: PropTypes.number,
-    todoListRequested: PropTypes.func,
-    nextTodoMonthHide: PropTypes.func,
-    nextTodoMonthShow: PropTypes.func,
-    prevTodoMonthHide: PropTypes.func,
-    prevTodoMonthShow: PropTypes.func,
-    changeTodoDateHide: PropTypes.func,
-    changeTodoDateShow: PropTypes.func
-};
-
-export default connect(
-    (state) => ({
-        loading: state.todoListData.loading,
-        todoMonth: state.todoListData.todoMonth,
-        year: state.todoListData.year,
-        month: state.todoListData.month,
-        show: state.todoListData.show,
-        showDirection: state.todoListData.showDirection
-    }),
-    (dispatch) => ({
-        todoListRequested: bindActionCreators(todoListRequested, dispatch),
-        nextTodoMonthHide: bindActionCreators(nextTodoMonthHide, dispatch),
-        nextTodoMonthShow: bindActionCreators(nextTodoMonthShow, dispatch),
-        prevTodoMonthHide: bindActionCreators(prevTodoMonthHide, dispatch),
-        prevTodoMonthShow: bindActionCreators(prevTodoMonthShow, dispatch),
-        changeTodoDateHide: bindActionCreators(changeTodoDateHide, dispatch),
-        changeTodoDateShow: bindActionCreators(changeTodoDateShow, dispatch)
-    })
-)(withStyles(useStyles)(Todo))

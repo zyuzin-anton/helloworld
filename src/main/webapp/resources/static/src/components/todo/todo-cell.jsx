@@ -12,7 +12,14 @@ import {todoCreationDialogOpen, deleteTodo} from "../../redux/actions/hello-worl
 import dateFormat from "dateformat";
 import withStyles from "@material-ui/core/styles/withStyles";
 
-const useStyles = (theme) => ({
+@connect(
+    (state) => ({}),
+    (dispatch) => ({
+        todoCreationDialogOpen: bindActionCreators(todoCreationDialogOpen, dispatch),
+        deleteTodo: bindActionCreators(deleteTodo, dispatch)
+    })
+)
+@withStyles((theme) => ({
     root: {
         width: 130,
         minHeight: 150
@@ -25,9 +32,15 @@ const useStyles = (theme) => ({
         wordBreak: "break-word",
         height: 'auto'
     }
-});
+}))
+export default class TodoCell extends React.Component {
 
-class TodoCell extends React.Component {
+    static propTypes = {
+        todoForDay: PropTypes.object,
+        disabled: PropTypes.bool,
+        todoCreationDialogOpen: PropTypes.func,
+        deleteTodo: PropTypes.func
+    }
 
     render() {
         const { todoForDay, todoCreationDialogOpen, deleteTodo, disabled, classes } = this.props;
@@ -72,18 +85,3 @@ class TodoCell extends React.Component {
         )
     }
 }
-
-TodoCell.propTypes = {
-    todoForDay: PropTypes.object,
-    disabled: PropTypes.bool,
-    todoCreationDialogOpen: PropTypes.func,
-    deleteTodo: PropTypes.func
-};
-
-export default connect(
-    (state) => ({}),
-    (dispatch) => ({
-        todoCreationDialogOpen: bindActionCreators(todoCreationDialogOpen, dispatch),
-        deleteTodo: bindActionCreators(deleteTodo, dispatch)
-    })
-)(withStyles(useStyles)(TodoCell))

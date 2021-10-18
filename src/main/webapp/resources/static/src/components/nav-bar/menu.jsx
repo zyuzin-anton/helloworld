@@ -8,7 +8,8 @@ import withRouter from "react-router/lib/withRouter";
 
 import appRoutes from '../../utils/app-routes'
 
-class Menu extends React.Component {
+@withRouter
+export default class Menu extends React.Component {
     render() {
         const { router } = this.props;
         return (
@@ -29,5 +30,3 @@ class Menu extends React.Component {
         )
     }
 }
-
-export default withRouter(Menu)

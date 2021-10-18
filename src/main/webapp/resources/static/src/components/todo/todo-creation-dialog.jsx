@@ -13,7 +13,22 @@ import {createTodo, todoCreationDialogClose} from "../../redux/actions/hello-wor
 import dateFormat from "dateformat";
 import FormControl from "@material-ui/core/FormControl";
 
-class TodoCreationDialog extends React.Component {
+@connect(
+    (state) => ({
+        open: state.todoListData.todoCreationDialog.open,
+        date: state.todoListData.todoCreationDialog.date
+    }),
+    (dispatch) => ({
+        todoCreationDialogClose: bindActionCreators(todoCreationDialogClose, dispatch),
+        createTodo: bindActionCreators(createTodo, dispatch)
+    })
+)
+export default class TodoCreationDialog extends React.Component {
+
+    static propTypes = {
+        open: PropTypes.bool,
+        handleCloseTodoCreationDialog: PropTypes.func
+    }
 
     constructor(props) {
         super(props);
@@ -102,19 +117,3 @@ class TodoCreationDialog extends React.Component {
         )
     }
 }
-
-TodoCreationDialog.propTypes = {
-    open: PropTypes.bool,
-    handleCloseTodoCreationDialog: PropTypes.func
-};
-
-export default connect(
-    (state) => ({
-        open: state.todoListData.todoCreationDialog.open,
-        date: state.todoListData.todoCreationDialog.date
-    }),
-    (dispatch) => ({
-        todoCreationDialogClose: bindActionCreators(todoCreationDialogClose, dispatch),
-        createTodo: bindActionCreators(createTodo, dispatch)
-    })
-)(TodoCreationDialog)

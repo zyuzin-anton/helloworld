@@ -4,6 +4,12 @@ import Grid from "@material-ui/core/Grid";
 import PropTypes from 'prop-types'
 
 export class TodoRow extends React.Component {
+
+    static propTypes = {
+        todoForWeek: PropTypes.object,
+        month: PropTypes.number
+    }
+
     render() {
         const { todoForWeek, month } = this.props;
 
@@ -18,8 +24,3 @@ export class TodoRow extends React.Component {
         )
     }
 }
-
-TodoRow.propTypes = {
-    todoForWeek: PropTypes.object,
-    month: PropTypes.number
-};

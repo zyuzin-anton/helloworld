@@ -3,13 +3,12 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import withStyles from "@material-ui/core/styles/withStyles";
 
-const useStyles = (theme) => ({
+@withStyles((theme) => ({
     root: {
         width: 130
     }
-});
-
-class TodoHeader extends React.Component {
+}))
+export default class TodoHeader extends React.Component {
     render() {
         const {classes} = this.props;
         return (
@@ -39,5 +38,3 @@ class TodoHeader extends React.Component {
         )
     }
 }
-
-export default withStyles(useStyles)(TodoHeader);
