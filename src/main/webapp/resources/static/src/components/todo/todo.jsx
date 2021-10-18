@@ -137,7 +137,7 @@ export default class Todo extends React.Component {
                         />
                     </MuiPickersUtilsProvider>
                     <Grid item>
-                        You could receive notifications via: <Link target="_blank" rel="noreferrer" href={process.env.TELEGRAM_BOT_URL}>Telegram</Link>
+                        You could receive notifications via <Link target="_blank" rel="noreferrer" href={process.env.TELEGRAM_BOT_URL}>Telegram</Link>
                     </Grid>
                 </Grid>
                 <Slide direction={showDirection} in={show} mountOnEnter unmountOnExit>

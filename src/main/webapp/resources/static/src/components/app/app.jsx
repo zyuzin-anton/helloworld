@@ -8,7 +8,22 @@ import {bindActionCreators} from "redux";
 import Snackbar from "@material-ui/core/Snackbar/Snackbar";
 import {errorMessageClose} from "../../redux/actions";
 
-class App extends React.Component {
+@connect(
+    (state) => ({
+        error: state.appData.error,
+    }),
+    (dispatch) => ({
+        errorMessageClose: bindActionCreators(errorMessageClose, dispatch),
+    })
+)
+@withRouter
+export default class App extends React.Component {
+
+    static propTypes = {
+        children: PropTypes.element.isRequired,
+        error: PropTypes.string,
+        errorMessageClose: PropTypes.func
+    }
 
     render() {
         const { children, error, errorMessageClose } = this.props;
@@ -29,18 +44,3 @@ class App extends React.Component {
         )
     }
 }
-
-App.propTypes = {
-    children: PropTypes.element.isRequired,
-    error: PropTypes.string,
-    errorMessageClose: PropTypes.func
-};
-
-export default connect(
-    (state) => ({
-        error: state.appData.error,
-    }),
-    (dispatch) => ({
-        errorMessageClose: bindActionCreators(errorMessageClose, dispatch),
-    })
-)(withRouter(App))
