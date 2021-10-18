@@ -1,5 +1,4 @@
 import React from 'react'
-import { withRouter } from 'react-router'
 import PropTypes from 'prop-types'
 
 import NavBar from "../nav-bar/nav-bar";
@@ -16,7 +15,6 @@ import {errorMessageClose} from "../../redux/actions";
         errorMessageClose: bindActionCreators(errorMessageClose, dispatch),
     })
 )
-@withRouter
 export default class App extends React.Component {
 
     static propTypes = {
