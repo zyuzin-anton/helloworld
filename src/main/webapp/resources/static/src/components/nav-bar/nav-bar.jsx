@@ -30,6 +30,7 @@ import MenuList from "@material-ui/core/MenuList";
 import MenuItem from "@material-ui/core/MenuItem";
 import Skeleton from "@material-ui/lab/Skeleton";
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import {messages} from "../../utils";
 
 @connect(
     (state) => ({
@@ -98,7 +99,7 @@ export default class NavBar extends React.Component {
                             <MenuIcon />
                         </IconButton>
                         <Typography variant="h6" className={classes.title}>
-                            Menu
+                            {messages.menu}
                         </Typography>
                         {
                             jwt ?
@@ -122,7 +123,7 @@ export default class NavBar extends React.Component {
                                     <Paper>
                                         <ClickAwayListener onClickAway={handleUserMenuClose}>
                                             <MenuList autoFocusItem={userMenuOpen} id="menu-list-grow">
-                                                <MenuItem onClick={logout}>Logout</MenuItem>
+                                                <MenuItem onClick={logout}>{messages.logout}</MenuItem>
                                             </MenuList>
                                         </ClickAwayListener>
                                     </Paper>

@@ -7,6 +7,7 @@ import List from "@material-ui/core/List";
 import withRouter from "react-router/lib/withRouter";
 
 import appRoutes from '../../utils/app-routes'
+import {messages} from "../../utils";
 
 @withRouter
 export default class Menu extends React.Component {
@@ -18,13 +19,13 @@ export default class Menu extends React.Component {
                     <ListItemIcon>
                         <InboxIcon />
                     </ListItemIcon>
-                    <ListItemText primary={'Home'} />
+                    <ListItemText primary={messages.home} />
                 </ListItem>
                 <ListItem button key={'Todo List'} onClick={() => router.push(appRoutes.TODO)}>
                     <ListItemIcon>
                         <InboxIcon />
                     </ListItemIcon>
-                    <ListItemText primary={'Todo'} />
+                    <ListItemText primary={messages.todo} />
                 </ListItem>
             </List>
         )

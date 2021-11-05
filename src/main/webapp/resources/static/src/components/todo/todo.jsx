@@ -23,6 +23,7 @@ import Link from "@material-ui/core/Link";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import Backdrop from "@material-ui/core/Backdrop/Backdrop";
 import withStyles from "@material-ui/core/styles/withStyles";
+import {messages} from "../../utils";
 
 @connect(
     (state) => ({
@@ -131,19 +132,19 @@ export default class Todo extends React.Component {
                             variant="inline"
                             openTo="year"
                             views={["year", "month"]}
-                            label="Year and Month"
+                            label={messages.yearMonth}
                             value={new Date(year, month - 1)}
                             onChange={this.handleTodoDateChange}
                         />
                     </MuiPickersUtilsProvider>
                     <Grid item>
-                        You could receive notifications via <Link target="_blank" rel="noreferrer" href={process.env.TELEGRAM_BOT_URL}>Telegram</Link>
+                        {messages.telegramLink} <Link target="_blank" rel="noreferrer" href={process.env.TELEGRAM_BOT_URL}>{messages.telegram}</Link>
                     </Grid>
                 </Grid>
                 <Slide direction={showDirection} in={show} mountOnEnter unmountOnExit>
                     <Box>
                         <Grid container justify={'center'}>
-                            <IconButton color="primary" aria-label="Previous month"  onClick={this.handlePrevTodoMonth}>
+                            <IconButton color="primary" aria-label={messages.prevMonth}  onClick={this.handlePrevTodoMonth}>
                                 <ExpandLessIcon/>
                             </IconButton>
                         </Grid>
@@ -155,7 +156,7 @@ export default class Todo extends React.Component {
                             )
                         }
                         <Grid container justify={'center'}>
-                            <IconButton color="primary" aria-label="Next month" onClick={this.handleNextTodoMonth}>
+                            <IconButton color="primary" aria-label={messages.nextMonth} onClick={this.handleNextTodoMonth}>
                                 <ExpandMoreIcon/>
                             </IconButton>
                         </Grid>

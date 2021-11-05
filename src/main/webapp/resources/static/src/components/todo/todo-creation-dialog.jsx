@@ -12,6 +12,7 @@ import {bindActionCreators} from "redux";
 import {createTodo, todoCreationDialogClose} from "../../redux/actions/hello-world-actions";
 import dateFormat from "dateformat";
 import FormControl from "@material-ui/core/FormControl";
+import {messages} from "../../utils";
 
 @connect(
     (state) => ({
@@ -62,14 +63,14 @@ export default class TodoCreationDialog extends React.Component {
         const formattedDate = dateFormat(date, 'yyyy-mm-dd');
         return (
             <Dialog open={open} onClose={todoCreationDialogClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">New To Do</DialogTitle>
+                <DialogTitle id="form-dialog-title">{messages.newToDo}</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        What to do?
+                        {messages.whatToDo}
                     </DialogContentText>
                     <TextField
                         id="date"
-                        label="Todo Date"
+                        label={messages.toDoDate}
                         type="date"
                         defaultValue={formattedDate}
                         InputLabelProps={{
@@ -81,7 +82,7 @@ export default class TodoCreationDialog extends React.Component {
                     />
                     <TextField
                         id="time"
-                        label="Todo Time"
+                        label={messages.toDoTime}
                         type="time"
                         defaultValue="12:00"
                         InputLabelProps={{
@@ -97,8 +98,8 @@ export default class TodoCreationDialog extends React.Component {
                         <TextField
                             autoFocus
                             id="description"
-                            label="To Do"
-                            placeholder="I want to do..."
+                            label={messages.toDoLabel}
+                            placeholder={messages.toDoPlaceholder}
                             multiline
                             rows={4}
                             onChange={this.handleChange}
@@ -107,10 +108,10 @@ export default class TodoCreationDialog extends React.Component {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={todoCreationDialogClose} color="primary">
-                        Cancel
+                        {messages.cancel}
                     </Button>
                     <Button onClick={this.handleSubmit} color="primary">
-                        Create
+                        {messages.create}
                     </Button>
                 </DialogActions>
             </Dialog>

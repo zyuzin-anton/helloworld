@@ -9,7 +9,7 @@ export function loginReducer(state = defaultState, action) {
     }
 }
 
-export function loginErrorReducer(errorMessage) {
+function loginErrorReducer(errorMessage) {
     return {
         errorMessage
     }

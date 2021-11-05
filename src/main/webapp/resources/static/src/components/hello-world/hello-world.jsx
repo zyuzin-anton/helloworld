@@ -7,6 +7,7 @@ import Chip from '@material-ui/core/Chip'
 import { helloWorldMessageRequested } from '../../redux/actions'
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper/Paper";
+import {messages} from "../../utils";
 
 @connect(
     (state) => ({
@@ -38,7 +39,7 @@ export default class HelloWorld extends React.Component {
                     <Paper>
                         <div onClick={() => window.open(`${window.location.href}swagger-ui/`)}>
                             <p>REST</p>
-                            {loading ? <Chip size="small" label="Loading" /> : <Chip size="small" label={message} color="primary" />}
+                            {loading ? <Chip size="small" label={messages.loading} /> : <Chip size="small" label={message} color="primary" />}
                         </div>
                     </Paper>
                 </Grid>

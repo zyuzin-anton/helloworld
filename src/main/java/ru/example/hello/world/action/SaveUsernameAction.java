@@ -21,6 +21,7 @@ public class SaveUsernameAction extends TelegramBotReactiveAction {
     @Override
     public Mono<Void> apply(StateContext<TelegramBotState, TelegramBotCommand> context) {
         val username = context.getExtendedState().get(ActionVariable.REQUEST_MESSAGE, String.class);
+        val locale = context.getExtendedState().get(ActionVariable.LOCALE, String.class);
         context.getExtendedState().getVariables().put(ActionVariable.USERNAME, username);
         val chatId = context.getExtendedState().get(ActionVariable.CHAT_ID, Long.class);
         log.info("Start registration for username: {} and chat: {}", username, chatId);
@@ -29,15 +30,15 @@ public class SaveUsernameAction extends TelegramBotReactiveAction {
                 .flatMap(telegramChat -> {
                     if (telegramChat.getUsername().equals(username)) {
                         log.info("Already register username: {} for chat: {}", username, chatId);
-                        return alreadyRegister(username);
+                        return alreadyRegister(username, locale);
                     } else {
                         log.info("Update username: {} for chat: {}", username, chatId);
-                        return update(chatId, username);
+                        return update(chatId, username, locale);
                     }
                 })
                 .doOnError(error -> {
                     log.info("Create connection username: {} for chat: {}", username, chatId);
-                    create(chatId, username).subscribe(responseMessage -> sendMessage(chatId, responseMessage));
+                    create(chatId, username, locale).subscribe(responseMessage -> sendMessage(chatId, responseMessage));
                 })
                 .flatMap(responseMessage -> {
                     log.info("Send response: {}", responseMessage);
@@ -46,17 +47,17 @@ public class SaveUsernameAction extends TelegramBotReactiveAction {
                 });
     }
 
-    private Mono<String> alreadyRegister(String username) {
-        return Mono.just(String.format("You already registered as %s! Have a nice day", username));
+    private Mono<String> alreadyRegister(String username, String locale) {
+        return Mono.just(String.format(message.getMessage("telegram.bot.registration.already_registered", locale), username));
     }
 
-    private Mono<String> update(Long chatId, String username) {
+    private Mono<String> update(Long chatId, String username, String locale) {
         return telegramChatService.updateTelegramChat(new TelegramChat(username, chatId))
-                .map(telegramChat -> String.format("Info about your username is successfully updated! Now it is: %s.", username));
+                .map(telegramChat -> String.format(message.getMessage("telegram.bot.registration.update", locale), username));
     }
 
-    private Mono<String> create(Long chatId, String username) {
+    private Mono<String> create(Long chatId, String username, String locale) {
         return telegramChatService.createTelegramChat(new TelegramChat(username, chatId))
-                .map(telegramChat -> String.format("You successfully registered as %s!", username));
+                .map(telegramChat -> String.format(message.getMessage("telegram.bot.registration.create", locale), username));
     }
 }

@@ -22,22 +22,23 @@ public class ShowNearestTodoAction extends TelegramBotReactiveAction {
     @Override
     public Mono<Void> apply(StateContext<TelegramBotState, TelegramBotCommand> context) {
         val chatId = context.getExtendedState().get(ActionVariable.CHAT_ID, Long.class);
+        val locale = context.getExtendedState().get(ActionVariable.LOCALE, String.class);
         return telegramChatService.findByChatId(chatId)
                 .switchIfEmpty(
                         Mono.defer(() -> {
-                            sendMessage(chatId, "You have to link your username.");
+                            sendMessage(chatId, message.getMessage("telegram.bot.nearest_todo.link", locale));
                             return Mono.error(new RuntimeException());
                         })
                 )
                 .flatMap(telegramChat -> todoService.findNearestTodo(LocalDateTime.now(), telegramChat.getUsername()))
                 .switchIfEmpty(
                         Mono.defer(() -> {
-                            sendMessage(chatId, "You don't have any todo yeat.");
+                            sendMessage(chatId, message.getMessage("telegram.bot.nearest_todo.no_todo", locale));
                             return Mono.error(new RuntimeException());
                         })
                 )
                 .flatMap(todoUserData -> {
-                    sendMessage(chatId, String.format("Nearest todo:\n%tc - %s", todoUserData.getDate(), todoUserData.getDescription()));
+                    sendMessage(chatId, String.format(message.getMessage("telegram.bot.nearest_todo", locale), todoUserData.getDate(), todoUserData.getDescription()));
                     return Mono.empty();
                 });
     }

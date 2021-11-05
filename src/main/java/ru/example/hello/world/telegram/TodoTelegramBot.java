@@ -69,6 +69,7 @@ public class TodoTelegramBot extends TelegramBot {
                 }
                 stateMachine.getExtendedState().getVariables().put(ActionVariable.CHAT_ID, update.message().chat().id());
                 stateMachine.getExtendedState().getVariables().put(ActionVariable.REQUEST_MESSAGE, update.message().text());
+                stateMachine.getExtendedState().getVariables().put(ActionVariable.LOCALE, update.message().from().languageCode());
                 log.info("State machine current state: {} for chat: {}", stateMachine.getState().getId(), update.message().chat().id());
                 val event = MessageBuilder.withPayload(TelegramBotCommand.of(update.message().text())).build();
                 log.info("Send event: {} for chat: {}", event.getPayload(), update.message().chat().id());
@@ -91,7 +92,7 @@ public class TodoTelegramBot extends TelegramBot {
                 .subscribe(telegramChat -> execute(
                         new SendMessage(
                                 telegramChat.getChatId(),
-                                String.format("Notification: %s", todoUserData.getDescription())
+                                String.format("%s", todoUserData.getDescription())
                         ))
                 );
     }

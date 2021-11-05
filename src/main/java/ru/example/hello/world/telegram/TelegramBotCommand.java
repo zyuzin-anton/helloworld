@@ -1,5 +1,7 @@
 package ru.example.hello.world.telegram;
 
+import java.util.Arrays;
+
 public enum TelegramBotCommand {
     START("/start"),
     LINK("/link"),
@@ -7,7 +9,7 @@ public enum TelegramBotCommand {
     USER_MESSAGE(""),
     TERMINATE(null);
 
-    private String description;
+    private final String description;
 
     TelegramBotCommand(String description) {
         this.description = description;
@@ -18,11 +20,9 @@ public enum TelegramBotCommand {
     }
 
     public static TelegramBotCommand of(String description) {
-        for (int i = 0; i < values().length; i ++) {
-            if (values()[i].getDescription() != null && values()[i].getDescription().equals(description)) {
-                return values()[i];
-            }
-        }
-        return USER_MESSAGE;
+        return Arrays.stream(values())
+                .filter(value -> value.getDescription() != null && value.getDescription().equals(description))
+                .findFirst()
+                .orElse(USER_MESSAGE);
     }
 }
