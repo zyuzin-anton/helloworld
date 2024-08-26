@@ -16,7 +16,7 @@ import ru.example.hello.world.telegram.TelegramBotState;
 @AllArgsConstructor
 public class SaveUsernameAction extends TelegramBotReactiveAction {
 
-    private TelegramChatService telegramChatService;
+    private final TelegramChatService telegramChatService;
 
     @Override
     public Mono<Void> apply(StateContext<TelegramBotState, TelegramBotCommand> context) {

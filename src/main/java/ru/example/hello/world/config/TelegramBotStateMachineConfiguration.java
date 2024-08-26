@@ -39,10 +39,10 @@ import java.util.Map;
 @EnableStateMachineFactory
 public class TelegramBotStateMachineConfiguration extends EnumStateMachineConfigurerAdapter<TelegramBotState, TelegramBotCommand> {
 
-    private StartAction startAction;
-    private StartRegistrationAction startRegistrationAction;
-    private SaveUsernameAction saveUsernameAction;
-    private ShowNearestTodoAction showNearestTodoAction;
+    private final StartAction startAction;
+    private final StartRegistrationAction startRegistrationAction;
+    private final SaveUsernameAction saveUsernameAction;
+    private final ShowNearestTodoAction showNearestTodoAction;
 
     @Override
     public void configure(StateMachineConfigurationConfigurer<TelegramBotState, TelegramBotCommand> config) throws Exception {
@@ -69,6 +69,12 @@ public class TelegramBotStateMachineConfiguration extends EnumStateMachineConfig
                 .source(TelegramBotState.START)
                 .actionFunction(startAction)
                 .event(TelegramBotCommand.START)
+            .and()
+                .withExternal()
+                .source(TelegramBotState.START)
+                .target(TelegramBotState.START)
+                .actionFunction(startAction)
+                .event(TelegramBotCommand.USER_MESSAGE)
             .and()
                 .withExternal()
                 .source(TelegramBotState.START)

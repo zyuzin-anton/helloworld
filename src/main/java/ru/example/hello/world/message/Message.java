@@ -9,8 +9,8 @@ import java.util.Map;
 
 @Component
 public class Message {
-    private MessageSource messageSource;
-    private Map<String, Locale> locales;
+    private final MessageSource messageSource;
+    private final Map<String, Locale> locales;
     public Message(MessageSource messageSource) {
         this.messageSource = messageSource;
         locales = new HashMap<>();

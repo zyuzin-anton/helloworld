@@ -16,8 +16,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ShowNearestTodoAction extends TelegramBotReactiveAction {
 
-    private TodoService todoService;
-    private TelegramChatService telegramChatService;
+    private final TodoService todoService;
+    private final TelegramChatService telegramChatService;
 
     @Override
     public Mono<Void> apply(StateContext<TelegramBotState, TelegramBotCommand> context) {

@@ -27,11 +27,11 @@ import java.util.List;
 @Component
 public class TodoTelegramBot extends TelegramBot {
 
-    private StateMachineFactory<TelegramBotState, TelegramBotCommand> stateMachineFactory;
-    private StateMachinePersister<TelegramBotState, TelegramBotCommand, Long> persister;
-    private TodoService todoService;
-    private TelegramChatService telegramChatService;
-    private List<TelegramBotReactiveAction> telegramBotReactiveActionList;
+    private final StateMachineFactory<TelegramBotState, TelegramBotCommand> stateMachineFactory;
+    private final StateMachinePersister<TelegramBotState, TelegramBotCommand, Long> persister;
+    private final TodoService todoService;
+    private final TelegramChatService telegramChatService;
+    private final List<TelegramBotReactiveAction> telegramBotReactiveActionList;
 
     public TodoTelegramBot(
             TelegramBotProperties telegramBotProperties,

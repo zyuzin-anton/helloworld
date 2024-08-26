@@ -24,8 +24,8 @@ import java.time.format.DateTimeFormatter;
 @AllArgsConstructor
 public class TodoServiceImpl implements TodoService {
 
-    private TodoRepository todoRepository;
-    private TodoMapper todoMapper;
+    private final TodoRepository todoRepository;
+    private final TodoMapper todoMapper;
 
     @Override
     @Transactional(readOnly = true)

@@ -12,8 +12,8 @@ import ru.example.hello.world.service.TelegramChatService;
 @AllArgsConstructor
 public class TelegramChatServiceImpl implements TelegramChatService {
 
-    private TelegramChatRepository telegramChatRepository;
-    private TelegramChatMapper telegramChatMapper;
+    private final TelegramChatRepository telegramChatRepository;
+    private final TelegramChatMapper telegramChatMapper;
 
     @Override
     public Mono<TelegramChat> findByChatId(Long chatId) {

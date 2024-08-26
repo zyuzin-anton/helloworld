@@ -79,7 +79,8 @@
         "composites": {
           "realm": [
             "offline_access",
-            "uma_authorization"
+            "uma_authorization",
+            "USER"
           ],
           "client": {
             "account": [
